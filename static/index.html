@@ -22,38 +22,18 @@
   --yellow:  #FFB84A;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  background: var(--bg);
-  color: var(--white);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  min-height: 100vh;
-  padding-bottom: env(safe-area-inset-bottom);
-}
+body { background: var(--bg); color: var(--white); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; min-height: 100vh; padding-bottom: env(safe-area-inset-bottom); }
 
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0.9rem 1rem 0;
-  position: sticky; top: 0; z-index: 20;
-}
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.9rem 1rem 0; position: sticky; top: 0; z-index: 20; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-.header h1 { font-size: 1.3rem; font-weight: 700; color: var(--white); }
+.header h1 { font-size: 1.3rem; font-weight: 700; }
 .header-sub { font-size: 0.75rem; color: var(--dim); margin-top: 0.1rem; }
 .header-actions { display: flex; gap: 0.5rem; }
-.icon-btn {
-  background: var(--card); border: 1px solid var(--border); color: var(--dim);
-  width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 1rem;
-  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-}
+.icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--dim); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .icon-btn:hover { color: var(--white); border-color: var(--accent); }
 
 .search-wrap { position: relative; margin-bottom: 0.75rem; }
-.search-input {
-  width: 100%; background: var(--card); border: 1px solid var(--border);
-  color: var(--white); padding: 0.55rem 0.8rem 0.55rem 2.2rem;
-  font-size: 0.9rem; border-radius: 8px; outline: none; font-family: inherit;
-}
+.search-input { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 0.55rem 0.8rem 0.55rem 2.2rem; font-size: 0.9rem; border-radius: 8px; outline: none; font-family: inherit; }
 .search-input::placeholder { color: var(--dim); }
 .search-input:focus { border-color: var(--accent); }
 .search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); color: var(--dim); pointer-events: none; }
@@ -65,23 +45,30 @@ body {
 
 .content { padding: 1rem; }
 
+/* Style badge colors */
+.badge { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.badge-red       { background: rgba(180,40,40,0.25);  color: #FF8A8A; }
+.badge-white     { background: rgba(255,220,100,0.2); color: #FFE066; }
+.badge-sparkling { background: rgba(100,180,255,0.2); color: #80CFFF; }
+.badge-rose      { background: rgba(255,120,160,0.2); color: #FFB0C8; }
+.badge-fortified { background: rgba(180,120,40,0.25); color: #FFBE6A; }
+
+/* List */
 .wine-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.wine-row {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-  padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
+.wine-row { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .wine-row:hover { border-color: var(--accent); background: var(--card); }
 .row-thumb { width: 46px; height: 46px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
 .row-thumb-ph { width: 46px; height: 46px; border-radius: 6px; flex-shrink: 0; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
 .row-info { flex: 1; min-width: 0; }
 .row-name { font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-meta { font-size: 0.78rem; color: var(--dim); margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-badges { margin-top: 0.25rem; display: flex; gap: 0.3rem; }
 .row-right { text-align: right; flex-shrink: 0; }
 .row-vintage { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
 .row-score { font-size: 0.72rem; color: var(--yellow); margin-top: 0.2rem; }
 .row-price { font-size: 0.72rem; color: var(--green); margin-top: 0.1rem; }
 
+/* Grid */
 .wine-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
 .wine-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
 .wine-card:hover { border-color: var(--accent); }
@@ -95,15 +82,10 @@ body {
 .empty { text-align: center; padding: 4rem 2rem; color: var(--dim); }
 .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
 
-.fab {
-  position: fixed; bottom: calc(1.5rem + env(safe-area-inset-bottom)); right: 1.2rem;
-  width: 52px; height: 52px; border-radius: 50%; background: var(--accent);
-  border: none; color: white; font-size: 1.6rem; cursor: pointer; z-index: 50;
-  box-shadow: 0 4px 16px rgba(74,158,255,0.4);
-  display: flex; align-items: center; justify-content: center; transition: transform 0.15s;
-}
+.fab { position: fixed; bottom: calc(1.5rem + env(safe-area-inset-bottom)); right: 1.2rem; width: 52px; height: 52px; border-radius: 50%; background: var(--accent); border: none; color: white; font-size: 1.6rem; cursor: pointer; z-index: 50; box-shadow: 0 4px 16px rgba(74,158,255,0.4); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
 .fab:active { transform: scale(0.92); }
 
+/* Sheet */
 .overlay { position: fixed; inset: 0; background: rgba(5,10,20,0.88); z-index: 100; display: none; flex-direction: column; justify-content: flex-end; backdrop-filter: blur(6px); }
 .overlay.open { display: flex; }
 .sheet { background: var(--surface); border-top: 1px solid var(--border); border-radius: 16px 16px 0 0; max-height: 94vh; overflow-y: auto; padding: 0 1.1rem calc(1.5rem + env(safe-area-inset-bottom)); -webkit-overflow-scrolling: touch; }
@@ -135,12 +117,14 @@ body {
 
 .field { margin-bottom: 0.75rem; }
 .field label { display: block; font-size: 0.75rem; font-weight: 500; color: var(--dim); margin-bottom: 0.25rem; }
-.field input, .field textarea {
+.field input, .field textarea, .field select {
   width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 8px;
   color: var(--white); padding: 0.6rem 0.75rem; font-size: 0.95rem; outline: none;
   font-family: inherit; -webkit-appearance: none; appearance: none; transition: border-color 0.15s;
 }
-.field input:focus, .field textarea:focus { border-color: var(--accent); }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238BAED4' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+.field select option { background: #1A3358; color: white; }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
 .field input::placeholder, .field textarea::placeholder { color: var(--dim); opacity: 0.6; }
 .field textarea { resize: none; height: 76px; }
 input[type="date"] { color-scheme: dark; }
@@ -180,10 +164,11 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
     <input class="search-input" id="searchInput" placeholder="Search wine, producer, region…" oninput="onSearch()" />
   </div>
   <div class="tabs">
-    <div class="tab active" id="tabAll"    onclick="filterTab('all')">All</div>
-    <div class="tab"        id="tabFrance" onclick="filterTab('France')">France</div>
-    <div class="tab"        id="tabItaly"  onclick="filterTab('Italy')">Italy</div>
-    <div class="tab"        id="tabOther"  onclick="filterTab('other')">Other</div>
+    <div class="tab active" id="tabAll"       onclick="filterTab('all')">All</div>
+    <div class="tab"        id="tabRed"       onclick="filterTab('Red')">Red</div>
+    <div class="tab"        id="tabWhite"     onclick="filterTab('White')">White</div>
+    <div class="tab"        id="tabSparkling" onclick="filterTab('Sparkling')">Sparkling</div>
+    <div class="tab"        id="tabOther"     onclick="filterTab('other')">Other</div>
   </div>
 </div>
 
@@ -209,6 +194,8 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
     </div>
 
     <input type="hidden" id="editId" />
+
+    <!-- Photo -->
     <img id="previewImg" class="preview-img" />
     <div class="upload-zone">
       <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleFile(event)" />
@@ -220,21 +207,69 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
     <div class="sep"></div>
 
+    <!-- Wine Info -->
     <div class="section-label">Wine Info</div>
-    <div class="field"><label>Wine Name *</label><input id="fName" placeholder="e.g. Montrachet" /></div>
+    <div class="field"><label>Wine Name *</label><input id="fName" placeholder="e.g. Maranges 1er Cru" /></div>
     <div class="field"><label>Producer / Domaine</label><input id="fProducer" placeholder="e.g. Bachelet-Monnot" /></div>
-    <div class="field"><label>Grape Variety</label><input id="fGrape" placeholder="e.g. Chardonnay" /></div>
-
-    <div class="section-label" style="margin-top:0.3rem">Location</div>
-    <div class="row3">
-      <div class="field"><label>Country</label><input id="fCountry" placeholder="France" /></div>
-      <div class="field"><label>Region</label><input id="fRegion" placeholder="Burgundy" /></div>
-      <div class="field"><label>Sub-Region</label><input id="fSubregion" placeholder="Chassagne-Montrachet" /></div>
+    <div class="field"><label>Grape Variety</label><input id="fGrape" placeholder="e.g. Pinot Noir" /></div>
+    <div class="row2">
+      <div class="field">
+        <label>Wine Style</label>
+        <select id="fStyle">
+          <option value="">— Select —</option>
+          <option value="Red">🔴 Red</option>
+          <option value="White">⚪ White</option>
+          <option value="Sparkling">✨ Sparkling</option>
+          <option value="Rose">🌸 Rosé</option>
+          <option value="Fortified">🍯 Fortified</option>
+        </select>
+      </div>
+      <div class="field"><label>Vintage</label><input id="fVintage" placeholder="e.g. 2021" inputmode="numeric" /></div>
     </div>
 
+    <!-- Location -->
+    <div class="section-label" style="margin-top:0.3rem">Location</div>
+    <div class="field">
+      <label>Country</label>
+      <select id="fCountry" onchange="updateRegions()">
+        <option value="">— Select Country —</option>
+        <option>France</option>
+        <option>Italy</option>
+        <option>Spain</option>
+        <option>Germany</option>
+        <option>Portugal</option>
+        <option>USA</option>
+        <option>Australia</option>
+        <option>New Zealand</option>
+        <option>Argentina</option>
+        <option>Chile</option>
+        <option>South Africa</option>
+        <option>Austria</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Major Region</label>
+      <select id="fRegion" onchange="updateSubregions()">
+        <option value="">— Select Region —</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Sub-Region</label>
+      <select id="fSubregion" onchange="updateappellations()">
+        <option value="">— Select Sub-Region —</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Appellation</label>
+      <select id="fAppellation">
+        <option value="">— Select Appellation —</option>
+      </select>
+    </div>
+
+    <!-- Details -->
     <div class="section-label" style="margin-top:0.3rem">Details</div>
-    <div class="row3">
-      <div class="field"><label>Vintage</label><input id="fVintage" placeholder="2021" inputmode="numeric" /></div>
+    <div class="row2">
       <div class="field"><label>Price</label><input id="fPrice" type="number" placeholder="0.00" inputmode="decimal" /></div>
       <div class="field"><label>Date Consumed</label><input type="date" id="fDate" /></div>
     </div>
@@ -245,9 +280,7 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
     </div>
 
     <div class="section-label">Tasting Notes</div>
-    <div class="field">
-      <textarea id="fComment" placeholder="Aroma, taste, finish, food pairing, occasion…"></textarea>
-    </div>
+    <div class="field"><textarea id="fComment" placeholder="Aroma, taste, finish, food pairing, occasion…"></textarea></div>
 
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
@@ -255,6 +288,127 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 </div>
 
 <script>
+// ── Wine region data ──
+const REGIONS = {
+  France: {
+    Bordeaux: {
+      'Left Bank (Médoc)': ['Pauillac','Saint-Estèphe','Saint-Julien','Margaux','Listrac','Moulis'],
+      'Right Bank': ['Pomerol','Saint-Émilion','Fronsac'],
+      'Other Bordeaux': ['Graves','Sauternes','Pessac-Léognan','Entre-Deux-Mers']
+    },
+    Burgundy: {
+      'Côte de Nuits': ['Gevrey-Chambertin','Morey-Saint-Denis','Chambolle-Musigny','Vougeot','Vosne-Romanée','Nuits-Saint-Georges'],
+      'Côte de Beaune': ['Aloxe-Corton','Beaune','Pommard','Volnay','Meursault','Puligny-Montrachet','Chassagne-Montrachet','Maranges'],
+      'Côte Chalonnaise': ['Mercurey','Givry','Rully','Montagny'],
+      'Mâconnais': ['Mâcon','Pouilly-Fuissé','Saint-Véran'],
+      'Chablis': ['Chablis','Petit Chablis','Chablis Grand Cru'],
+      'Beaujolais': ['Beaujolais','Fleurie','Moulin-à-Vent','Morgon','Brouilly']
+    },
+    Champagne: {
+      'Champagne': ['Champagne AOC','Blanc de Blancs','Blanc de Noirs','Rosé Champagne']
+    },
+    'Rhône Valley': {
+      'Northern Rhône': ['Côte-Rôtie','Hermitage','Crozes-Hermitage','Saint-Joseph','Cornas','Condrieu'],
+      'Southern Rhône': ['Châteauneuf-du-Pape','Gigondas','Vacqueyras','Lirac','Tavel']
+    },
+    'Loire Valley': {
+      'Upper Loire': ['Sancerre','Pouilly-Fumé','Menetou-Salon'],
+      'Middle Loire': ['Vouvray','Chinon','Bourgueil','Saumur'],
+      'Lower Loire': ['Muscadet','Anjou']
+    },
+    Alsace: { Alsace: ['Alsace AOC','Alsace Grand Cru','Crémant d\'Alsace'] },
+    Provence: { Provence: ['Côtes de Provence','Bandol','Cassis','Les Baux-de-Provence'] },
+    Jura: { Jura: ['Arbois','Côtes du Jura','L\'Étoile','Château-Chalon'] },
+    'South West France': { 'South West': ['Cahors','Madiran','Jurançon','Gaillac','Bergerac'] },
+    Languedoc: { Languedoc: ['Languedoc AOC','Pic Saint-Loup','Faugères','Saint-Chinian','Fitou'] },
+    Roussillon: { Roussillon: ['Côtes du Roussillon','Banyuls','Maury','Rivesaltes'] }
+  },
+  Italy: {
+    Piedmont: {
+      Piedmont: ['Barolo','Barbaresco','Barbera d\'Asti','Barbera d\'Alba','Dolcetto','Moscato d\'Asti','Gavi','Roero']
+    },
+    Tuscany: {
+      Tuscany: ['Chianti','Chianti Classico','Brunello di Montalcino','Vino Nobile di Montepulciano','Bolgheri','Maremma','Vernaccia di San Gimignano']
+    },
+    Veneto: { Veneto: ['Amarone','Valpolicella','Soave','Prosecco','Bardolino'] },
+    'Friuli-Venezia Giulia': { Friuli: ['Collio','Colli Orientali del Friuli'] },
+    'Trentino-Alto Adige': { 'Alto Adige': ['Alto Adige DOC','Trento DOC'] },
+    Sicily: { Sicily: ['Etna','Nero d\'Avola','Marsala','Cerasuolo di Vittoria'] },
+    Sardinia: { Sardinia: ['Cannonau','Vermentino di Sardegna'] },
+    Campania: { Campania: ['Taurasi','Greco di Tufo','Fiano di Avellino'] },
+    'Other Italy': { 'Other': ['Sagrantino di Montefalco','Montepulciano d\'Abruzzo','Primitivo','Verdicchio'] }
+  },
+  Spain: {
+    'La Rioja': { Rioja: ['Rioja DOCa','Rioja Alavesa','Rioja Alta','Rioja Oriental'] },
+    Ribera del Duero: { 'Ribera del Duero': ['Ribera del Duero DO'] },
+    Priorat: { Priorat: ['Priorat DOCa','Montsant'] },
+    Galicia: { Galicia: ['Rías Baixas','Ribeiro','Valdeorras'] },
+    Catalonia: { Catalonia: ['Penedès','Cava','Empordà'] },
+    Castilla: { Castilla: ['Rueda','Toro','Cigales'] },
+    Andalusia: { Andalusia: ['Jerez / Sherry','Manzanilla','Montilla-Moriles','Málaga'] },
+    'Other Spain': { Other: ['Jumilla','Yecla','Bierzo'] }
+  },
+  Germany: {
+    Mosel: { Mosel: ['Mosel','Saar','Ruwer'] },
+    Rheingau: { Rheingau: ['Rheingau'] },
+    Rheinhessen: { Rheinhessen: ['Rheinhessen'] },
+    Pfalz: { Pfalz: ['Pfalz'] },
+    'Other Germany': { Other: ['Baden','Württemberg','Franken','Nahe','Mittelrhein'] }
+  },
+  Portugal: {
+    Douro: { Douro: ['Douro DOC','Port'] },
+    Alentejo: { Alentejo: ['Alentejo DOC'] },
+    Vinho Verde: { 'Vinho Verde': ['Vinho Verde DOC'] },
+    Dão: { Dão: ['Dão DOC'] },
+    Madeira: { Madeira: ['Madeira DOC'] },
+    'Other Portugal': { Other: ['Bairrada','Setúbal','Tejo'] }
+  },
+  USA: {
+    California: {
+      'Napa Valley': ['Napa Valley AVA','Stags Leap District','Oakville','Rutherford','St. Helena','Calistoga','Howell Mountain','Mount Veeder'],
+      'Sonoma': ['Sonoma County','Russian River Valley','Alexander Valley','Dry Creek Valley','Sonoma Coast'],
+      'Central Coast': ['Paso Robles','Santa Barbara','Santa Rita Hills','Santa Lucia Highlands'],
+      'Other California': ['Mendocino','Sierra Foothills','Lodi']
+    },
+    Oregon: { Oregon: ['Willamette Valley','Dundee Hills','Chehalem Mountains'] },
+    Washington: { Washington: ['Columbia Valley','Walla Walla','Yakima Valley'] },
+    'Other USA': { Other: ['New York','Virginia','Texas'] }
+  },
+  Australia: {
+    'South Australia': { 'South Australia': ['Barossa Valley','Eden Valley','Clare Valley','McLaren Vale','Coonawarra','Adelaide Hills'] },
+    Victoria: { Victoria: ['Yarra Valley','Heathcote','Mornington Peninsula'] },
+    'Western Australia': { 'Western Australia': ['Margaret River','Great Southern'] },
+    'New South Wales': { 'New South Wales': ['Hunter Valley','Orange','Mudgee'] },
+    Tasmania: { Tasmania: ['Tasmania'] }
+  },
+  'New Zealand': {
+    Marlborough: { Marlborough: ['Marlborough'] },
+    'Central Otago': { 'Central Otago': ['Central Otago'] },
+    Hawkes Bay: { 'Hawkes Bay': ['Hawkes Bay'] },
+    'Other NZ': { Other: ['Martinborough','Nelson','Waipara'] }
+  },
+  Argentina: {
+    Mendoza: { Mendoza: ['Luján de Cuyo','Maipú','Uco Valley','Valle de Uco'] },
+    Salta: { Salta: ['Cafayate','Calchaquí Valleys'] },
+    'Other Argentina': { Other: ['San Juan','Patagonia','La Rioja'] }
+  },
+  Chile: {
+    'Central Valley': { 'Central Valley': ['Maipo','Rapel','Colchagua','Cachapoal','Curicó','Maule'] },
+    'Other Chile': { Other: ['Casablanca','San Antonio','Elqui','Limarí','Leyda'] }
+  },
+  'South Africa': {
+    'Western Cape': { 'Western Cape': ['Stellenbosch','Franschhoek','Paarl','Swartland','Constantia','Elgin','Walker Bay'] },
+    'Other South Africa': { Other: ['Olifants River','Breedekloof'] }
+  },
+  Austria: {
+    Wachau: { Wachau: ['Wachau','Kremstal','Kamptal'] },
+    Burgenland: { Burgenland: ['Neusiedlersee','Mittelburgenland','Südburgenland'] },
+    Vienna: { Vienna: ['Wien / Vienna'] },
+    'Other Austria': { Other: ['Steiermark','Weinviertel'] }
+  },
+  Other: { Other: { Other: ['Other'] } }
+};
+
 let wines = [], currentScore = 0, currentImageData = null;
 let editingId = null, viewMode = 'list', activeTab = 'all', searchTimer = null;
 
@@ -263,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
 });
 
+// ── Score ──
 function buildScore() {
   const row = document.getElementById('scoreRow');
   for (let i = 1; i <= 10; i++) {
@@ -277,6 +432,64 @@ function setScore(n) {
   document.getElementById('scoreLabel').textContent = currentScore>0 ? `Score — ${currentScore}/10` : 'Score (1–10)';
 }
 
+// ── Dropdown cascade ──
+function setOptions(selectId, options, placeholder, currentVal='') {
+  const sel = document.getElementById(selectId);
+  sel.innerHTML = `<option value="">${placeholder}</option>`;
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o; opt.textContent = o;
+    if (o === currentVal) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function updateRegions(currentRegion='', currentSub='', currentApp='') {
+  const country = document.getElementById('fCountry').value;
+  const regionData = REGIONS[country] || {};
+  setOptions('fRegion', Object.keys(regionData), '— Select Region —', currentRegion);
+  setOptions('fSubregion', [], '— Select Sub-Region —');
+  setOptions('fAppellation', [], '— Select Appellation —');
+  if (currentRegion && regionData[currentRegion]) updateSubregions(currentSub, currentApp);
+}
+
+function updateSubregions(currentSub='', currentApp='') {
+  const country = document.getElementById('fCountry').value;
+  const region = document.getElementById('fRegion').value;
+  const subData = (REGIONS[country]||{})[region] || {};
+  setOptions('fSubregion', Object.keys(subData), '— Select Sub-Region —', currentSub);
+  setOptions('fAppellation', [], '— Select Appellation —');
+  if (currentSub && subData[currentSub]) updateAppellations(currentApp);
+}
+
+function updateAppellations(currentApp='') {
+  const country = document.getElementById('fCountry').value;
+  const region = document.getElementById('fRegion').value;
+  const sub = document.getElementById('fSubregion').value;
+  const apps = ((REGIONS[country]||{})[region]||{})[sub] || [];
+  setOptions('fAppellation', apps, '— Select Appellation —', currentApp);
+}
+
+// ── Set dropdowns from saved values (for edit) ──
+function setLocationDropdowns(country, region, subregion, appellation) {
+  // Set country
+  const cSel = document.getElementById('fCountry');
+  for (let o of cSel.options) if (o.value === country) { cSel.value = country; break; }
+
+  // Build region options then set
+  const regionData = REGIONS[country] || {};
+  setOptions('fRegion', Object.keys(regionData), '— Select Region —', region);
+
+  // Build subregion options then set
+  const subData = regionData[region] || {};
+  setOptions('fSubregion', Object.keys(subData), '— Select Sub-Region —', subregion);
+
+  // Build appellation options then set
+  const apps = subData[subregion] || [];
+  setOptions('fAppellation', apps, '— Select Appellation —', appellation);
+}
+
+// ── Load & render ──
 async function loadWines(q='') {
   try {
     const r = await fetch(q ? `/api/wines?q=${encodeURIComponent(q)}` : '/api/wines');
@@ -293,7 +506,8 @@ function onSearch() {
 function filterTab(tab) {
   activeTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById({all:'tabAll',France:'tabFrance',Italy:'tabItaly',other:'tabOther'}[tab]).classList.add('active');
+  const ids = {all:'tabAll',Red:'tabRed',White:'tabWhite',Sparkling:'tabSparkling',other:'tabOther'};
+  document.getElementById(ids[tab]).classList.add('active');
   render();
 }
 
@@ -305,10 +519,17 @@ function toggleView() {
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+function styleBadge(style) {
+  if (!style) return '';
+  const cls = {Red:'red',White:'white',Sparkling:'sparkling',Rose:'rose',Rosé:'rose',Fortified:'fortified'}[style] || 'red';
+  const icons = {Red:'🔴',White:'⚪',Sparkling:'✨',Rose:'🌸',Rosé:'🌸',Fortified:'🍯'};
+  return `<span class="badge badge-${cls}">${icons[style]||''} ${esc(style)}</span>`;
+}
+
 function filteredWines() {
   if (activeTab==='all') return wines;
-  if (activeTab==='other') return wines.filter(w => !['France','Italy'].includes(w.country||''));
-  return wines.filter(w => (w.country||'')===activeTab);
+  if (activeTab==='other') return wines.filter(w => !['Red','White','Sparkling'].includes(w.style||''));
+  return wines.filter(w => (w.style||'')===activeTab);
 }
 
 function render() {
@@ -319,13 +540,15 @@ function render() {
   document.getElementById('countLabel').textContent = n===0 ? 'Your personal cellar diary' : `${n} bottle${n===1?'':'s'} in your cellar`;
   if (list.length===0) { container.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
+
   if (viewMode==='list') {
     container.innerHTML = `<div class="wine-list">${list.map(w=>`
       <div class="wine-row" onclick="openEdit('${w.id}')">
-        ${w.image_data ? `<img class="row-thumb" src="${w.image_data}" loading="lazy"/>` : `<div class="row-thumb-ph">🍷</div>`}
+        ${w.image_data?`<img class="row-thumb" src="${w.image_data}" loading="lazy"/>`:`<div class="row-thumb-ph">🍷</div>`}
         <div class="row-info">
           <div class="row-name">${esc(w.name)}</div>
-          <div class="row-meta">${[w.producer,[w.region,w.subregion].filter(Boolean).join(' · ')].filter(Boolean).map(esc).join(' — ')}</div>
+          <div class="row-meta">${[w.producer,[w.major_region,w.appellation].filter(Boolean).join(' · ')].filter(Boolean).map(esc).join(' — ')}</div>
+          <div class="row-badges">${styleBadge(w.style)}</div>
         </div>
         <div class="row-right">
           <div class="row-vintage">${esc(w.vintage||'')}</div>
@@ -340,13 +563,15 @@ function render() {
         <div class="card-body">
           <div class="card-name">${esc(w.name)}</div>
           <div class="card-meta">${esc([w.producer,w.vintage].filter(Boolean).join(' · '))}</div>
-          <div class="card-meta">${esc([w.region,w.country].filter(Boolean).join(', '))}</div>
+          <div class="card-meta">${esc([w.appellation,w.country].filter(Boolean).join(', '))}</div>
+          ${styleBadge(w.style)}
           ${w.score>0?`<div class="card-score">★ ${w.score}/10</div>`:''}
         </div>
       </div>`).join('')}</div>`;
   }
 }
 
+// ── Sheet ──
 function openAdd() {
   editingId=null; currentScore=0; currentImageData=null;
   document.getElementById('sheetTitle').textContent='Log a Wine';
@@ -363,24 +588,29 @@ function openEdit(id) {
   document.getElementById('sheetTitle').textContent='Edit Wine';
   document.getElementById('delBtn').style.display='block';
   document.getElementById('saveBtn').textContent='Save Changes';
+
   document.getElementById('fName').value=w.name||'';
   document.getElementById('fProducer').value=w.producer||'';
   document.getElementById('fGrape').value=w.grape||'';
-  document.getElementById('fCountry').value=w.country||'';
-  document.getElementById('fRegion').value=w.region||'';
-  document.getElementById('fSubregion').value=w.subregion||'';
+  document.getElementById('fStyle').value=w.style||'';
   document.getElementById('fVintage').value=w.vintage||'';
   document.getElementById('fPrice').value=w.price||'';
   document.getElementById('fDate').value=w.date||new Date().toISOString().split('T')[0];
   document.getElementById('fComment').value=w.comment||'';
+
+  // location dropdowns
+  setLocationDropdowns(w.country||'', w.major_region||'', w.subregion||'', w.appellation||'');
+
   document.querySelectorAll('.score-pip').forEach(b=>b.classList.toggle('on',+b.dataset.n===currentScore));
   document.getElementById('scoreLabel').textContent=currentScore>0?`Score — ${currentScore}/10`:'Score (1–10)';
+
   const img=document.getElementById('previewImg');
   if(currentImageData){img.src=currentImageData;img.style.display='block';}else{img.style.display='none';}
   document.getElementById('uploadHint').textContent=currentImageData?'Tap to change photo':'Tap to add photo';
   const ab=document.getElementById('analyzeBtn');
   ab.style.display=currentImageData?'block':'none'; ab.disabled=false;
   setStatus('','');
+
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -393,9 +623,14 @@ function closeSheet() {
 function overlayBgClick(e){if(e.target===e.currentTarget)closeSheet();}
 
 function clearForm() {
-  ['fName','fProducer','fGrape','fCountry','fRegion','fSubregion','fVintage','fComment'].forEach(id=>document.getElementById(id).value='');
+  ['fName','fProducer','fGrape','fVintage','fComment'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fStyle').value='';
   document.getElementById('fPrice').value='';
   document.getElementById('fDate').value=new Date().toISOString().split('T')[0];
+  document.getElementById('fCountry').value='';
+  setOptions('fRegion',[],'— Select Region —');
+  setOptions('fSubregion',[],'— Select Sub-Region —');
+  setOptions('fAppellation',[],'— Select Appellation —');
   document.querySelectorAll('.score-pip').forEach(b=>b.classList.remove('on'));
   document.getElementById('scoreLabel').textContent='Score (1–10)';
   document.getElementById('previewImg').style.display='none';
@@ -436,15 +671,20 @@ async function analyzeLabel() {
     else{const res=await fetch(currentImageData);const blob=await res.blob();body=new FormData();body.append('image',blob,'wine.jpg');}
     const r=await fetch('/api/analyze',{method:'POST',body});
     const data=await r.json();
-    if(!r.ok||data.error){setStatus('Could not read label: '+(data.error||'Unknown error'),'error');}
-    else {
-      if(data.name)      document.getElementById('fName').value=data.name;
-      if(data.producer)  document.getElementById('fProducer').value=data.producer;
-      if(data.grape)     document.getElementById('fGrape').value=data.grape;
-      if(data.vintage)   document.getElementById('fVintage').value=data.vintage;
-      if(data.country)   document.getElementById('fCountry').value=data.country;
-      if(data.region)    document.getElementById('fRegion').value=data.region;
-      if(data.subregion) document.getElementById('fSubregion').value=data.subregion;
+    if(!r.ok||data.error){
+      setStatus('Could not read label: '+(data.error||'Unknown'),'error');
+    } else {
+      if(data.name)     document.getElementById('fName').value=data.name;
+      if(data.producer) document.getElementById('fProducer').value=data.producer;
+      if(data.grape)    document.getElementById('fGrape').value=data.grape;
+      if(data.vintage)  document.getElementById('fVintage').value=data.vintage;
+      if(data.style)    document.getElementById('fStyle').value=data.style;
+
+      // Set location dropdowns from AI result
+      if(data.country) {
+        document.getElementById('fCountry').value=data.country;
+        setLocationDropdowns(data.country, data.major_region||'', data.subregion||'', data.appellation||'');
+      }
       setStatus('✓ Label read! Review and adjust if needed.','success');
     }
   } catch(e){setStatus('Error: '+e.message,'error');}
@@ -455,16 +695,20 @@ async function saveWine() {
   const name=document.getElementById('fName').value.trim();
   if(!name){alert('Wine name is required.');return;}
   const wine={
-    name, producer:document.getElementById('fProducer').value.trim(),
-    grape:document.getElementById('fGrape').value.trim(),
-    country:document.getElementById('fCountry').value.trim(),
-    region:document.getElementById('fRegion').value.trim(),
-    subregion:document.getElementById('fSubregion').value.trim(),
-    vintage:document.getElementById('fVintage').value.trim(),
-    price:parseFloat(document.getElementById('fPrice').value)||null,
-    date:document.getElementById('fDate').value,
-    comment:document.getElementById('fComment').value.trim(),
-    score:currentScore, image_data:currentImageData,
+    name,
+    producer:    document.getElementById('fProducer').value.trim(),
+    grape:       document.getElementById('fGrape').value.trim(),
+    style:       document.getElementById('fStyle').value,
+    vintage:     document.getElementById('fVintage').value.trim(),
+    country:     document.getElementById('fCountry').value,
+    major_region:document.getElementById('fRegion').value,
+    subregion:   document.getElementById('fSubregion').value,
+    appellation: document.getElementById('fAppellation').value,
+    price:       parseFloat(document.getElementById('fPrice').value)||null,
+    date:        document.getElementById('fDate').value,
+    comment:     document.getElementById('fComment').value.trim(),
+    score:       currentScore,
+    image_data:  currentImageData,
   };
   const btn=document.getElementById('saveBtn');
   btn.disabled=true; btn.textContent='Saving…';
