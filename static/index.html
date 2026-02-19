@@ -256,7 +256,7 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
     </div>
     <div class="field">
       <label>Sub-Region</label>
-      <select id="fSubregion" onchange="updateappellations()">
+      <select id="fSubregion" onchange="updateAppellations()">
         <option value="">— Select Sub-Region —</option>
       </select>
     </div>
@@ -288,6 +288,18 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 </div>
 
 <script>
+
+// Global error handler - shows errors on screen for debugging
+window.onerror = function(msg, src, line, col, err) {
+  document.body.innerHTML = '<div style="color:red;padding:2rem;font-family:monospace;background:#111;min-height:100vh">' +
+    '<h2>JavaScript Error</h2>' +
+    '<p>' + msg + '</p>' +
+    '<p>Line: ' + line + '</p>' +
+    '<p>' + (err ? err.stack : '') + '</p>' +
+    '</div>';
+  return false;
+};
+
 // ── Wine region data ──
 const REGIONS = {
   France: {
