@@ -37,9 +37,8 @@ def get_wines():
     try:
         search = request.args.get('q', '').strip()
         if search:
-            # search across name, producer, region, grape
             enc = urllib.parse.quote(search)
-            path = f'wines?or=(name.ilike.*{enc}*,producer.ilike.*{enc}*,region.ilike.*{enc}*,country.ilike.*{enc}*,grape.ilike.*{enc}*)&order=created_at.desc'
+            path = f'wines?or=(name.ilike.*{enc}*,producer.ilike.*{enc}*,major_region.ilike.*{enc}*,country.ilike.*{enc}*,appellation.ilike.*{enc}*,grape.ilike.*{enc}*)&order=created_at.desc'
         else:
             path = 'wines?order=created_at.desc'
         wines = supabase_request('GET', path)
@@ -103,8 +102,11 @@ def analyze_label():
                     'Return ONLY valid JSON, no markdown, no explanation:\n'
                     '{"name":"wine name","producer":"producer or domaine",'
                     '"grape":"grape variety or blend","vintage":"year or empty",'
-                    '"country":"country e.g. France","region":"region e.g. Burgundy",'
-                    '"subregion":"sub-region or appellation e.g. Chassagne-Montrachet"}\n'
+                    '"country":"country e.g. France",'
+                    '"major_region":"major wine region e.g. Bordeaux, Burgundy, Champagne, Tuscany",'
+                    '"subregion":"sub-region e.g. Medoc, Cote de Nuits",'
+                    '"appellation":"specific appellation e.g. Pauillac, Gevrey-Chambertin, Maranges",'
+                    '"style":"one of: Red, White, Sparkling, Fortified, Rose"}\n'
                     'Use empty string for any field not visible.'
                 )}
             ]
@@ -123,12 +125,12 @@ def export_excel():
         import csv, io
         wines = supabase_request('GET', 'wines?order=created_at.desc')
         output = io.StringIO()
-        fields = ['name','producer','grape','vintage','country','region','subregion','price','score','date','comment']
+        fields = ['name','producer','grape','vintage','style','country','major_region','subregion','appellation','price','score','date','comment']
         writer = csv.DictWriter(output, fieldnames=fields, extrasaction='ignore')
         writer.writeheader()
         for w in wines:
             writer.writerow({f: w.get(f,'') for f in fields})
-        csv_bytes = output.getvalue().encode('utf-8-sig')  # utf-8-sig for Excel compatibility
+        csv_bytes = output.getvalue().encode('utf-8-sig')
         return Response(
             csv_bytes,
             mimetype='text/csv',
