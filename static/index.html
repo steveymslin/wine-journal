@@ -173,189 +173,7 @@ input[type="date"]{color-scheme:dark;}
     <div class="field"><label>Producer / Domaine</label><input id="fProducer" placeholder="e.g. Bachelet-Monnot"></div>
     <div class="field">
       <label>Grape Variety</label>
-      <select id="fGrape" onchange="onGrapeChange(this)">
-        <option value="">— Select or type below —</option>
-        <optgroup label="── Common Varieties ──">
-        <option value="Cabernet Sauvignon">
-        <option value="Merlot">
-        <option value="Pinot Noir">
-        <option value="Syrah / Shiraz">
-        <option value="Chardonnay">
-        <option value="Sauvignon Blanc">
-        <option value="Riesling">
-        <option value="Pinot Grigio / Pinot Gris">
-        <option value="Grenache / Garnacha">
-        <option value="Tempranillo">
-        <option value="Sangiovese">
-        <option value="Nebbiolo">
-        <option value="Malbec">
-        <option value="Zinfandel">
-        <option value="Cabernet Franc">
-        <option value="Viognier">
-        <option value="Gewurztraminer">
-        <option value="Chenin Blanc">
-        <option value="Semillon">
-        <option value="Moscato / Muscat">
-        <option value="Barbera">
-        <option value="Dolcetto">
-        <option value="Mourvèdre / Monastrell">
-        <option value="Albariño / Alvarinho">
-        <option value="Gruner Veltliner">
-        <option value="Torrontes">
-        <option value="Primitivo / Zinfandel">
-        <option value="Aglianico">
-        <option value="Touriga Nacional">
-        <option value="Pinot Blanc">
-        </optgroup>
-        <optgroup label="── All Others (A–Z) ──">
-        <option value="Agiorgitiko">
-        <option value="Airén">
-        <option value="Albana">
-        <option value="Aligoté">
-        <option value="Amarone (blend)">
-        <option value="Arinto">
-        <option value="Arneis">
-        <option value="Assyrtiko">
-        <option value="Athiri">
-        <option value="Bacchus">
-        <option value="Baga">
-        <option value="Blauburger">
-        <option value="Blaufrankisch">
-        <option value="Bobal">
-        <option value="Bordeaux Blend Red">
-        <option value="Bordeaux Blend White">
-        <option value="Bourboulenc">
-        <option value="Brunello (Sangiovese Grosso)">
-        <option value="Cannonau">
-        <option value="Carignan">
-        <option value="Carmenere">
-        <option value="Carricante">
-        <option value="Castelao">
-        <option value="Catarratto">
-        <option value="Cencibel">
-        <option value="Champagne Blend">
-        <option value="Chasselas">
-        <option value="Cinsault">
-        <option value="Clairette">
-        <option value="Concord">
-        <option value="Cortese">
-        <option value="Corvina">
-        <option value="Corvina Blend">
-        <option value="Dafni">
-        <option value="Dornfelder">
-        <option value="Encruzado">
-        <option value="Erbaluce">
-        <option value="Falanghina">
-        <option value="Fernao Pires">
-        <option value="Fiano">
-        <option value="Field Blend">
-        <option value="Frappato">
-        <option value="Freisa">
-        <option value="Friulano">
-        <option value="Furmint">
-        <option value="GSM Blend">
-        <option value="Gaglioppo">
-        <option value="Gamay">
-        <option value="Garganega">
-        <option value="Garnacha Peluda">
-        <option value="Glera">
-        <option value="Godello">
-        <option value="Graciano">
-        <option value="Greco">
-        <option value="Greco di Tufo">
-        <option value="Grenache Blanc">
-        <option value="Grignolino">
-        <option value="Harslevelü">
-        <option value="Kadarka">
-        <option value="Kekfrankos">
-        <option value="Kerner">
-        <option value="Lagrein">
-        <option value="Lambrusco">
-        <option value="Lemberger">
-        <option value="Limnio">
-        <option value="Loureiro">
-        <option value="Macabeo / Viura">
-        <option value="Malagousia">
-        <option value="Malvasia">
-        <option value="Marsanne">
-        <option value="Marzemino">
-        <option value="Mavrodaphne">
-        <option value="Mazuelo">
-        <option value="Melon de Bourgogne">
-        <option value="Mencia">
-        <option value="Meritage">
-        <option value="Molinara">
-        <option value="Montepulciano">
-        <option value="Moschofilero">
-        <option value="Mourvedre">
-        <option value="Muller-Thurgau">
-        <option value="Negroamaro">
-        <option value="Nerello Cappuccio">
-        <option value="Nerello Mascalese">
-        <option value="Nero d Avola">
-        <option value="Norton">
-        <option value="Nosiola">
-        <option value="Palomino Fino">
-        <option value="Parellada">
-        <option value="Pecorino">
-        <option value="Pedro Ximenez">
-        <option value="Petit Verdot">
-        <option value="Petite Arvine">
-        <option value="Petite Sirah">
-        <option value="Picpoul">
-        <option value="Pinotage">
-        <option value="Portugieser">
-        <option value="Prieto Picudo">
-        <option value="Primitivo">
-        <option value="Proprietary Blend">
-        <option value="Raboso">
-        <option value="Refosco">
-        <option value="Rhone Blend Red">
-        <option value="Rhone Blend White">
-        <option value="Ribolla Gialla">
-        <option value="Rkatsiteli">
-        <option value="Robola">
-        <option value="Roditis">
-        <option value="Rondinella">
-        <option value="Roussanne">
-        <option value="Ruche">
-        <option value="Sagrantino">
-        <option value="Saperavi">
-        <option value="Savagnin">
-        <option value="Scheurebe">
-        <option value="Schiava">
-        <option value="Schwarzriesling">
-        <option value="Spatburgunder">
-        <option value="St Laurent">
-        <option value="Super Tuscan">
-        <option value="Sylvaner">
-        <option value="Tannat">
-        <option value="Teroldego">
-        <option value="Timorasso">
-        <option value="Tinta Amarela">
-        <option value="Tinta Barroca">
-        <option value="Tinta de Toro">
-        <option value="Tinto Cao">
-        <option value="Touriga Franca">
-        <option value="Trebbiano">
-        <option value="Treixadura">
-        <option value="Trincadeira">
-        <option value="Trollinger">
-        <option value="Ugni Blanc">
-        <option value="Uva di Troia">
-        <option value="Verdejo">
-        <option value="Verdicchio">
-        <option value="Vermentino">
-        <option value="Vernaccia">
-        <option value="Vilana">
-        <option value="Viosinho">
-        <option value="Xarel-lo">
-        <option value="Xinomavro">
-        <option value="Zweigelt">
-        </optgroup>
-        <option value="__other__">Other / Enter manually…</option>
-      </select>
-      <input id="fGrapeManual" placeholder="Type grape variety…" style="display:none;margin-top:.4rem">
+      <input id="fGrape" placeholder="e.g. Pinot Noir, GSM Blend, Chardonnay…" autocomplete="off">
     </div>
     <div class="row2">
       <div class="field">
@@ -3465,20 +3283,43 @@ function toggleManual() {
   }
 }
 
+function fuzzyMatch(select, value) {
+  if (!value) return false;
+  var v = value.toLowerCase().replace(/[^a-z0-9]/g, "");
+  var opts = select.options;
+  // Exact match first
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].value.toLowerCase() === value.toLowerCase()) {
+      select.value = opts[i].value; return true;
+    }
+  }
+  // Normalized match
+  for (var i = 0; i < opts.length; i++) {
+    var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (ov === v) { select.value = opts[i].value; return true; }
+  }
+  // Contains match
+  for (var i = 0; i < opts.length; i++) {
+    var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (ov.includes(v) || v.includes(ov)) { select.value = opts[i].value; return true; }
+  }
+  return false;
+}
+
 function setDropdowns(country, region, subregion, appellation) {
   var cSel = document.getElementById("fCountry");
-  cSel.value = country || "";
+  fuzzyMatch(cSel, country);
   onCountryChange();
   if (region) {
-    document.getElementById("fRegion").value = region;
+    fuzzyMatch(document.getElementById("fRegion"), region);
     onRegionChange();
   }
   if (subregion) {
-    document.getElementById("fSubregion").value = subregion;
+    fuzzyMatch(document.getElementById("fSubregion"), subregion);
     onSubregionChange();
   }
   if (appellation) {
-    document.getElementById("fAppellation").value = appellation;
+    fuzzyMatch(document.getElementById("fAppellation"), appellation);
   }
 }
 
@@ -3582,19 +3423,7 @@ function openEdit(id) {
   document.getElementById("saveBtn").textContent = "Save Changes";
   document.getElementById("fName").value = w.name || "";
   document.getElementById("fProducer").value = w.producer || "";
-  (function(){
-    var grapeEl = document.getElementById("fGrape");
-    var grapeVal = w.grape || "";
-    var found = false;
-    for (var i = 0; i < grapeEl.options.length; i++) {
-      if (grapeEl.options[i].value === grapeVal) { grapeEl.value = grapeVal; found = true; break; }
-    }
-    if (!found && grapeVal) {
-      grapeEl.value = "__other__";
-      document.getElementById("fGrapeManual").style.display = "block";
-      document.getElementById("fGrapeManual").value = grapeVal;
-    }
-  })();
+  document.getElementById("fGrape").value = w.grape || "";
   document.getElementById("fStyle").value = w.style || "";
   document.getElementById("fVintage").value = w.vintage || "";
   document.getElementById("fPrice").value = w.price || "";
@@ -3620,10 +3449,7 @@ function closeSheet() {
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
 
 function clearForm() {
-  var fields = ["fName","fProducer","fVintage","fComment","fPrice"];
-  document.getElementById("fGrape").value = "";
-  document.getElementById("fGrapeManual").style.display = "none";
-  document.getElementById("fGrapeManual").value = "";
+  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fPrice"];
   for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = "";
   document.getElementById("fStyle").value = "";
   document.getElementById("fDate").value = new Date().toISOString().split("T")[0];
@@ -3696,7 +3522,7 @@ async function analyzeLabel() {
     } else {
       if (data.name) document.getElementById("fName").value = data.name;
       if (data.producer) document.getElementById("fProducer").value = data.producer;
-      
+      if (data.grape) document.getElementById("fGrape").value = data.grape;
       if (data.vintage) document.getElementById("fVintage").value = data.vintage;
       if (data.style) document.getElementById("fStyle").value = data.style;
       if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
@@ -3719,11 +3545,7 @@ async function saveWine() {
   var wine = {
     name: name,
     producer: document.getElementById("fProducer").value.trim(),
-    grape: (function(){
-      var sel = document.getElementById("fGrape").value;
-      var manual = document.getElementById("fGrapeManual").value.trim();
-      return (sel === "__other__" && manual) ? manual : sel;
-    })(),
+    grape: document.getElementById("fGrape").value.trim(),
     style: document.getElementById("fStyle").value,
     vintage: document.getElementById("fVintage").value.trim(),
     country: countryVal,
@@ -3860,26 +3682,37 @@ async function checkPrice() {
     });
     var data = await resp.json();
     if (data.result) {
-      // Parse and format the result nicely
       var text = data.result;
-      var priceRange = (text.match(/PRICE_RANGE:\s*(.+)/i) || [])[1] || "";
-      var typical = (text.match(/TYPICAL_PRICE:\s*(.+)/i) || [])[1] || "";
-      var source = (text.match(/SOURCE_NOTE:\s*(.+)/i) || [])[1] || "";
-      var factors = (text.match(/PRICE_FACTORS:\s*(.+)/i) || [])[1] || "";
+      // Extract pipe-separated fields
+      var parts = text.split("|");
+      var priceRange = "";
+      var typical = "";
+      parts.forEach(function(p) {
+        p = p.trim();
+        if (/PRICE_RANGE/i.test(p)) priceRange = p.replace(/PRICE_RANGE:\s*/i,"").trim();
+        if (/TYPICAL_PRICE/i.test(p)) typical = p.replace(/TYPICAL_PRICE:\s*/i,"").trim();
+      });
+      // Fallback: try newline format
+      if (!priceRange) priceRange = (text.match(/PRICE_RANGE:\s*(.+)/i) || [])[1] || "";
+      if (!typical) typical = (text.match(/TYPICAL_PRICE:\s*(.+)/i) || [])[1] || "";
 
       var html = "";
-      if (priceRange) html += "<strong>" + priceRange + "</strong>";
-      if (typical) html += " &nbsp;·&nbsp; Typical: " + typical;
-      if (source) html += "<br><span style='opacity:.7'>" + source + "</span>";
-      if (factors) html += "<br><span style='opacity:.6;font-style:italic'>" + factors + "</span>";
-      resultEl.innerHTML = html || text;
+      if (priceRange && typical && priceRange !== typical) {
+        html = "<strong>" + priceRange + "</strong> &nbsp;·&nbsp; Typical: " + typical;
+      } else if (priceRange) {
+        html = "<strong>" + priceRange + "</strong>";
+      } else if (typical) {
+        html = "<strong>Typical: " + typical + "</strong>";
+      } else {
+        html = text.split("|")[0].trim();
+      }
+      resultEl.innerHTML = html;
 
-      // Auto-fill price field if typical price found and field is empty
-      if (typical && !document.getElementById("fPrice").value) {
-        var numMatch = typical.match(/[\d,]+/);
-        if (numMatch) {
-          document.getElementById("fPrice").value = numMatch[0].replace(",","");
-        }
+      // Auto-fill price if empty
+      var fillFrom = typical || priceRange;
+      if (fillFrom && !document.getElementById("fPrice").value) {
+        var numMatch = fillFrom.match(/\d[\d,]*/);
+        if (numMatch) document.getElementById("fPrice").value = numMatch[0].replace(",","");
       }
     } else if (data.error) {
       resultEl.textContent = "Error: " + data.error;
