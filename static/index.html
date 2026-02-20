@@ -3643,7 +3643,7 @@ function openEdit(id) {
 function closeSheet() {
   document.getElementById("overlay").classList.remove("open");
   document.body.style.overflow = "";
-  document.getElementById("fileInput").value = "";
+  // fileInput removed
 }
 
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
@@ -3696,19 +3696,14 @@ function setStatus(msg, type) {
 }
 
 async function analyzeLabel() {
-  var fi = document.getElementById("fileInput");
-  if (!fi.files[0] && !currentImageData) return;
+  if (!currentImageData) return;
   setStatus("Reading label…", "loading");
   document.getElementById("analyzeBtn").disabled = true;
   try {
-    var body;
-    if (fi.files[0]) {
-      body = new FormData(); body.append("image", fi.files[0]);
-    } else {
-      var res = await fetch(currentImageData);
-      var blob = await res.blob();
-      body = new FormData(); body.append("image", blob, "wine.jpg");
-    }
+    var res = await fetch(currentImageData);
+    var blob = await res.blob();
+    var body = new FormData();
+    body.append("image", blob, "wine.jpg");
     var r = await fetch("/api/analyze", {method:"POST", body:body});
     var data = await r.json();
     if (!r.ok || data.error) {
