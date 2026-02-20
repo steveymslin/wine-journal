@@ -173,103 +173,189 @@ input[type="date"]{color-scheme:dark;}
     <div class="field"><label>Producer / Domaine</label><input id="fProducer" placeholder="e.g. Bachelet-Monnot"></div>
     <div class="field">
       <label>Grape Variety</label>
-      <input id="fGrape" list="grapeList" placeholder="Select or type…" autocomplete="off">
-      <datalist id="grapeList">
-        <optgroup label="Red - French">
-          <option value="Pinot Noir"><option value="Cabernet Sauvignon"><option value="Merlot">
-          <option value="Cabernet Franc"><option value="Syrah"><option value="Grenache">
-          <option value="Malbec"><option value="Mourvedre"><option value="Cinsault">
-          <option value="Carignan"><option value="Gamay"><option value="Petit Verdot">
-          <option value="Carmenere"><option value="Tannat">
+      <select id="fGrape" onchange="onGrapeChange(this)">
+        <option value="">— Select or type below —</option>
+        <optgroup label="── Common Varieties ──">
+        <option value="Cabernet Sauvignon">
+        <option value="Merlot">
+        <option value="Pinot Noir">
+        <option value="Syrah / Shiraz">
+        <option value="Chardonnay">
+        <option value="Sauvignon Blanc">
+        <option value="Riesling">
+        <option value="Pinot Grigio / Pinot Gris">
+        <option value="Grenache / Garnacha">
+        <option value="Tempranillo">
+        <option value="Sangiovese">
+        <option value="Nebbiolo">
+        <option value="Malbec">
+        <option value="Zinfandel">
+        <option value="Cabernet Franc">
+        <option value="Viognier">
+        <option value="Gewurztraminer">
+        <option value="Chenin Blanc">
+        <option value="Semillon">
+        <option value="Moscato / Muscat">
+        <option value="Barbera">
+        <option value="Dolcetto">
+        <option value="Mourvèdre / Monastrell">
+        <option value="Albariño / Alvarinho">
+        <option value="Gruner Veltliner">
+        <option value="Torrontes">
+        <option value="Primitivo / Zinfandel">
+        <option value="Aglianico">
+        <option value="Touriga Nacional">
+        <option value="Pinot Blanc">
         </optgroup>
-        <optgroup label="Red - Italian">
-          <option value="Nebbiolo"><option value="Sangiovese"><option value="Barbera">
-          <option value="Dolcetto"><option value="Montepulciano"><option value="Aglianico">
-          <option value="Primitivo"><option value="Nero d Avola"><option value="Cannonau">
-          <option value="Corvina"><option value="Rondinella"><option value="Molinara">
-          <option value="Teroldego"><option value="Lagrein"><option value="Sagrantino">
-          <option value="Nerello Mascalese"><option value="Nerello Cappuccio">
-          <option value="Gaglioppo"><option value="Negroamaro"><option value="Uva di Troia">
-          <option value="Freisa"><option value="Grignolino"><option value="Ruche">
-          <option value="Raboso"><option value="Marzemino"><option value="Schiava">
-          <option value="Refosco">
+        <optgroup label="── All Others (A–Z) ──">
+        <option value="Agiorgitiko">
+        <option value="Airén">
+        <option value="Albana">
+        <option value="Aligoté">
+        <option value="Amarone (blend)">
+        <option value="Arinto">
+        <option value="Arneis">
+        <option value="Assyrtiko">
+        <option value="Athiri">
+        <option value="Bacchus">
+        <option value="Baga">
+        <option value="Blauburger">
+        <option value="Blaufrankisch">
+        <option value="Bobal">
+        <option value="Bordeaux Blend Red">
+        <option value="Bordeaux Blend White">
+        <option value="Bourboulenc">
+        <option value="Brunello (Sangiovese Grosso)">
+        <option value="Cannonau">
+        <option value="Carignan">
+        <option value="Carmenere">
+        <option value="Carricante">
+        <option value="Castelao">
+        <option value="Catarratto">
+        <option value="Cencibel">
+        <option value="Champagne Blend">
+        <option value="Chasselas">
+        <option value="Cinsault">
+        <option value="Clairette">
+        <option value="Concord">
+        <option value="Cortese">
+        <option value="Corvina">
+        <option value="Corvina Blend">
+        <option value="Dafni">
+        <option value="Dornfelder">
+        <option value="Encruzado">
+        <option value="Erbaluce">
+        <option value="Falanghina">
+        <option value="Fernao Pires">
+        <option value="Fiano">
+        <option value="Field Blend">
+        <option value="Frappato">
+        <option value="Freisa">
+        <option value="Friulano">
+        <option value="Furmint">
+        <option value="GSM Blend">
+        <option value="Gaglioppo">
+        <option value="Gamay">
+        <option value="Garganega">
+        <option value="Garnacha Peluda">
+        <option value="Glera">
+        <option value="Godello">
+        <option value="Graciano">
+        <option value="Greco">
+        <option value="Greco di Tufo">
+        <option value="Grenache Blanc">
+        <option value="Grignolino">
+        <option value="Harslevelü">
+        <option value="Kadarka">
+        <option value="Kekfrankos">
+        <option value="Kerner">
+        <option value="Lagrein">
+        <option value="Lambrusco">
+        <option value="Lemberger">
+        <option value="Limnio">
+        <option value="Loureiro">
+        <option value="Macabeo / Viura">
+        <option value="Malagousia">
+        <option value="Malvasia">
+        <option value="Marsanne">
+        <option value="Marzemino">
+        <option value="Mavrodaphne">
+        <option value="Mazuelo">
+        <option value="Melon de Bourgogne">
+        <option value="Mencia">
+        <option value="Meritage">
+        <option value="Molinara">
+        <option value="Montepulciano">
+        <option value="Moschofilero">
+        <option value="Mourvedre">
+        <option value="Muller-Thurgau">
+        <option value="Negroamaro">
+        <option value="Nerello Cappuccio">
+        <option value="Nerello Mascalese">
+        <option value="Nero d Avola">
+        <option value="Norton">
+        <option value="Nosiola">
+        <option value="Palomino Fino">
+        <option value="Parellada">
+        <option value="Pecorino">
+        <option value="Pedro Ximenez">
+        <option value="Petit Verdot">
+        <option value="Petite Arvine">
+        <option value="Petite Sirah">
+        <option value="Picpoul">
+        <option value="Pinotage">
+        <option value="Portugieser">
+        <option value="Prieto Picudo">
+        <option value="Primitivo">
+        <option value="Proprietary Blend">
+        <option value="Raboso">
+        <option value="Refosco">
+        <option value="Rhone Blend Red">
+        <option value="Rhone Blend White">
+        <option value="Ribolla Gialla">
+        <option value="Rkatsiteli">
+        <option value="Robola">
+        <option value="Roditis">
+        <option value="Rondinella">
+        <option value="Roussanne">
+        <option value="Ruche">
+        <option value="Sagrantino">
+        <option value="Saperavi">
+        <option value="Savagnin">
+        <option value="Scheurebe">
+        <option value="Schiava">
+        <option value="Schwarzriesling">
+        <option value="Spatburgunder">
+        <option value="St Laurent">
+        <option value="Super Tuscan">
+        <option value="Sylvaner">
+        <option value="Tannat">
+        <option value="Teroldego">
+        <option value="Timorasso">
+        <option value="Tinta Amarela">
+        <option value="Tinta Barroca">
+        <option value="Tinta de Toro">
+        <option value="Tinto Cao">
+        <option value="Touriga Franca">
+        <option value="Trebbiano">
+        <option value="Treixadura">
+        <option value="Trincadeira">
+        <option value="Trollinger">
+        <option value="Ugni Blanc">
+        <option value="Uva di Troia">
+        <option value="Verdejo">
+        <option value="Verdicchio">
+        <option value="Vermentino">
+        <option value="Vernaccia">
+        <option value="Vilana">
+        <option value="Viosinho">
+        <option value="Xarel-lo">
+        <option value="Xinomavro">
+        <option value="Zweigelt">
         </optgroup>
-        <optgroup label="Red - Spanish">
-          <option value="Tempranillo"><option value="Garnacha"><option value="Monastrell">
-          <option value="Bobal"><option value="Mencía"><option value="Graciano">
-          <option value="Mazuelo"><option value="Carinena"><option value="Prieto Picudo">
-          <option value="Tinta de Toro"><option value="Albillo Negro">
-        </optgroup>
-        <optgroup label="Red - Portuguese">
-          <option value="Touriga Nacional"><option value="Touriga Franca"><option value="Tinta Roriz">
-          <option value="Tinta Barroca"><option value="Tinto Cao"><option value="Baga">
-          <option value="Trincadeira"><option value="Alfrocheiro"><option value="Castelao">
-          <option value="Tinta Amarela"><option value="Sousão">
-        </optgroup>
-        <optgroup label="Red - German / Austrian">
-          <option value="Spatburgunder"><option value="Trollinger"><option value="Lemberger">
-          <option value="Schwarzriesling"><option value="Dornfelder"><option value="Zweigelt">
-          <option value="Blaufrankisch"><option value="St Laurent"><option value="Blauer Portugieser">
-          <option value="Blauburger"><option value="Rotgipfler">
-        </optgroup>
-        <optgroup label="Red - New World / Other">
-          <option value="Zinfandel"><option value="Petite Sirah"><option value="Pinotage">
-          <option value="Xinomavro"><option value="Agiorgitiko"><option value="Mavrodaphne">
-          <option value="Saperavi"><option value="Rkatsiteli Red"><option value="Kadarka">
-          <option value="Kékfrankos"><option value="Feteasca Neagra">
-        </optgroup>
-        <optgroup label="White - French">
-          <option value="Chardonnay"><option value="Sauvignon Blanc"><option value="Viognier">
-          <option value="Roussanne"><option value="Marsanne"><option value="Grenache Blanc">
-          <option value="Clairette"><option value="Bourboulenc"><option value="Picpoul">
-          <option value="Muscadet (Melon de Bourgogne)"><option value="Chenin Blanc">
-          <option value="Semillon"><option value="Muscadelle"><option value="Ugni Blanc">
-          <option value="Savagnin"><option value="Gewurztraminer">
-        </optgroup>
-        <optgroup label="White - Italian">
-          <option value="Pinot Grigio"><option value="Garganega"><option value="Trebbiano">
-          <option value="Vermentino"><option value="Fiano"><option value="Greco">
-          <option value="Verdicchio"><option value="Arneis"><option value="Cortese">
-          <option value="Falanghina"><option value="Catarratto"><option value="Carricante">
-          <option value="Ribolla Gialla"><option value="Friulano"><option value="Malvasia Bianca">
-          <option value="Glera"><option value="Erbaluce"><option value="Timorasso">
-          <option value="Nosiola"><option value="Kerner"><option value="Sylvaner">
-          <option value="Vernaccia"><option value="Albana">
-        </optgroup>
-        <optgroup label="White - Spanish">
-          <option value="Albariño"><option value="Verdejo"><option value="Viura (Macabeo)">
-          <option value="Xarel-lo"><option value="Parellada"><option value="Godello">
-          <option value="Treixadura"><option value="Loureira"><option value="Palomino Fino">
-          <option value="Pedro Ximenez"><option value="Muscat Blanc a Petits Grains">
-          <option value="Airén"><option value="Garnacha Blanca">
-        </optgroup>
-        <optgroup label="White - German / Alsace / Austrian">
-          <option value="Riesling"><option value="Pinot Gris"><option value="Pinot Blanc">
-          <option value="Muscat"><option value="Gewurztraminer"><option value="Sylvaner">
-          <option value="Grüner Veltliner"><option value="Welschriesling"><option value="Neuburger">
-          <option value="Müller-Thurgau"><option value="Scheurebe"><option value="Kerner">
-          <option value="Bacchus"><option value="Rieslaner">
-        </optgroup>
-        <optgroup label="White - Portuguese">
-          <option value="Alvarinho"><option value="Loureiro"><option value="Arinto">
-          <option value="Encruzado"><option value="Bical"><option value="Antao Vaz">
-          <option value="Roupeiro"><option value="Fernão Pires"><option value="Viosinho">
-          <option value="Rabigato"><option value="Codega"><option value="Gouveio">
-          <option value="Sercial"><option value="Verdelho"><option value="Bual"><option value="Malmsey">
-        </optgroup>
-        <optgroup label="White - New World / Other">
-          <option value="Torrontes"><option value="Assyrtiko"><option value="Moschofilero">
-          <option value="Robola"><option value="Rkatsiteli"><option value="Mtsvane">
-          <option value="Furmint"><option value="Hárslevelű"><option value="Heida">
-          <option value="Petite Arvine"><option value="Amigne"><option value="Chasselas">
-        </optgroup>
-        <optgroup label="Blends">
-          <option value="Bordeaux Blend (Red)"><option value="Bordeaux Blend (White)">
-          <option value="Rhone Blend (Red)"><option value="Rhone Blend (White)">
-          <option value="GSM Blend"><option value="Field Blend"><option value="Meritage">
-          <option value="Super Tuscan"><option value="Proprietary Blend">
-        </optgroup>
-      </datalist>
+        <option value="__other__">Other / Enter manually…</option>
+      </select>
+      <input id="fGrapeManual" placeholder="Type grape variety…" style="display:none;margin-top:.4rem">
     </div>
     <div class="row2">
       <div class="field">
@@ -351,7 +437,14 @@ input[type="date"]{color-scheme:dark;}
 
     <div class="section-label">Details</div>
     <div class="row2">
-      <div class="field"><label>Price</label><input id="fPrice" type="number" placeholder="0.00" inputmode="decimal"></div>
+      <div class="field">
+        <label style="display:flex;justify-content:space-between;align-items:center">
+          <span>Price (USD)</span>
+          <button type="button" id="priceBtn" onclick="checkPrice()" style="font-size:.68rem;padding:.2rem .5rem;background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.3);color:var(--acc);border-radius:4px;cursor:pointer;font-family:inherit">🔍 Check Price</button>
+        </label>
+        <input id="fPrice" type="number" placeholder="0.00" inputmode="decimal">
+        <div id="priceResult" style="display:none;font-size:.75rem;margin-top:.35rem;padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;border:1px solid rgba(74,158,255,.15);color:var(--dim);line-height:1.4"></div>
+      </div>
       <div class="field"><label>Date Consumed</label><input type="date" id="fDate"></div>
     </div>
     <div style="margin-bottom:.8rem">
@@ -3344,6 +3437,17 @@ function fillSelect(id, options, placeholder) {
   }
 }
 
+function onGrapeChange(sel) {
+  var manual = document.getElementById("fGrapeManual");
+  if (sel.value === "__other__") {
+    manual.style.display = "block";
+    manual.focus();
+  } else {
+    manual.style.display = "none";
+    manual.value = "";
+  }
+}
+
 function toggleManual() {
   var mf = ge("manualFields");
   var btn = ge("manualToggleBtn");
@@ -3478,7 +3582,19 @@ function openEdit(id) {
   document.getElementById("saveBtn").textContent = "Save Changes";
   document.getElementById("fName").value = w.name || "";
   document.getElementById("fProducer").value = w.producer || "";
-  document.getElementById("fGrape").value = w.grape || "";
+  (function(){
+    var grapeEl = document.getElementById("fGrape");
+    var grapeVal = w.grape || "";
+    var found = false;
+    for (var i = 0; i < grapeEl.options.length; i++) {
+      if (grapeEl.options[i].value === grapeVal) { grapeEl.value = grapeVal; found = true; break; }
+    }
+    if (!found && grapeVal) {
+      grapeEl.value = "__other__";
+      document.getElementById("fGrapeManual").style.display = "block";
+      document.getElementById("fGrapeManual").value = grapeVal;
+    }
+  })();
   document.getElementById("fStyle").value = w.style || "";
   document.getElementById("fVintage").value = w.vintage || "";
   document.getElementById("fPrice").value = w.price || "";
@@ -3504,7 +3620,10 @@ function closeSheet() {
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
 
 function clearForm() {
-  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fPrice"];
+  var fields = ["fName","fProducer","fVintage","fComment","fPrice"];
+  document.getElementById("fGrape").value = "";
+  document.getElementById("fGrapeManual").style.display = "none";
+  document.getElementById("fGrapeManual").value = "";
   for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = "";
   document.getElementById("fStyle").value = "";
   document.getElementById("fDate").value = new Date().toISOString().split("T")[0];
@@ -3577,7 +3696,7 @@ async function analyzeLabel() {
     } else {
       if (data.name) document.getElementById("fName").value = data.name;
       if (data.producer) document.getElementById("fProducer").value = data.producer;
-      if (data.grape) document.getElementById("fGrape").value = data.grape;
+      
       if (data.vintage) document.getElementById("fVintage").value = data.vintage;
       if (data.style) document.getElementById("fStyle").value = data.style;
       if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
@@ -3600,7 +3719,11 @@ async function saveWine() {
   var wine = {
     name: name,
     producer: document.getElementById("fProducer").value.trim(),
-    grape: document.getElementById("fGrape").value.trim(),
+    grape: (function(){
+      var sel = document.getElementById("fGrape").value;
+      var manual = document.getElementById("fGrapeManual").value.trim();
+      return (sel === "__other__" && manual) ? manual : sel;
+    })(),
     style: document.getElementById("fStyle").value,
     vintage: document.getElementById("fVintage").value.trim(),
     country: countryVal,
@@ -3696,6 +3819,76 @@ async function generateWsetNote() {
 
   btn.disabled = false;
   statusEl.style.display = "none";
+}
+
+
+async function checkPrice() {
+  var name = document.getElementById("fName").value.trim();
+  var producer = document.getElementById("fProducer").value.trim();
+  var vintage = document.getElementById("fVintage").value.trim();
+  var grape = (function(){
+    var sel = document.getElementById("fGrape").value;
+    var manual = document.getElementById("fGrapeManual").value.trim();
+    return (sel === "__other__" && manual) ? manual : sel;
+  })();
+  var country = document.getElementById("fCountry").value;
+  var region = document.getElementById("fRegion").value;
+  var appellation = document.getElementById("fAppellation").value;
+
+  if (!name && !producer) {
+    alert("Please fill in at least the wine name or producer first.");
+    return;
+  }
+
+  var btn = document.getElementById("priceBtn");
+  var resultEl = document.getElementById("priceResult");
+  btn.disabled = true;
+  btn.textContent = "Searching…";
+  resultEl.style.display = "block";
+  resultEl.textContent = "Looking up retail price…";
+
+  var wineParts = [vintage, producer, name, grape ? "("+grape+")" : "", appellation, region, country].filter(function(x){ return x; });
+  var wineDesc = wineParts.join(" ");
+
+    var prompt = "You are a wine pricing expert. For the wine: " + wineDesc + ". Search for current retail price and respond in this EXACT format - PRICE_RANGE: $XX - $XX USD | TYPICAL_PRICE: $XX USD | SOURCE_NOTE: where price found | PRICE_FACTORS: one sentence on price factors. If no specific data available, give best estimate based on appellation and producer and note it is an estimate.";
+
+  try {
+    var resp = await fetch("/api/price-check", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ wine: wineDesc, prompt: prompt })
+    });
+    var data = await resp.json();
+    if (data.result) {
+      // Parse and format the result nicely
+      var text = data.result;
+      var priceRange = (text.match(/PRICE_RANGE:\s*(.+)/i) || [])[1] || "";
+      var typical = (text.match(/TYPICAL_PRICE:\s*(.+)/i) || [])[1] || "";
+      var source = (text.match(/SOURCE_NOTE:\s*(.+)/i) || [])[1] || "";
+      var factors = (text.match(/PRICE_FACTORS:\s*(.+)/i) || [])[1] || "";
+
+      var html = "";
+      if (priceRange) html += "<strong>" + priceRange + "</strong>";
+      if (typical) html += " &nbsp;·&nbsp; Typical: " + typical;
+      if (source) html += "<br><span style='opacity:.7'>" + source + "</span>";
+      if (factors) html += "<br><span style='opacity:.6;font-style:italic'>" + factors + "</span>";
+      resultEl.innerHTML = html || text;
+
+      // Auto-fill price field if typical price found and field is empty
+      if (typical && !document.getElementById("fPrice").value) {
+        var numMatch = typical.match(/[\d,]+/);
+        if (numMatch) {
+          document.getElementById("fPrice").value = numMatch[0].replace(",","");
+        }
+      }
+    } else if (data.error) {
+      resultEl.textContent = "Error: " + data.error;
+    }
+  } catch(err) {
+    resultEl.textContent = "Failed to check price: " + err.message;
+  }
+  btn.disabled = false;
+  btn.textContent = "🔍 Check Price";
 }
 
 </script>
