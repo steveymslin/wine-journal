@@ -150,10 +150,19 @@ input[type="date"]{color-scheme:dark;}
 
     <input type="hidden" id="editId">
     <img id="previewImg" class="preview-img">
-    <div class="upload-zone">
-      <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleFile(event)">
-      <div class="upload-zone-icon">📷</div>
-      <div class="upload-hint" id="uploadHint">Tap to photograph the label</div>
+    <div id="photoPreviewWrap" style="display:none;margin-bottom:.75rem;position:relative">
+      <img id="previewImg" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;display:block;">
+      <button type="button" onclick="clearPhoto()" style="position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.55);border:none;color:white;border-radius:50%;width:26px;height:26px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem">
+      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
+        <input type="file" id="fileInputCamera" accept="image/*" capture="environment" onchange="handleFile(event,'camera')" style="display:none">
+        <span style="font-size:1.5rem">📷</span>Take Photo
+      </label>
+      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
+        <input type="file" id="fileInputAlbum" accept="image/*" onchange="handleFile(event,'album')" style="display:none">
+        <span style="font-size:1.5rem">🖼️</span>From Album
+      </label>
     </div>
     <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Read Label with AI</button>
     <div class="status-msg" id="statusMsg"></div>
@@ -162,7 +171,106 @@ input[type="date"]{color-scheme:dark;}
     <div class="section-label">Wine Info</div>
     <div class="field"><label>Wine Name *</label><input id="fName" placeholder="e.g. Maranges 1er Cru"></div>
     <div class="field"><label>Producer / Domaine</label><input id="fProducer" placeholder="e.g. Bachelet-Monnot"></div>
-    <div class="field"><label>Grape Variety</label><input id="fGrape" placeholder="e.g. Pinot Noir"></div>
+    <div class="field">
+      <label>Grape Variety</label>
+      <input id="fGrape" list="grapeList" placeholder="Select or type…" autocomplete="off">
+      <datalist id="grapeList">
+        <optgroup label="Red - French">
+          <option value="Pinot Noir"><option value="Cabernet Sauvignon"><option value="Merlot">
+          <option value="Cabernet Franc"><option value="Syrah"><option value="Grenache">
+          <option value="Malbec"><option value="Mourvedre"><option value="Cinsault">
+          <option value="Carignan"><option value="Gamay"><option value="Petit Verdot">
+          <option value="Carmenere"><option value="Tannat">
+        </optgroup>
+        <optgroup label="Red - Italian">
+          <option value="Nebbiolo"><option value="Sangiovese"><option value="Barbera">
+          <option value="Dolcetto"><option value="Montepulciano"><option value="Aglianico">
+          <option value="Primitivo"><option value="Nero d Avola"><option value="Cannonau">
+          <option value="Corvina"><option value="Rondinella"><option value="Molinara">
+          <option value="Teroldego"><option value="Lagrein"><option value="Sagrantino">
+          <option value="Nerello Mascalese"><option value="Nerello Cappuccio">
+          <option value="Gaglioppo"><option value="Negroamaro"><option value="Uva di Troia">
+          <option value="Freisa"><option value="Grignolino"><option value="Ruche">
+          <option value="Raboso"><option value="Marzemino"><option value="Schiava">
+          <option value="Refosco">
+        </optgroup>
+        <optgroup label="Red - Spanish">
+          <option value="Tempranillo"><option value="Garnacha"><option value="Monastrell">
+          <option value="Bobal"><option value="Mencía"><option value="Graciano">
+          <option value="Mazuelo"><option value="Carinena"><option value="Prieto Picudo">
+          <option value="Tinta de Toro"><option value="Albillo Negro">
+        </optgroup>
+        <optgroup label="Red - Portuguese">
+          <option value="Touriga Nacional"><option value="Touriga Franca"><option value="Tinta Roriz">
+          <option value="Tinta Barroca"><option value="Tinto Cao"><option value="Baga">
+          <option value="Trincadeira"><option value="Alfrocheiro"><option value="Castelao">
+          <option value="Tinta Amarela"><option value="Sousão">
+        </optgroup>
+        <optgroup label="Red - German / Austrian">
+          <option value="Spatburgunder"><option value="Trollinger"><option value="Lemberger">
+          <option value="Schwarzriesling"><option value="Dornfelder"><option value="Zweigelt">
+          <option value="Blaufrankisch"><option value="St Laurent"><option value="Blauer Portugieser">
+          <option value="Blauburger"><option value="Rotgipfler">
+        </optgroup>
+        <optgroup label="Red - New World / Other">
+          <option value="Zinfandel"><option value="Petite Sirah"><option value="Pinotage">
+          <option value="Xinomavro"><option value="Agiorgitiko"><option value="Mavrodaphne">
+          <option value="Saperavi"><option value="Rkatsiteli Red"><option value="Kadarka">
+          <option value="Kékfrankos"><option value="Feteasca Neagra">
+        </optgroup>
+        <optgroup label="White - French">
+          <option value="Chardonnay"><option value="Sauvignon Blanc"><option value="Viognier">
+          <option value="Roussanne"><option value="Marsanne"><option value="Grenache Blanc">
+          <option value="Clairette"><option value="Bourboulenc"><option value="Picpoul">
+          <option value="Muscadet (Melon de Bourgogne)"><option value="Chenin Blanc">
+          <option value="Semillon"><option value="Muscadelle"><option value="Ugni Blanc">
+          <option value="Savagnin"><option value="Gewurztraminer">
+        </optgroup>
+        <optgroup label="White - Italian">
+          <option value="Pinot Grigio"><option value="Garganega"><option value="Trebbiano">
+          <option value="Vermentino"><option value="Fiano"><option value="Greco">
+          <option value="Verdicchio"><option value="Arneis"><option value="Cortese">
+          <option value="Falanghina"><option value="Catarratto"><option value="Carricante">
+          <option value="Ribolla Gialla"><option value="Friulano"><option value="Malvasia Bianca">
+          <option value="Glera"><option value="Erbaluce"><option value="Timorasso">
+          <option value="Nosiola"><option value="Kerner"><option value="Sylvaner">
+          <option value="Vernaccia"><option value="Albana">
+        </optgroup>
+        <optgroup label="White - Spanish">
+          <option value="Albariño"><option value="Verdejo"><option value="Viura (Macabeo)">
+          <option value="Xarel-lo"><option value="Parellada"><option value="Godello">
+          <option value="Treixadura"><option value="Loureira"><option value="Palomino Fino">
+          <option value="Pedro Ximenez"><option value="Muscat Blanc a Petits Grains">
+          <option value="Airén"><option value="Garnacha Blanca">
+        </optgroup>
+        <optgroup label="White - German / Alsace / Austrian">
+          <option value="Riesling"><option value="Pinot Gris"><option value="Pinot Blanc">
+          <option value="Muscat"><option value="Gewurztraminer"><option value="Sylvaner">
+          <option value="Grüner Veltliner"><option value="Welschriesling"><option value="Neuburger">
+          <option value="Müller-Thurgau"><option value="Scheurebe"><option value="Kerner">
+          <option value="Bacchus"><option value="Rieslaner">
+        </optgroup>
+        <optgroup label="White - Portuguese">
+          <option value="Alvarinho"><option value="Loureiro"><option value="Arinto">
+          <option value="Encruzado"><option value="Bical"><option value="Antao Vaz">
+          <option value="Roupeiro"><option value="Fernão Pires"><option value="Viosinho">
+          <option value="Rabigato"><option value="Codega"><option value="Gouveio">
+          <option value="Sercial"><option value="Verdelho"><option value="Bual"><option value="Malmsey">
+        </optgroup>
+        <optgroup label="White - New World / Other">
+          <option value="Torrontes"><option value="Assyrtiko"><option value="Moschofilero">
+          <option value="Robola"><option value="Rkatsiteli"><option value="Mtsvane">
+          <option value="Furmint"><option value="Hárslevelű"><option value="Heida">
+          <option value="Petite Arvine"><option value="Amigne"><option value="Chasselas">
+        </optgroup>
+        <optgroup label="Blends">
+          <option value="Bordeaux Blend (Red)"><option value="Bordeaux Blend (White)">
+          <option value="Rhone Blend (Red)"><option value="Rhone Blend (White)">
+          <option value="GSM Blend"><option value="Field Blend"><option value="Meritage">
+          <option value="Super Tuscan"><option value="Proprietary Blend">
+        </optgroup>
+      </datalist>
+    </div>
     <div class="row2">
       <div class="field">
         <label>Wine Style</label>
@@ -233,8 +341,12 @@ input[type="date"]{color-scheme:dark;}
       <div class="score-label" id="scoreLabel">Score (1-10)</div>
       <div class="score-row" id="scoreRow"></div>
     </div>
-    <div class="section-label">Tasting Notes</div>
-    <div class="field"><textarea id="fComment" placeholder="Aroma, taste, finish, food pairing…"></textarea></div>
+    <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Tasting Notes</span>
+      <button type="button" id="wsetBtn" onclick="generateWsetNote()" style="font-size:.68rem;padding:.25rem .6rem;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(41,121,212,.2));border:1px solid rgba(74,158,255,.4);color:var(--acc);border-radius:5px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem">✦ Generate WSET Note</button>
+    </div>
+    <div id="wsetStatus" style="display:none;font-size:.75rem;color:var(--acc);padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;margin-bottom:.5rem;text-align:center">Generating WSET tasting note…</div>
+    <div class="field"><textarea id="fComment" placeholder="Write your tasting notes, or use ✦ Generate WSET Note above…" style="min-height:120px"></textarea></div>
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
   </div>
@@ -3553,18 +3665,28 @@ function clearForm() {
   setStatus("", "");
 }
 
-function handleFile(e) {
+function handleFile(e, source) {
   var file = e.target.files[0]; if (!file) return;
   var reader = new FileReader();
   reader.onload = function(ev) {
     currentImageData = ev.target.result;
+    var wrap = document.getElementById("photoPreviewWrap");
     var img = document.getElementById("previewImg");
-    img.src = currentImageData; img.style.display = "block";
-    document.getElementById("uploadHint").textContent = "Tap to change photo";
+    img.src = currentImageData;
+    wrap.style.display = "block";
     document.getElementById("analyzeBtn").style.display = "block";
     document.getElementById("analyzeBtn").disabled = false;
   };
   reader.readAsDataURL(file);
+}
+
+function clearPhoto() {
+  currentImageData = null;
+  document.getElementById("photoPreviewWrap").style.display = "none";
+  document.getElementById("previewImg").src = "";
+  document.getElementById("fileInputCamera").value = "";
+  document.getElementById("fileInputAlbum").value = "";
+  document.getElementById("analyzeBtn").disabled = true;
 }
 
 function setStatus(msg, type) {
@@ -3658,6 +3780,63 @@ async function deleteWine() {
 function exportCSV() { window.location.href = "/api/export"; }
 
 window.onload = init;
+
+async function generateWsetNote() {
+  var name = document.getElementById("fName").value.trim();
+  var producer = document.getElementById("fProducer").value.trim();
+  var grape = document.getElementById("fGrape").value.trim();
+  var vintage = document.getElementById("fVintage").value.trim();
+  var country = document.getElementById("fCountry").value;
+  var region = document.getElementById("fRegion").value;
+  var subregion = document.getElementById("fSubregion").value;
+  var appellation = document.getElementById("fAppellation").value;
+  var style = document.getElementById("fStyle").value;
+
+  // Build location string
+  var locationParts = [appellation, subregion, region, country].filter(function(x){ return x; });
+  var location = locationParts.join(", ");
+
+  if (!name && !grape && !location) {
+    alert("Please fill in at least the wine name, grape, or location first.");
+    return;
+  }
+
+  var btn = document.getElementById("wsetBtn");
+  var statusEl = document.getElementById("wsetStatus");
+  btn.disabled = true;
+  statusEl.style.display = "block";
+
+  var wineDesc = [
+    vintage ? vintage + " vintage" : "",
+    producer ? "by " + producer : "",
+    name || "",
+    grape ? "(" + grape + ")" : "",
+    style ? style + " wine" : "",
+    location ? "from " + location : ""
+  ].filter(function(x){ return x; }).join(" ");
+
+  var prompt = "You are a WSET Level 3/4 examiner. Write a structured WSET-style tasting note for this wine: " + wineDesc + ". Format using these sections - APPEARANCE: clarity, intensity, colour. NOSE: condition, intensity, then aroma characteristics including fruit, floral, spice, oak. PALATE: sweetness, acidity, tannin if red, alcohol, body, flavour intensity and characteristics, finish. CONCLUSIONS: quality level, drinking window and reasoning. Use precise WSET terminology specific to the grape variety, region, and vintage. Keep it concise and professional.";
+
+  try {
+    var resp = await fetch("/api/analyze", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({prompt: prompt, wset_mode: true})
+    });
+    var data = await resp.json();
+    if (data.tasting_note) {
+      document.getElementById("fComment").value = data.tasting_note;
+    } else if (data.error) {
+      alert("Error: " + data.error);
+    }
+  } catch(err) {
+    alert("Failed to generate tasting note: " + err.message);
+  }
+
+  btn.disabled = false;
+  statusEl.style.display = "none";
+}
+
 </script>
 </body>
 </html>
