@@ -187,7 +187,22 @@ input[type="date"]{color-scheme:dark;}
         <option>Germany</option><option>Portugal</option><option>USA</option>
         <option>Australia</option><option>New Zealand</option>
         <option>Argentina</option><option>Chile</option>
-        <option>South Africa</option><option>Austria</option><option>Other</option>
+        <option>South Africa</option><option>Austria</option>
+        <option>Hungary</option><option>Greece</option>
+        <option>Switzerland</option><option>Georgia</option>
+        <option>Lebanon</option><option>Israel</option>
+        <option>China</option><option>Japan</option>
+        <option>Thailand</option><option>India</option>
+        <option>Morocco</option><option>Tunisia</option>
+        <option>Algeria</option><option>Croatia</option>
+        <option>Slovenia</option><option>Romania</option>
+        <option>Bulgaria</option><option>Serbia</option>
+        <option>North Macedonia</option><option>Moldova</option>
+        <option>Ukraine</option><option>Turkey</option>
+        <option>Uruguay</option><option>Mexico</option>
+        <option>Brazil</option><option>Canada</option>
+        <option>England</option>
+        <option value="Other">Other (enter manually below)</option>
       </select>
     </div>
     <div class="field">
@@ -229,133 +244,3055 @@ input[type="date"]{color-scheme:dark;}
 var REGIONS = {
   "France": {
     "Bordeaux": {
-      "Left Bank": ["Pauillac","Saint-Estephe","Saint-Julien","Margaux","Listrac","Moulis"],
-      "Right Bank": ["Pomerol","Saint-Emilion","Fronsac"],
-      "Other Bordeaux": ["Graves","Sauternes","Pessac-Leognan","Entre-Deux-Mers"]
+      "Medoc": [
+        "Medoc AOC",
+        "Haut-Medoc",
+        "Saint-Estephe",
+        "Pauillac",
+        "Saint-Julien",
+        "Listrac-Medoc",
+        "Moulis-en-Medoc",
+        "Margaux",
+        "Saint-Laurent-Medoc"
+      ],
+      "Graves-Pessac": [
+        "Pessac-Leognan",
+        "Graves",
+        "Graves Superieures"
+      ],
+      "Sauternes-Barsac": [
+        "Sauternes",
+        "Barsac",
+        "Cerons",
+        "Cadillac",
+        "Loupiac",
+        "Sainte-Croix-du-Mont"
+      ],
+      "Right Bank-Pomerol": [
+        "Pomerol",
+        "Lalande-de-Pomerol"
+      ],
+      "Right Bank-Saint-Emilion": [
+        "Saint-Emilion",
+        "Saint-Emilion Grand Cru",
+        "Saint-Georges-Saint-Emilion",
+        "Montagne-Saint-Emilion",
+        "Lussac-Saint-Emilion",
+        "Puisseguin-Saint-Emilion"
+      ],
+      "Right Bank-Other": [
+        "Fronsac",
+        "Canon-Fronsac",
+        "Castillon-Cotes de Bordeaux",
+        "Blaye-Cotes de Bordeaux",
+        "Bourg",
+        "Cotes de Bourg",
+        "Francs-Cotes de Bordeaux"
+      ],
+      "Entre-Deux-Mers": [
+        "Entre-Deux-Mers",
+        "Entre-Deux-Mers-Haut-Benauge",
+        "Cadillac-Cotes de Bordeaux",
+        "Premieres Cotes de Bordeaux"
+      ],
+      "Generic Bordeaux": [
+        "Bordeaux AOC",
+        "Bordeaux Superieur",
+        "Bordeaux Rose",
+        "Cremant de Bordeaux"
+      ]
     },
     "Burgundy": {
-      "Cote de Nuits": ["Gevrey-Chambertin","Morey-Saint-Denis","Chambolle-Musigny","Vougeot","Vosne-Romanee","Nuits-Saint-Georges"],
-      "Cote de Beaune": ["Aloxe-Corton","Beaune","Pommard","Volnay","Meursault","Puligny-Montrachet","Chassagne-Montrachet","Maranges"],
-      "Cote Chalonnaise": ["Mercurey","Givry","Rully","Montagny"],
-      "Maconnais": ["Macon","Pouilly-Fuisse","Saint-Veran"],
-      "Chablis": ["Chablis","Petit Chablis","Chablis Grand Cru"],
-      "Beaujolais": ["Beaujolais","Fleurie","Moulin-a-Vent","Morgon","Brouilly"]
+      "Chablis": [
+        "Petit Chablis",
+        "Chablis",
+        "Chablis Premier Cru",
+        "Chablis Grand Cru Blanchot",
+        "Chablis Grand Cru Bougros",
+        "Chablis Grand Cru Les Clos",
+        "Chablis Grand Cru Grenouilles",
+        "Chablis Grand Cru Preuses",
+        "Chablis Grand Cru Valmur",
+        "Chablis Grand Cru Vaudesir",
+        "Irancy",
+        "Saint-Bris"
+      ],
+      "Cote de Nuits-Villages": [
+        "Marsannay Rouge",
+        "Marsannay Blanc",
+        "Marsannay Rose",
+        "Fixin",
+        "Cote de Nuits-Villages"
+      ],
+      "Gevrey-Chambertin": [
+        "Gevrey-Chambertin",
+        "Gevrey-Chambertin Premier Cru",
+        "Chambertin",
+        "Chambertin-Clos de Beze",
+        "Chapelle-Chambertin",
+        "Charmes-Chambertin",
+        "Griotte-Chambertin",
+        "Latricieres-Chambertin",
+        "Mazis-Chambertin",
+        "Mazoyeres-Chambertin",
+        "Ruchottes-Chambertin"
+      ],
+      "Morey-Saint-Denis": [
+        "Morey-Saint-Denis",
+        "Morey-Saint-Denis Premier Cru",
+        "Clos Saint-Denis",
+        "Clos de la Roche",
+        "Clos des Lambrays",
+        "Clos de Tart",
+        "Bonnes-Mares"
+      ],
+      "Chambolle-Musigny": [
+        "Chambolle-Musigny",
+        "Chambolle-Musigny Premier Cru",
+        "Musigny",
+        "Bonnes-Mares"
+      ],
+      "Vougeot": [
+        "Vougeot",
+        "Clos de Vougeot",
+        "Vougeot Premier Cru"
+      ],
+      "Vosne-Romanee": [
+        "Vosne-Romanee",
+        "Vosne-Romanee Premier Cru",
+        "Romanee-Conti",
+        "La Tache",
+        "Richebourg",
+        "Romanee-Saint-Vivant",
+        "La Romanee",
+        "La Grande Rue",
+        "Echezeaux",
+        "Grands Echezeaux"
+      ],
+      "Nuits-Saint-Georges": [
+        "Nuits-Saint-Georges",
+        "Nuits-Saint-Georges Premier Cru"
+      ],
+      "Cote de Beaune-Villages": [
+        "Ladoix",
+        "Pernand-Vergelesses",
+        "Aloxe-Corton",
+        "Savigny-les-Beaune",
+        "Chorey-les-Beaune",
+        "Cote de Beaune",
+        "Cote de Beaune-Villages"
+      ],
+      "Corton Grand Cru": [
+        "Corton",
+        "Corton-Charlemagne",
+        "Charlemagne"
+      ],
+      "Beaune": [
+        "Beaune",
+        "Beaune Premier Cru"
+      ],
+      "Pommard-Volnay": [
+        "Pommard",
+        "Pommard Premier Cru",
+        "Volnay",
+        "Volnay Premier Cru",
+        "Monthélie",
+        "Auxey-Duresses",
+        "Saint-Romain"
+      ],
+      "Meursault": [
+        "Meursault",
+        "Meursault Premier Cru",
+        "Blagny"
+      ],
+      "Puligny-Montrachet": [
+        "Puligny-Montrachet",
+        "Puligny-Montrachet Premier Cru",
+        "Montrachet",
+        "Chevalier-Montrachet",
+        "Batard-Montrachet",
+        "Bienvenues-Batard-Montrachet"
+      ],
+      "Chassagne-Montrachet": [
+        "Chassagne-Montrachet",
+        "Chassagne-Montrachet Premier Cru",
+        "Montrachet",
+        "Batard-Montrachet",
+        "Criots-Batard-Montrachet"
+      ],
+      "Other Cote de Beaune": [
+        "Saint-Aubin",
+        "Santenay",
+        "Maranges"
+      ],
+      "Cote Chalonnaise": [
+        "Bouzeron",
+        "Rully",
+        "Mercurey",
+        "Givry",
+        "Montagny"
+      ],
+      "Maconnais": [
+        "Macon",
+        "Macon-Villages",
+        "Pouilly-Fuisse",
+        "Pouilly-Loche",
+        "Pouilly-Vinzelles",
+        "Saint-Veran",
+        "Vire-Clesse",
+        "Viré-Clessé",
+        "Crémant de Bourgogne"
+      ],
+      "Beaujolais": [
+        "Beaujolais AOC",
+        "Beaujolais-Villages",
+        "Brouilly",
+        "Chenas",
+        "Chiroubles",
+        "Cote de Brouilly",
+        "Fleurie",
+        "Julienas",
+        "Morgon",
+        "Moulin-a-Vent",
+        "Regnie",
+        "Saint-Amour"
+      ]
     },
     "Champagne": {
-      "Champagne": ["Champagne AOC","Blanc de Blancs","Blanc de Noirs","Rose Champagne"]
+      "Montagne de Reims": [
+        "Bouzy",
+        "Ambonnay",
+        "Verzenay",
+        "Verzy",
+        "Mailly-Champagne",
+        "Sillery",
+        "Beaumont-sur-Vesle",
+        "Trépail"
+      ],
+      "Vallee de la Marne": [
+        "Ay",
+        "Hautvillers",
+        "Mareuil-sur-Ay",
+        "Epernay",
+        "Dizy",
+        "Cumières",
+        "Damery",
+        "Venteuil"
+      ],
+      "Cote des Blancs": [
+        "Cramant",
+        "Avize",
+        "Oger",
+        "Le Mesnil-sur-Oger",
+        "Vertus",
+        "Bergeres-les-Vertus",
+        "Chouilly",
+        "Grauves"
+      ],
+      "Cote des Bar": [
+        "Bar-sur-Aube",
+        "Les Riceys",
+        "Bar-sur-Seine",
+        "Urville",
+        "Gyé-sur-Seine"
+      ],
+      "Cote de Sezanne": [
+        "Sézanne",
+        "Barbonne-Fayel",
+        "Bethon"
+      ],
+      "Champagne Style": [
+        "Champagne AOC",
+        "Blanc de Blancs",
+        "Blanc de Noirs",
+        "Rose Champagne",
+        "Prestige Cuvee",
+        "Non-Vintage Brut",
+        "Vintage Champagne",
+        "Extra Brut",
+        "Brut Nature",
+        "Demi-Sec",
+        "Doux"
+      ]
     },
     "Rhone Valley": {
-      "Northern Rhone": ["Cote-Rotie","Hermitage","Crozes-Hermitage","Saint-Joseph","Cornas","Condrieu"],
-      "Southern Rhone": ["Chateauneuf-du-Pape","Gigondas","Vacqueyras","Lirac","Tavel"]
+      "Northern Rhone": [
+        "Cote-Rotie",
+        "Condrieu",
+        "Chateau-Grillet",
+        "Saint-Joseph",
+        "Crozes-Hermitage",
+        "Hermitage",
+        "Cornas",
+        "Saint-Peray"
+      ],
+      "Southern Rhone": [
+        "Chateauneuf-du-Pape",
+        "Gigondas",
+        "Vacqueyras",
+        "Beaumes-de-Venise",
+        "Rasteau",
+        "Vinsobres",
+        "Lirac",
+        "Tavel",
+        "Luberon",
+        "Ventoux",
+        "Grignan-les-Adhemar",
+        "Cotes du Rhone",
+        "Cotes du Rhone Villages",
+        "Costières de Nîmes",
+        "Clairette de Die",
+        "Coteaux du Tricastin"
+      ]
     },
     "Loire Valley": {
-      "Upper Loire": ["Sancerre","Pouilly-Fume","Menetou-Salon"],
-      "Middle Loire": ["Vouvray","Chinon","Bourgueil","Saumur"],
-      "Lower Loire": ["Muscadet","Anjou"]
+      "Pays Nantais": [
+        "Muscadet",
+        "Muscadet Sevre et Maine",
+        "Muscadet Coteaux de la Loire",
+        "Muscadet Côtes de Grandlieu",
+        "Muscadet sur Lie",
+        "Gros Plant du Pays Nantais",
+        "Fiefs Vendéens"
+      ],
+      "Anjou-Saumur": [
+        "Anjou",
+        "Anjou-Villages",
+        "Anjou-Villages-Brissac",
+        "Savennieres",
+        "Savennieres Coulee de Serrant",
+        "Savennieres Roche aux Moines",
+        "Coteaux du Layon",
+        "Coteaux du Layon Villages",
+        "Quarts de Chaume",
+        "Bonnezeaux",
+        "Coteaux de l Aubance",
+        "Saumur",
+        "Saumur-Champigny",
+        "Saumur Mousseux",
+        "Crement de Loire",
+        "Cabernet d Anjou",
+        "Rose d Anjou"
+      ],
+      "Touraine": [
+        "Touraine AOC",
+        "Touraine-Amboise",
+        "Touraine-Azay-le-Rideau",
+        "Touraine-Mesland",
+        "Touraine-Oisly",
+        "Chinon",
+        "Bourgueil",
+        "Saint-Nicolas-de-Bourgueil",
+        "Vouvray",
+        "Montlouis-sur-Loire",
+        "Coteaux du Loir",
+        "Jasnières",
+        "Cheverny",
+        "Cour-Cheverny"
+      ],
+      "Central Vineyards": [
+        "Sancerre",
+        "Pouilly-Fume",
+        "Pouilly-sur-Loire",
+        "Menetou-Salon",
+        "Quincy",
+        "Reuilly",
+        "Chateaumeillant",
+        "Coteaux du Giennois",
+        "Orléans",
+        "Orleans-Clery"
+      ]
     },
     "Alsace": {
-      "Alsace": ["Alsace AOC","Alsace Grand Cru","Cremant d Alsace"]
+      "Alsace": [
+        "Alsace AOC",
+        "Alsace Grand Cru",
+        "Cremant dAlsace",
+        "Alsace Riesling",
+        "Alsace Gewurztraminer",
+        "Alsace Pinot Gris",
+        "Alsace Muscat",
+        "Alsace Pinot Noir",
+        "Alsace Sylvaner",
+        "Alsace Pinot Blanc",
+        "Alsace Edelzwicker",
+        "Alsace Gentil",
+        "Vendange Tardive",
+        "Selection de Grains Nobles"
+      ],
+      "Alsace Grand Cru": [
+        "Altenberg de Bergbieten",
+        "Altenberg de Bergheim",
+        "Altenberg de Wolxheim",
+        "Brand",
+        "Bruderthal",
+        "Eichberg",
+        "Engelberg",
+        "Florimont",
+        "Frankstein",
+        "Froehn",
+        "Furstentum",
+        "Geisberg",
+        "Gloeckelberg",
+        "Goldert",
+        "Hatschbourg",
+        "Hengst",
+        "Kanzlerberg",
+        "Kastelberg",
+        "Kessler",
+        "Kirchberg de Barr",
+        "Kirchberg de Ribeauville",
+        "Kitterlé",
+        "Mambourg",
+        "Mandelberg",
+        "Marckrain",
+        "Moenchberg",
+        "Muenchberg",
+        "Ollwiller",
+        "Osterberg",
+        "Pfersigberg",
+        "Pfingstberg",
+        "Praelatenberg",
+        "Rangen",
+        "Rosacker",
+        "Saering",
+        "Schlossberg",
+        "Schoenenbourg",
+        "Sommerberg",
+        "Sonnenglanz",
+        "Spiegel",
+        "Sporen",
+        "Steinert",
+        "Steingrubler",
+        "Steinklotz",
+        "Vorbourg",
+        "Wiebelsberg",
+        "Wineck-Schlossberg",
+        "Winzenberg",
+        "Zinnkoepflé",
+        "Zotzenberg"
+      ]
     },
     "Provence": {
-      "Provence": ["Cotes de Provence","Bandol","Cassis"]
+      "Provence": [
+        "Cotes de Provence",
+        "Cotes de Provence Sainte-Victoire",
+        "Cotes de Provence Pierrefeu",
+        "Cotes de Provence La Londe",
+        "Cotes de Provence Frejus",
+        "Bandol",
+        "Cassis",
+        "Bellet",
+        "Palette",
+        "Les Baux-de-Provence",
+        "Coteaux d Aix-en-Provence",
+        "Coteaux Varois en Provence",
+        "Coteaux de Pierrevert",
+        "Coteaux d Entraygues",
+        "Pierce"
+      ]
     },
     "Jura": {
-      "Jura": ["Arbois","Cotes du Jura","Chateau-Chalon"]
+      "Jura": [
+        "Arbois",
+        "Arbois Vin Jaune",
+        "Arbois Vin de Paille",
+        "Arbois-Pupillin",
+        "Cotes du Jura",
+        "Cotes du Jura Vin Jaune",
+        "Cotes du Jura Vin de Paille",
+        "Etoile",
+        "Etoile Vin Jaune",
+        "Chateau-Chalon",
+        "Macvin du Jura",
+        "Cremant du Jura"
+      ]
     },
-    "South West": {
-      "South West": ["Cahors","Madiran","Jurançon","Gaillac","Bergerac"]
+    "Savoie": {
+      "Savoie": [
+        "Vin de Savoie",
+        "Roussette de Savoie",
+        "Seyssel",
+        "Seyssel Mousseux",
+        "Bugey",
+        "Cerdon",
+        "Vin de Savoie Apremont",
+        "Vin de Savoie Abymes",
+        "Vin de Savoie Chignin",
+        "Vin de Savoie Chignin-Bergeron",
+        "Vin de Savoie Crépy"
+      ]
+    },
+    "Southwest France": {
+      "Gascony-Lot": [
+        "Gaillac",
+        "Gaillac Mousseux",
+        "Cotes du Frontonnais",
+        "Cotes de Gascogne",
+        "Buzet",
+        "Cotes du Marmandais",
+        "Brulhois",
+        "Entraygues-Le Fel",
+        "Estaing",
+        "Marcillac",
+        "Côtes d Aveyron"
+      ],
+      "Pyrenees": [
+        "Madiran",
+        "Pacherenc du Vic-Bilh",
+        "Jurancon",
+        "Jurancon Sec",
+        "Irouleguy",
+        "Bearn",
+        "Tursan"
+      ],
+      "Perigord": [
+        "Bergerac",
+        "Bergerac Sec",
+        "Bergerac Rouge",
+        "Côtes de Bergerac",
+        "Pecharmant",
+        "Monbazillac",
+        "Saussignac",
+        "Montravel",
+        "Haut-Montravel",
+        "Côtes de Montravel",
+        "Rosette"
+      ]
     },
     "Languedoc": {
-      "Languedoc": ["Languedoc AOC","Pic Saint-Loup","Faugeres","Saint-Chinian","Fitou"]
+      "Languedoc-Herault": [
+        "Languedoc AOC",
+        "Pic Saint-Loup",
+        "La Clape",
+        "Terrasses du Larzac",
+        "Pezenas",
+        "Montpeyroux",
+        "Saint-Saturnin",
+        "Cabrières",
+        "Grés de Montpellier",
+        "Sommières",
+        "Picpoul de Pinet",
+        "Clairette du Languedoc",
+        "Muscat de Lunel",
+        "Muscat de Mireval",
+        "Muscat de Frontignan",
+        "Muscat de Saint-Jean-de-Minervois"
+      ],
+      "Languedoc-Aude": [
+        "Faugeres",
+        "Saint-Chinian",
+        "Minervois",
+        "Minervois La Liviniere",
+        "Fitou",
+        "Corbières",
+        "Corbières-Boutenac",
+        "Malepere",
+        "Cabardès",
+        "Limoux",
+        "Blanquette de Limoux",
+        "Blanquette Méthode Ancestrale",
+        "Cremant de Limoux"
+      ]
+    },
+    "Roussillon": {
+      "Roussillon": [
+        "Cotes du Roussillon",
+        "Cotes du Roussillon Villages",
+        "Cotes du Roussillon Villages Caramany",
+        "Cotes du Roussillon Villages Lesquerde",
+        "Cotes du Roussillon Villages Latour de France",
+        "Cotes du Roussillon Villages Tautavel",
+        "Collioure",
+        "Maury",
+        "Maury Sec",
+        "Banyuls",
+        "Banyuls Grand Cru",
+        "Rivesaltes",
+        "Muscat de Rivesaltes",
+        "Muscat de Noël"
+      ]
+    },
+    "Corsica": {
+      "Corsica": [
+        "Patrimonio",
+        "Ajaccio",
+        "Vin de Corse",
+        "Vin de Corse Calvi",
+        "Vin de Corse Coteaux du Cap Corse",
+        "Vin de Corse Figari",
+        "Vin de Corse Porto Vecchio",
+        "Vin de Corse Sartène",
+        "Muscat du Cap Corse"
+      ]
     }
   },
   "Italy": {
     "Piedmont": {
-      "Piedmont": ["Barolo","Barbaresco","Barbera dAsti","Barbera dAlba","Dolcetto","Moscato dAsti","Gavi","Roero"]
+      "Barolo-Barbaresco": [
+        "Barolo",
+        "Barbaresco",
+        "Barolo DOCG",
+        "Barbaresco DOCG",
+        "Barolo Serralunga",
+        "Barolo La Morra",
+        "Barolo Castiglione Falletto",
+        "Barolo Barolo",
+        "Barolo Novello",
+        "Barbaresco Treiso",
+        "Barbaresco Neive"
+      ],
+      "Langhe": [
+        "Langhe DOC",
+        "Langhe Nebbiolo",
+        "Nebbiolo d Alba",
+        "Dolcetto d Alba",
+        "Dolcetto d Asti",
+        "Dolcetto di Dogliani",
+        "Dolcetto di Ovada",
+        "Dogliani",
+        "Diano d Alba",
+        "Barbera d Alba",
+        "Roero"
+      ],
+      "Monferrato-Asti": [
+        "Barbera d Asti",
+        "Barbera d Asti Superiore",
+        "Nizza",
+        "Grignolino d Asti",
+        "Grignolino del Monferrato Casalese",
+        "Freisa d Asti",
+        "Malvasia di Casorzo",
+        "Ruche di Castagnole Monferrato",
+        "Monferrato DOC"
+      ],
+      "Spumante-Other": [
+        "Moscato d Asti",
+        "Asti Spumante",
+        "Bracchetto d Acqui",
+        "Alta Langa",
+        "Erbaluce di Caluso",
+        "Caluso Passito",
+        "Loazzolo",
+        "Piemonte DOC",
+        "Gavi",
+        "Cortese di Gavi"
+      ],
+      "Novara-Vercelli Hills": [
+        "Ghemme",
+        "Gattinara",
+        "Boca",
+        "Bramaterra",
+        "Lessona",
+        "Sizzano",
+        "Fara",
+        "Colline Novaresi"
+      ]
     },
     "Tuscany": {
-      "Tuscany": ["Chianti","Chianti Classico","Brunello di Montalcino","Vino Nobile di Montepulciano","Bolgheri","Maremma"]
+      "Chianti": [
+        "Chianti DOCG",
+        "Chianti Classico DOCG",
+        "Chianti Classico Riserva",
+        "Chianti Classico Gran Selezione",
+        "Chianti Rufina",
+        "Chianti Colli Senesi",
+        "Chianti Colli Fiorentini",
+        "Chianti Colli Aretini",
+        "Chianti Colline Pisane",
+        "Chianti Montalbano",
+        "Chianti Montespertoli",
+        "Chianti Superiore"
+      ],
+      "Montalcino-Montepulciano": [
+        "Brunello di Montalcino",
+        "Brunello di Montalcino Riserva",
+        "Rosso di Montalcino",
+        "Vino Nobile di Montepulciano",
+        "Vino Nobile di Montepulciano Riserva",
+        "Rosso di Montepulciano",
+        "Morellino di Scansano",
+        "Morellino di Scansano Riserva"
+      ],
+      "Bolgheri-Coast": [
+        "Bolgheri",
+        "Bolgheri Sassicaia",
+        "Bolgheri Superiore",
+        "Maremma Toscana",
+        "Monteregio di Massa Marittima",
+        "Pitigliano",
+        "Sovana",
+        "Capalbio",
+        "Ansonica Costa dell Argentario",
+        "Parrina"
+      ],
+      "Other Tuscany": [
+        "Vernaccia di San Gimignano",
+        "Vernaccia di San Gimignano Riserva",
+        "Carmignano",
+        "Carmignano Riserva",
+        "Barco Reale di Carmignano",
+        "Pomino",
+        "Val di Cornia",
+        "Suvereto",
+        "Elba",
+        "Orcia",
+        "Bianco di Pitigliano",
+        "Colli dell Etruria Centrale",
+        "Colline Lucchesi",
+        "Montecarlo",
+        "Candia dei Colli Apuani",
+        "Cortona",
+        "Montecucco",
+        "Scansano"
+      ]
     },
     "Veneto": {
-      "Veneto": ["Amarone","Valpolicella","Soave","Prosecco","Bardolino"]
+      "Valpolicella-Verona": [
+        "Valpolicella",
+        "Valpolicella Classico",
+        "Valpolicella Ripasso",
+        "Amarone della Valpolicella",
+        "Amarone della Valpolicella Classico",
+        "Recioto della Valpolicella",
+        "Bardolino",
+        "Bardolino Superiore",
+        "Bianco di Custoza",
+        "Lugana",
+        "Valdadige",
+        "Lessini Durello"
+      ],
+      "Soave": [
+        "Soave",
+        "Soave Classico",
+        "Soave Superiore",
+        "Recioto di Soave",
+        "Gambellara"
+      ],
+      "Prosecco": [
+        "Prosecco DOC",
+        "Prosecco Superiore DOCG",
+        "Conegliano Valdobbiadene Prosecco",
+        "Asolo Prosecco",
+        "Cartizze",
+        "Colli Asolani"
+      ],
+      "Other Veneto": [
+        "Colli Euganei",
+        "Breganze",
+        "Colli Berici",
+        "Montello",
+        "Piave",
+        "Lison-Pramaggiore",
+        "Vini del Piave",
+        "Colli di Conegliano",
+        "Montello Rosso"
+      ]
     },
-    "Sicily": {
-      "Sicily": ["Etna","Nero dAvola","Marsala","Cerasuolo di Vittoria"]
+    "Friuli-Venezia Giulia": {
+      "Collio-Colli Orientali": [
+        "Collio",
+        "Collio Goriziano",
+        "Colli Orientali del Friuli",
+        "Colli Orientali del Friuli Picolit",
+        "Ramandolo"
+      ],
+      "Other Friuli": [
+        "Friuli Isonzo",
+        "Friuli Grave",
+        "Friuli Aquileia",
+        "Friuli Latisana",
+        "Friuli Annia",
+        "Carso",
+        "Friuli Venezia Giulia IGT"
+      ]
+    },
+    "Trentino-Alto Adige": {
+      "Alto Adige": [
+        "Alto Adige DOC",
+        "Alto Adige Santa Maddalena",
+        "Alto Adige Lago di Caldaro",
+        "Alto Adige Terlano",
+        "Alto Adige Valle Isarco",
+        "Alto Adige Valle Venosta",
+        "Alto Adige Meranese",
+        "Valdadige Terra dei Forti"
+      ],
+      "Trentino": [
+        "Trentino DOC",
+        "Trento DOC",
+        "Teroldego Rotaliano",
+        "Marzemino d Isera",
+        "Nosiola",
+        "Trentino Superiore",
+        "Valdadige"
+      ]
+    },
+    "Lombardy": {
+      "Franciacorta": [
+        "Franciacorta DOCG",
+        "Franciacorta Brut",
+        "Franciacorta Saten",
+        "Franciacorta Rose",
+        "Franciacorta Blanc de Blancs",
+        "Curtefranca",
+        "Sebino"
+      ],
+      "Valtellina": [
+        "Valtellina Superiore",
+        "Valtellina Superiore Sassella",
+        "Valtellina Superiore Grumello",
+        "Valtellina Superiore Inferno",
+        "Valtellina Superiore Valgella",
+        "Valtellina Superiore Maroggia",
+        "Sforzato di Valtellina",
+        "Valtellina Rosso"
+      ],
+      "Oltrepo Pavese": [
+        "Oltrepo Pavese",
+        "Oltrepo Pavese Metodo Classico",
+        "Buttafuoco dell Oltrepo Pavese",
+        "Sangue di Giuda dell Oltrepo Pavese"
+      ],
+      "Other Lombardy": [
+        "Lugana",
+        "Garda",
+        "Garda Classico",
+        "Riviera del Garda Classico",
+        "Botticino",
+        "Capriano del Colle",
+        "Lambrusco Mantovano",
+        "Valcalepio",
+        "San Colombano al Lambro",
+        "Scanzo",
+        "Moscato di Scanzo"
+      ]
+    },
+    "Emilia-Romagna": {
+      "Emilia": [
+        "Lambrusco di Sorbara",
+        "Lambrusco Salamino di Santa Croce",
+        "Lambrusco Grasparossa di Castelvetro",
+        "Lambrusco Reggiano",
+        "Colli Bolognesi",
+        "Colli Bolognesi Classico Pignoletto",
+        "Colli di Parma",
+        "Colli Piacentini"
+      ],
+      "Romagna": [
+        "Sangiovese di Romagna",
+        "Albana di Romagna",
+        "Pagadebit di Romagna",
+        "Trebbiano di Romagna",
+        "Cagnina di Romagna",
+        "Colli di Faenza",
+        "Colli d Imola",
+        "Colli di Rimini",
+        "Colli Romagna Centrale"
+      ]
+    },
+    "Marche": {
+      "Marche": [
+        "Verdicchio dei Castelli di Jesi",
+        "Verdicchio dei Castelli di Jesi Classico",
+        "Verdicchio dei Castelli di Jesi Superiore",
+        "Verdicchio di Matelica",
+        "Rosso Conero",
+        "Rosso Conero Riserva",
+        "Rosso Piceno",
+        "Rosso Piceno Superiore",
+        "Lacrima di Morro d Alba",
+        "Offida",
+        "Colli Pesaresi",
+        "Vernaccia di Serrapetrona",
+        "Terre di Offida"
+      ]
+    },
+    "Umbria": {
+      "Umbria": [
+        "Sagrantino di Montefalco",
+        "Montefalco Sagrantino Passito",
+        "Montefalco Rosso",
+        "Montefalco Bianco",
+        "Orvieto",
+        "Orvieto Classico",
+        "Torgiano",
+        "Torgiano Riserva",
+        "Colli Martani",
+        "Colli Perugini",
+        "Colli del Trasimeno",
+        "Colli Amerini",
+        "Lago di Corbara"
+      ]
+    },
+    "Abruzzo-Molise": {
+      "Abruzzo": [
+        "Montepulciano d Abruzzo",
+        "Montepulciano d Abruzzo Colline Teramane",
+        "Cerasuolo d Abruzzo",
+        "Trebbiano d Abruzzo",
+        "Pecorino",
+        "Terre Tollesi",
+        "Villamagna",
+        "Controguerra",
+        "Ortona",
+        "Colline Teatine"
+      ],
+      "Molise": [
+        "Molise DOC",
+        "Biferno",
+        "Pentro di Isernia",
+        "Tintilia del Molise"
+      ]
     },
     "Campania": {
-      "Campania": ["Taurasi","Greco di Tufo","Fiano di Avellino"]
+      "Campania": [
+        "Taurasi",
+        "Taurasi Riserva",
+        "Aglianico del Taburno",
+        "Greco di Tufo",
+        "Fiano di Avellino",
+        "Lacryma Christi del Vesuvio",
+        "Falanghina del Sannio",
+        "Sannio",
+        "Solopaca",
+        "Campi Flegrei",
+        "Ischia",
+        "Cilento",
+        "Costa d Amalfi",
+        "Casavecchia di Pontelatone",
+        "Pallagrello",
+        "Aversa",
+        "Galluccio"
+      ]
+    },
+    "Sicily": {
+      "Sicily": [
+        "Etna Rosso",
+        "Etna Bianco",
+        "Etna Rosato",
+        "Nero d Avola",
+        "Cerasuolo di Vittoria",
+        "Cerasuolo di Vittoria Classico",
+        "Marsala",
+        "Marsala Superiore",
+        "Marsala Vergine",
+        "Marsala Superiore Riserva",
+        "Moscato di Pantelleria",
+        "Passito di Pantelleria",
+        "Malvasia delle Lipari",
+        "Sicilia DOC",
+        "Menfi",
+        "Sciacca",
+        "Alcamo",
+        "Faro",
+        "Mamertino",
+        "Noto",
+        "Vittoria",
+        "Contea di Sclafani",
+        "Contessa Entellina",
+        "Delia Nivolelli",
+        "Eloro",
+        "Monreale",
+        "Riesi",
+        "Salaparuta",
+        "Sambuca di Sicilia",
+        "Santa Margherita di Belice"
+      ],
+      "Pantelleria-Lipari": [
+        "Moscato di Pantelleria",
+        "Passito di Pantelleria",
+        "Moscato Passito di Pantelleria",
+        "Malvasia delle Lipari",
+        "Malvasia delle Lipari Passito"
+      ]
+    },
+    "Sardinia": {
+      "Sardinia": [
+        "Cannonau di Sardegna",
+        "Cannonau di Sardegna Classico",
+        "Vermentino di Sardegna",
+        "Vermentino di Gallura",
+        "Vermentino di Gallura Superiore",
+        "Carignano del Sulcis",
+        "Nuragus di Cagliari",
+        "Moscato di Sardegna",
+        "Moscato di Cagliari",
+        "Malvasia di Bosa",
+        "Malvasia di Cagliari",
+        "Vernaccia di Oristano",
+        "Monica di Sardegna",
+        "Giro di Cagliari",
+        "Nasco di Cagliari",
+        "Bovale",
+        "Alghero",
+        "Arborea",
+        "Campidano di Terralba",
+        "Mandrolisai"
+      ]
+    },
+    "Puglia": {
+      "Salento": [
+        "Primitivo di Manduria",
+        "Primitivo di Manduria Dolce Naturale",
+        "Salice Salentino",
+        "Salice Salentino Riserva",
+        "Negroamaro",
+        "Copertino",
+        "Brindisi",
+        "Squinzano",
+        "Aleatico di Puglia",
+        "Leverano",
+        "Nardo",
+        "Alezio"
+      ],
+      "Other Puglia": [
+        "Castel del Monte",
+        "Castel del Monte Nero di Troia Riserva",
+        "Gioia del Colle",
+        "Locorotondo",
+        "Martina Franca",
+        "Gravina",
+        "Ostuni",
+        "San Severo",
+        "Orta Nova",
+        "Rosso Canosa"
+      ]
+    },
+    "Calabria": {
+      "Calabria": [
+        "Ciro",
+        "Ciro Rosso Classico",
+        "Ciro Bianco",
+        "Greco di Bianco",
+        "Greco di Bianco Passito",
+        "Savuto",
+        "Lamezia",
+        "Scavigna",
+        "Melissa",
+        "Verbicaro",
+        "Bivongi",
+        "Donnici",
+        "Sant Andrea Apostolo dello Ionio",
+        "Terre di Cosenza"
+      ]
+    },
+    "Basilicata": {
+      "Basilicata": [
+        "Aglianico del Vulture",
+        "Aglianico del Vulture Superiore",
+        "Matera",
+        "Grottino di Roccanova",
+        "Terre dell Alta Val d Agri"
+      ]
+    },
+    "Lazio": {
+      "Lazio": [
+        "Frascati",
+        "Frascati Superiore",
+        "Frascati Superiore Riserva",
+        "Est Est Est di Montefiascone",
+        "Cesanese del Piglio",
+        "Cesanese di Affile",
+        "Cesanese di Olevano Romano",
+        "Marino",
+        "Velletri",
+        "Castelli Romani",
+        "Aleatico di Gradoli",
+        "Cori",
+        "Aprilia",
+        "Bianco Capena",
+        "Cerveteri",
+        "Circeo",
+        "Colli Albani",
+        "Colli Lanuvini",
+        "Genazzano",
+        "Montecompatri Colonna",
+        "Zagarolo",
+        "Tarquinia",
+        "Vignanello"
+      ]
+    },
+    "Liguria": {
+      "Liguria": [
+        "Cinque Terre",
+        "Cinque Terre Sciacchetrà",
+        "Riviera Ligure di Ponente",
+        "Colli di Luni",
+        "Rossese di Dolceacqua",
+        "Ormeasco di Pornassio",
+        "Colline di Levanto",
+        "Golfo del Tigullio-Portofino"
+      ]
     }
   },
   "Spain": {
     "Rioja": {
-      "Rioja": ["Rioja Alavesa","Rioja Alta","Rioja Oriental"]
+      "Rioja": [
+        "Rioja DOCa",
+        "Rioja Alta",
+        "Rioja Alavesa",
+        "Rioja Oriental",
+        "Rioja Crianza",
+        "Rioja Reserva",
+        "Rioja Gran Reserva",
+        "Rioja Blanco",
+        "Rioja Rosado"
+      ]
     },
     "Ribera del Duero": {
-      "Ribera del Duero": ["Ribera del Duero DO"]
+      "Ribera del Duero": [
+        "Ribera del Duero DO",
+        "Ribera del Duero Crianza",
+        "Ribera del Duero Reserva",
+        "Ribera del Duero Gran Reserva"
+      ]
     },
     "Priorat": {
-      "Priorat": ["Priorat DOCa","Montsant"]
+      "Priorat-Montsant": [
+        "Priorat DOCa",
+        "Montsant",
+        "Priorat Vi de Vila",
+        "Priorat Vi de Paratge"
+      ]
     },
     "Galicia": {
-      "Galicia": ["Rias Baixas","Ribeiro","Valdeorras"]
+      "Galicia": [
+        "Rias Baixas",
+        "Rias Baixas Val do Salnes",
+        "Rias Baixas O Rosal",
+        "Rias Baixas Condado do Tea",
+        "Rias Baixas Soutomaior",
+        "Rias Baixas Ribeira do Ulla",
+        "Ribeiro",
+        "Valdeorras",
+        "Ribeira Sacra",
+        "Ribeira Sacra Amandi",
+        "Ribeira Sacra Chantada",
+        "Monterrei",
+        "Monterrei Val de Monterrei"
+      ]
+    },
+    "Catalonia": {
+      "Penedes-Cava": [
+        "Cava",
+        "Corpinnat",
+        "Penedes",
+        "Alt Penedes",
+        "Penedes Maritim",
+        "Cava Brut",
+        "Cava Reserva",
+        "Cava Gran Reserva"
+      ],
+      "Other Catalonia": [
+        "Conca de Barbera",
+        "Costers del Segre",
+        "Emporda",
+        "Pla de Bages",
+        "Alella",
+        "Terra Alta",
+        "Catalunya DOC",
+        "Pla i Llevant",
+        "Tarragona",
+        "Tarragona Clàssic"
+      ]
+    },
+    "Castile-Leon": {
+      "Castile-Leon": [
+        "Ribera del Duero",
+        "Rueda",
+        "Rueda Verdejo",
+        "Rueda Sauvignon Blanc",
+        "Toro",
+        "Bierzo",
+        "Bierzo Mencía",
+        "Cigales",
+        "Arlanza",
+        "Arribes",
+        "Tierra del Vino de Zamora",
+        "Sierra de Salamanca",
+        "Tierra de Leon"
+      ]
+    },
+    "La Mancha-Castile": {
+      "La Mancha": [
+        "La Mancha DO",
+        "Valdepenas",
+        "Manchuela",
+        "Almansa",
+        "Uclés",
+        "Ribera del Jucar",
+        "Jumilla",
+        "Yecla",
+        "Bullas"
+      ],
+      "Madrid-Extremadura": [
+        "Vinos de Madrid",
+        "Ribera del Guadiana",
+        "Montanchez",
+        "Cañamero",
+        "Ribera Alta del Guadiana",
+        "Tierra de Barros"
+      ]
+    },
+    "Basque-Navarre": {
+      "Basque Country": [
+        "Txakoli de Getaria",
+        "Txakoli de Bizkaia",
+        "Txakoli de Alava",
+        "Getariako Txakolina",
+        "Bizkaiko Txakolina"
+      ],
+      "Navarre": [
+        "Navarra DO",
+        "Pago de Arinzano",
+        "Pago Señorio de Arinez"
+      ]
+    },
+    "Aragon": {
+      "Aragon": [
+        "Campo de Borja",
+        "Carinena",
+        "Calatayud",
+        "Somontano",
+        "Vin de Pays dAragon"
+      ]
     },
     "Andalusia": {
-      "Andalusia": ["Jerez Sherry","Manzanilla","Montilla-Moriles"]
+      "Sherry": [
+        "Jerez-Xeres-Sherry",
+        "Manzanilla",
+        "Manzanilla de Sanlucar",
+        "Sherry Fino",
+        "Sherry Amontillado",
+        "Sherry Oloroso",
+        "Sherry Palo Cortado",
+        "Sherry Cream",
+        "Sherry Pedro Ximenez",
+        "Sherry Moscatel",
+        "Sherry En Rama"
+      ],
+      "Other Andalusia": [
+        "Montilla-Moriles",
+        "Malaga",
+        "Sierras de Malaga",
+        "Condado de Huelva",
+        "Granada"
+      ]
+    },
+    "Valencia": {
+      "Valencia": [
+        "Valencia DO",
+        "Utiel-Requena",
+        "Alicante",
+        "Alicante Fondillon",
+        "Cava Valenciano"
+      ]
+    },
+    "Canary Islands": {
+      "Canary Islands": [
+        "Tenerife",
+        "Tacoronte-Acentejo",
+        "Valle de la Orotava",
+        "Ycoden-Daute-Isora",
+        "Valle de Güimar",
+        "Abona",
+        "El Hierro",
+        "Lanzarote",
+        "Gran Canaria",
+        "La Palma",
+        "La Gomera"
+      ]
+    },
+    "Murcia": {
+      "Murcia": [
+        "Jumilla",
+        "Yecla",
+        "Bullas"
+      ]
+    },
+    "Balearic Islands": {
+      "Balearics": [
+        "Binissalem",
+        "Pla i Llevant",
+        "Vi de la Terra Formentera",
+        "Ibiza"
+      ]
     }
   },
   "Germany": {
-    "Mosel": {"Mosel": ["Mosel","Saar","Ruwer"]},
-    "Rheingau": {"Rheingau": ["Rheingau"]},
-    "Rheinhessen": {"Rheinhessen": ["Rheinhessen"]},
-    "Pfalz": {"Pfalz": ["Pfalz"]},
-    "Other": {"Other": ["Baden","Wurttemberg","Franken","Nahe"]}
+    "Mosel": {
+      "Middle Mosel": [
+        "Bernkastel",
+        "Bernkastel Doctor",
+        "Graach",
+        "Wehlen",
+        "Wehlen Sonnenuhr",
+        "Zeltingen",
+        "Urzig",
+        "Erden",
+        "Trittenheim",
+        "Neumagen",
+        "Piesport",
+        "Piesport Goldtröpfchen",
+        "Brauneberg",
+        "Brauneberg Juffer",
+        "Dhron"
+      ],
+      "Saar": [
+        "Scharzhofberg",
+        "Wiltingen",
+        "Kanzem",
+        "Ockfen",
+        "Serrig",
+        "Ayl",
+        "Bockstein",
+        "Wawern"
+      ],
+      "Ruwer": [
+        "Kasel",
+        "Mertesdorf",
+        "Waldrach",
+        "Eitelsbach",
+        "Maximin Grünhaus",
+        "Karthauserhofberg"
+      ],
+      "Upper-Lower Mosel": [
+        "Cochemer Zeyl",
+        "Terrassenmosel",
+        "Bremm",
+        "Senheim",
+        "Zell",
+        "Merl",
+        "Bullay"
+      ]
+    },
+    "Rheingau": {
+      "Rheingau": [
+        "Hochheim",
+        "Johannisberg",
+        "Johannisberg Klaus",
+        "Geisenheim",
+        "Rudesheim",
+        "Rudesheim Berg Schlossberg",
+        "Hattenheim",
+        "Marcobrunn",
+        "Steinberg",
+        "Erbach",
+        "Kiedrich",
+        "Kiedrich Grafenberg",
+        "Rauenthal",
+        "Winkel",
+        "Schloss Vollrads",
+        "Oestrich",
+        "Hallgarten",
+        "Assmannshausen",
+        "Lorch"
+      ]
+    },
+    "Rheinhessen": {
+      "Rheinhessen": [
+        "Nierstein",
+        "Nierstein Pettenthal",
+        "Nierstein Hipping",
+        "Nierstein Oelberg",
+        "Oppenheim",
+        "Nackenheim",
+        "Nackenheim Rothenberg",
+        "Bingen",
+        "Ingelheim",
+        "Westhofen",
+        "Bechtheim",
+        "Alsheim",
+        "Guntersblum",
+        "Florsheim-Dalsheim"
+      ]
+    },
+    "Pfalz": {
+      "Mittelhaardt": [
+        "Forst",
+        "Forst Kirchenstück",
+        "Forst Jesuitengarten",
+        "Deidesheim",
+        "Ruppertsberg",
+        "Wachenheim",
+        "Wachenheim Gerümpel"
+      ],
+      "South Pfalz": [
+        "Bad Durkheim",
+        "Ungstein",
+        "Kallstadt",
+        "Freinsheim",
+        "Burrweiler",
+        "Schweigen",
+        "Leinsweiler",
+        "Siebeldingen",
+        "Birkweiler",
+        "Ilbesheim"
+      ]
+    },
+    "Nahe": {
+      "Nahe": [
+        "Schlossböckelheim",
+        "Niederhausen",
+        "Norheim",
+        "Traisen",
+        "Bad Kreuznach",
+        "Roxheim",
+        "Dorsheim",
+        "Burg Layen",
+        "Winzenheim"
+      ]
+    },
+    "Franken": {
+      "Franken": [
+        "Würzburg",
+        "Würzburger Stein",
+        "Randersacker",
+        "Iphofen",
+        "Iphofen Julius-Echter-Berg",
+        "Escherndorf",
+        "Escherndorf Lump",
+        "Volkach",
+        "Homburg",
+        "Stettener"
+      ]
+    },
+    "Baden": {
+      "Baden": [
+        "Kaiserstuhl",
+        "Ihringen",
+        "Achkarren",
+        "Bischoffingen",
+        "Breisach",
+        "Tuniberg",
+        "Breisgau",
+        "Markgräflerland",
+        "Bodensee",
+        "Ortenau",
+        "Tauberfranken",
+        "Kraichgau",
+        "Badische Bergstrasse",
+        "Staufenberg"
+      ]
+    },
+    "Württemberg": {
+      "Württemberg": [
+        "Württemberg",
+        "Remstaler Terrassen",
+        "Remstal",
+        "Stuttgart",
+        "Heilbronn",
+        "Stromberg-Heuchelberg",
+        "Kocher-Jagst-Tauber",
+        "Oberer Neckar",
+        "Württembergisch Unterland",
+        "Lemberger",
+        "Trollinger",
+        "Schwarzriesling"
+      ]
+    },
+    "Mittelrhein": {
+      "Mittelrhein": [
+        "Bacharach",
+        "Boppard",
+        "Oberwesel",
+        "Konigswinter",
+        "Sieben Jungfrauen"
+      ]
+    },
+    "Ahr": {
+      "Ahr": [
+        "Ahrweiler",
+        "Bad Neuenahr",
+        "Walporzheim",
+        "Marienthal",
+        "Dernau",
+        "Mayschoß",
+        "Altenahr"
+      ]
+    },
+    "Saale-Unstrut": {
+      "Saale-Unstrut": [
+        "Naumburg",
+        "Freyburg",
+        "Weissenfels",
+        "Karsdorf",
+        "Bad Kösen"
+      ]
+    },
+    "Sachsen": {
+      "Sachsen": [
+        "Meissen",
+        "Meissener Domherr",
+        "Dresden",
+        "Radebeul",
+        "Pillnitz",
+        "Diesbar-Seusslitz",
+        "Seusslitz"
+      ]
+    },
+    "Hessische Bergstrasse": {
+      "Hessische Bergstrasse": [
+        "Bensheim",
+        "Heppenheim",
+        "Schönberg",
+        "Zell"
+      ]
+    }
   },
   "Portugal": {
-    "Douro": {"Douro": ["Douro DOC","Port"]},
-    "Alentejo": {"Alentejo": ["Alentejo DOC"]},
-    "Vinho Verde": {"Vinho Verde": ["Vinho Verde DOC"]},
-    "Dao": {"Dao": ["Dao DOC"]},
-    "Madeira": {"Madeira": ["Madeira DOC"]}
+    "Douro-Port": {
+      "Douro Table Wine": [
+        "Douro DOC",
+        "Douro Baixo Corgo",
+        "Douro Cima Corgo",
+        "Douro Superior",
+        "Douro Branco",
+        "Douro Rosé"
+      ],
+      "Port Wine": [
+        "Vintage Port",
+        "Single Quinta Vintage Port",
+        "LBV Port",
+        "Tawny Port",
+        "Tawny 10 Year",
+        "Tawny 20 Year",
+        "Tawny 30 Year",
+        "Tawny 40 Year",
+        "Colheita Port",
+        "Crusted Port",
+        "White Port",
+        "Ruby Port",
+        "Ruby Reserve",
+        "Garrafeira Port",
+        "Rosé Port",
+        "Pink Port"
+      ]
+    },
+    "Alentejo": {
+      "Alentejo": [
+        "Alentejo DOC",
+        "Alentejo Borba",
+        "Alentejo Evora",
+        "Alentejo Granja-Amareleja",
+        "Alentejo Moura",
+        "Alentejo Portalegre",
+        "Alentejo Redondo",
+        "Alentejo Reguengos",
+        "Alentejo Vidigueira",
+        "Vinho Regional Alentejano"
+      ]
+    },
+    "Vinho Verde": {
+      "Vinho Verde": [
+        "Vinho Verde DOC",
+        "Vinho Verde Alvarinho",
+        "Vinho Verde Loureiro",
+        "Vinho Verde Arinto",
+        "Vinho Verde Espumante",
+        "Moncao e Melgaco",
+        "Moncao",
+        "Melgaco",
+        "Lima",
+        "Braga",
+        "Baiao",
+        "Sousa",
+        "Amarante",
+        "Ave",
+        "Cavado",
+        "Basto",
+        "Paiva",
+        "Monção e Melgaço Alvarinho"
+      ]
+    },
+    "Dao": {
+      "Dao": [
+        "Dao DOC",
+        "Dao Encruzado",
+        "Dao Touriga Nacional",
+        "Serra da Estrela",
+        "Terras de Silgueiros",
+        "Castendo",
+        "Santar",
+        "Tondela",
+        "Silgueiros",
+        "Penalva do Castelo",
+        "Besteiros"
+      ]
+    },
+    "Bairrada": {
+      "Bairrada": [
+        "Bairrada DOC",
+        "Bairrada Espumante",
+        "Bairrada Reserva",
+        "Sangalhos",
+        "Baga",
+        "Casta Baga"
+      ]
+    },
+    "Lisboa": {
+      "Lisboa": [
+        "Lisboa DOC",
+        "Bucelas",
+        "Colares",
+        "Carcavelos",
+        "Torres Vedras",
+        "Arruda",
+        "Alenquer",
+        "Obidos",
+        "Encostas d Aire",
+        "Tejo",
+        "Ribatejo"
+      ],
+      "Setubal Peninsula": [
+        "Setubal DOC",
+        "Palmela",
+        "Moscatel de Setubal",
+        "Moscatel Roxo de Setubal",
+        "Costa Azul"
+      ]
+    },
+    "Tejo": {
+      "Tejo": [
+        "Tejo DOC",
+        "Almeirim",
+        "Cartaxo",
+        "Chamusca",
+        "Coruche",
+        "Santarém",
+        "Tomar",
+        "Coruche",
+        "Chamusca"
+      ]
+    },
+    "Algarve": {
+      "Algarve": [
+        "Lagos",
+        "Portimao",
+        "Lagoa",
+        "Tavira",
+        "Silves"
+      ]
+    },
+    "Madeira": {
+      "Madeira": [
+        "Madeira DOC",
+        "Madeira Sercial",
+        "Madeira Verdelho",
+        "Madeira Bual",
+        "Madeira Malmsey",
+        "Madeira Tinta Negra",
+        "Madeira Rainwater",
+        "Madeira 10 Year",
+        "Madeira 15 Year",
+        "Madeira Colheita",
+        "Madeira Frasqueira"
+      ]
+    },
+    "Azores": {
+      "Azores": [
+        "Pico",
+        "Biscoitos",
+        "Graciosa",
+        "Vinho do Pico",
+        "Lajido"
+      ]
+    },
+    "Tras-os-Montes": {
+      "Tras-os-Montes": [
+        "Tras-os-Montes DOC",
+        "Chaves",
+        "Valpacos",
+        "Planalto Mirandês"
+      ]
+    }
   },
   "USA": {
     "California": {
-      "Napa Valley": ["Napa Valley AVA","Stags Leap District","Oakville","Rutherford","St Helena","Calistoga"],
-      "Sonoma": ["Sonoma County","Russian River Valley","Alexander Valley","Dry Creek Valley"],
-      "Central Coast": ["Paso Robles","Santa Barbara","Santa Rita Hills"],
-      "Other California": ["Mendocino","Sierra Foothills","Lodi"]
+      "Napa Valley": [
+        "Napa Valley AVA",
+        "Rutherford",
+        "Oakville",
+        "Stags Leap District",
+        "Yountville",
+        "Saint Helena",
+        "Calistoga",
+        "Howell Mountain",
+        "Mount Veeder",
+        "Spring Mountain",
+        "Diamond Mountain",
+        "Chiles Valley",
+        "Atlas Peak",
+        "Coombsville",
+        "Los Carneros",
+        "Wild Horse Valley",
+        "Oak Knoll",
+        "Wooden Valley"
+      ],
+      "Sonoma": [
+        "Sonoma Valley",
+        "Sonoma Coast",
+        "Russian River Valley",
+        "Alexander Valley",
+        "Dry Creek Valley",
+        "Knights Valley",
+        "Chalk Hill",
+        "Green Valley of Russian River Valley",
+        "Bennett Valley",
+        "Carneros",
+        "Fort Ross-Seaview",
+        "Petaluma Gap",
+        "Fountaingrove District",
+        "Moon Mountain District",
+        "Pine Mountain-Cloverdale Peak",
+        "Rockpile",
+        "Sonoma Mountain"
+      ],
+      "Central Coast": [
+        "Paso Robles",
+        "Paso Robles Willow Creek",
+        "Paso Robles Highlands",
+        "Santa Barbara County",
+        "Santa Rita Hills",
+        "Sta Rita Hills",
+        "Santa Maria Valley",
+        "Santa Ynez Valley",
+        "Happy Canyon of Santa Barbara",
+        "Ballard Canyon",
+        "Los Olivos District",
+        "Edna Valley",
+        "Arroyo Grande",
+        "Monterey",
+        "Carmel Valley",
+        "Santa Lucia Highlands",
+        "Chalone",
+        "Livermore Valley",
+        "Mount Harlan",
+        "San Francisco Bay",
+        "Santa Cruz Mountains",
+        "Ben Lomond Mountain"
+      ],
+      "Sierra Foothills": [
+        "Amador County",
+        "El Dorado",
+        "Calaveras County",
+        "Shenandoah Valley California",
+        "Fair Play",
+        "Fiddletown",
+        "Sierra Foothills AVA"
+      ],
+      "North Coast": [
+        "Mendocino",
+        "Anderson Valley",
+        "Redwood Valley",
+        "Ukiah Valley",
+        "Mendocino Ridge",
+        "Potter Valley",
+        "Cole Ranch",
+        "Lake County",
+        "Clear Lake",
+        "Red Hills Lake County",
+        "High Valley",
+        "Guenoc Valley",
+        "Benmore Valley"
+      ],
+      "Central Valley": [
+        "Lodi",
+        "Mokelumne River",
+        "Clarksburg",
+        "Dunnigan Hills",
+        "Madera",
+        "Merced",
+        "San Joaquin Valley",
+        "Diablo Grande",
+        "Sloughhouse",
+        "Jahant"
+      ]
     },
-    "Oregon": {"Oregon": ["Willamette Valley","Dundee Hills"]},
-    "Washington": {"Washington": ["Columbia Valley","Walla Walla","Yakima Valley"]}
+    "Oregon": {
+      "Willamette Valley": [
+        "Willamette Valley AVA",
+        "Dundee Hills",
+        "Chehalem Mountains",
+        "Ribbon Ridge",
+        "Yamhill-Carlton",
+        "McMinnville",
+        "Eola-Amity Hills",
+        "Van Duzer Corridor",
+        "Tualatin Hills",
+        "Lower Long Tom",
+        "Upper Willamette Valley"
+      ],
+      "Southern Oregon": [
+        "Umpqua Valley",
+        "Applegate Valley",
+        "Rogue Valley",
+        "Illinois Valley",
+        "Elkton Oregon",
+        "Red Hill Douglas County",
+        "Southern Oregon AVA"
+      ],
+      "Columbia Gorge-Other": [
+        "Columbia Gorge AVA",
+        "Hood River",
+        "The Dalles",
+        "Walla Walla Valley Oregon",
+        "Snake River Valley",
+        "Rocks District of Milton-Freewater"
+      ]
+    },
+    "Washington": {
+      "Columbia Valley": [
+        "Columbia Valley AVA",
+        "Walla Walla Valley",
+        "Red Mountain",
+        "Yakima Valley",
+        "Rattlesnake Hills",
+        "Snipes Mountain",
+        "Horse Heaven Hills",
+        "Wahluke Slope",
+        "Ancient Lakes",
+        "Royal Slope",
+        "Lake Chelan",
+        "Naches Heights",
+        "Candy Mountain",
+        "Goose Gap",
+        "White Bluffs",
+        "Evergreen"
+      ],
+      "Other Washington": [
+        "Puget Sound",
+        "Columbia Gorge WA",
+        "Okanogan Highlands",
+        "Lewis-Clark Valley",
+        "San Juan Islands"
+      ]
+    },
+    "New York": {
+      "Finger Lakes": [
+        "Finger Lakes AVA",
+        "Cayuga Lake",
+        "Seneca Lake",
+        "Keuka Lake",
+        "Canandaigua Lake",
+        "Conesus Lake"
+      ],
+      "Long Island": [
+        "Long Island AVA",
+        "North Fork of Long Island",
+        "The Hamptons Long Island"
+      ],
+      "Hudson Valley": [
+        "Hudson River Region AVA",
+        "Shawangunk Wine Trail"
+      ],
+      "Other New York": [
+        "Niagara Escarpment",
+        "Lake Erie New York",
+        "Champlain Valley of New York"
+      ]
+    },
+    "Virginia": {
+      "Virginia": [
+        "Virginia AVA",
+        "Monticello AVA",
+        "Shenandoah Valley Virginia",
+        "Eastern Shore Virginia",
+        "Northern Neck George Washington Birthplace",
+        "North Fork of Roanoke",
+        "Rocky Knob",
+        "Middleburg Virginia",
+        "Rappahannock County"
+      ]
+    },
+    "Texas": {
+      "Texas": [
+        "Texas Hill Country",
+        "Texas High Plains",
+        "Escondido Valley",
+        "Bell Mountain",
+        "Fredericksburg in the Texas Hill Country",
+        "Mesilla Valley Texas",
+        "Davis Mountains",
+        "Texoma"
+      ]
+    },
+    "Other USA": {
+      "Pacific Northwest": [
+        "Idaho AVA",
+        "Snake River Valley Idaho",
+        "Lewis-Clark Valley Idaho",
+        "Walla Walla Valley Washington"
+      ],
+      "Mountain States": [
+        "Colorado Grand Valley",
+        "Colorado West Elks",
+        "Colorado Rocky Mountain",
+        "Arizona Sonoita",
+        "Arizona Willcox",
+        "New Mexico"
+      ],
+      "Midwest-East": [
+        "Michigan Lake Michigan Shore",
+        "Leelanau Peninsula",
+        "Old Mission Peninsula",
+        "Missouri Ozark Highlands",
+        "Missouri Augusta",
+        "Maryland Catoctin",
+        "Pennsylvania",
+        "Ohio Isle St George",
+        "Virginia Shenandoah"
+      ]
+    }
   },
   "Australia": {
-    "South Australia": {"South Australia": ["Barossa Valley","Eden Valley","Clare Valley","McLaren Vale","Coonawarra","Adelaide Hills"]},
-    "Victoria": {"Victoria": ["Yarra Valley","Heathcote","Mornington Peninsula"]},
-    "Western Australia": {"Western Australia": ["Margaret River","Great Southern"]},
-    "New South Wales": {"New South Wales": ["Hunter Valley","Orange","Mudgee"]}
+    "South Australia": {
+      "Barossa": [
+        "Barossa Valley",
+        "Barossa",
+        "Eden Valley",
+        "High Eden",
+        "Rowland Flat",
+        "Seppeltsfield"
+      ],
+      "McLaren Vale-Fleurieu": [
+        "McLaren Vale",
+        "Fleurieu Peninsula",
+        "Currency Creek",
+        "Langhorne Creek",
+        "Kangaroo Island"
+      ],
+      "Clare Valley": [
+        "Clare Valley",
+        "Watervale",
+        "Polish Hill River",
+        "Skillogalee",
+        "Auburn",
+        "Sevenhill"
+      ],
+      "Limestone Coast": [
+        "Coonawarra",
+        "Wrattonbully",
+        "Padthaway",
+        "Mount Benson",
+        "Robe",
+        "Mount Gambier",
+        "Bordertown",
+        "Bordertown",
+        "Cape Jaffa",
+        "Wattle Range"
+      ],
+      "Adelaide Hills": [
+        "Adelaide Hills",
+        "Piccadilly Valley",
+        "Lenswood",
+        "Kuitpo",
+        "Macclesfield",
+        "Balhannah"
+      ],
+      "Other South Australia": [
+        "Riverland",
+        "Riverland",
+        "Southern Flinders Ranges",
+        "Far North SA",
+        "Adelaide Plains",
+        "Currency Creek"
+      ]
+    },
+    "Victoria": {
+      "Yarra Valley": [
+        "Yarra Valley",
+        "Upper Yarra Valley",
+        "Lower Yarra Valley",
+        "Warburton",
+        "Dixon Creek",
+        "Gruyere",
+        "Healesville"
+      ],
+      "Mornington Peninsula": [
+        "Mornington Peninsula",
+        "Red Hill",
+        "Main Ridge",
+        "Merricks",
+        "Merricks North",
+        "Tuerong",
+        "Moorooduc",
+        "Balnarring"
+      ],
+      "Heathcote-Bendigo": [
+        "Heathcote",
+        "Colbinabbin",
+        "Redesdale",
+        "Bendigo",
+        "Heathcote-Loddon",
+        "Loddon Valley"
+      ],
+      "Grampians-Pyrenees": [
+        "Grampians",
+        "Great Western",
+        "Rymple",
+        "Pyrenees",
+        "Moonambel",
+        "Avoca",
+        "Ballarat"
+      ],
+      "Northeast Victoria": [
+        "Rutherglen",
+        "Glenrowan",
+        "King Valley",
+        "Alpine Valleys",
+        "Beechworth",
+        "Upper Murray",
+        "Mansfield",
+        "Whitlands",
+        "Wangaratta",
+        "Milawa"
+      ],
+      "Other Victoria": [
+        "Macedon Ranges",
+        "Sunbury",
+        "Geelong",
+        "Bellarine Peninsula",
+        "Henty",
+        "Murray Darling Victoria",
+        "Swan Hill Victoria",
+        "Gippsland",
+        "South Gippsland",
+        "Strathbogie Ranges",
+        "Upper Goulburn"
+      ]
+    },
+    "New South Wales": {
+      "Hunter Valley": [
+        "Hunter Valley",
+        "Hunter",
+        "Lower Hunter",
+        "Upper Hunter",
+        "Broke Fordwich",
+        "Pokolbin",
+        "Lovedale",
+        "Belford",
+        "Singleton",
+        "Denman"
+      ],
+      "Southern NSW": [
+        "Mudgee",
+        "Orange",
+        "Cowra",
+        "Hilltops",
+        "Young",
+        "Canberra District",
+        "Tumbarumba",
+        "Gundagai",
+        "Tumbarumba"
+      ],
+      "Other NSW": [
+        "Shoalhaven Coast",
+        "Southern Highlands",
+        "Riverina",
+        "Murray Darling NSW",
+        "Swan Hill NSW",
+        "Hastings River",
+        "New England"
+      ]
+    },
+    "Western Australia": {
+      "Margaret River": [
+        "Margaret River",
+        "Wilyabrup",
+        "Yallingup",
+        "Karridale",
+        "Wallcliffe",
+        "Metricup",
+        "Cowaramup",
+        "Rosa Brook"
+      ],
+      "Great Southern": [
+        "Great Southern",
+        "Albany",
+        "Denmark",
+        "Frankland River",
+        "Mount Barker",
+        "Porongurup"
+      ],
+      "Swan Valley-Perth": [
+        "Swan Valley",
+        "Perth Hills",
+        "Avon Valley"
+      ],
+      "Other WA": [
+        "Blackwood Valley",
+        "Pemberton",
+        "Manjimup",
+        "Geographe",
+        "Peel",
+        "Gingin",
+        "Margaret River North",
+        "Esperance"
+      ]
+    },
+    "Queensland": {
+      "Queensland": [
+        "Granite Belt",
+        "South Burnett",
+        "Queensland Zone",
+        "Scenic Rim"
+      ]
+    },
+    "Tasmania": {
+      "Tasmania": [
+        "Coal River Valley",
+        "Huon Valley",
+        "Tamar Valley",
+        "Derwent Valley",
+        "East Coast Tasmania",
+        "Pipers River",
+        "Launceston",
+        "Freycinet",
+        "Northern Tasmania",
+        "Southern Tasmania"
+      ]
+    }
   },
   "New Zealand": {
-    "Marlborough": {"Marlborough": ["Marlborough"]},
-    "Central Otago": {"Central Otago": ["Central Otago"]},
-    "Hawkes Bay": {"Hawkes Bay": ["Hawkes Bay"]}
+    "Marlborough": {
+      "Marlborough": [
+        "Marlborough",
+        "Wairau Valley",
+        "Awatere Valley",
+        "Southern Valleys",
+        "Rapaura",
+        "Renwick",
+        "Brancott",
+        "Fairhall",
+        "Omaka",
+        "Waihopai Valley",
+        "Ben Morven"
+      ]
+    },
+    "Central Otago": {
+      "Central Otago": [
+        "Bannockburn",
+        "Cromwell Basin",
+        "Gibbston",
+        "Lowburn",
+        "Pisa",
+        "Bendigo",
+        "Wanaka",
+        "Alexandra",
+        "Earnscleugh",
+        "Maniototo",
+        "Clutha"
+      ]
+    },
+    "Hawkes Bay": {
+      "Hawkes Bay": [
+        "Hawkes Bay",
+        "Gimblett Gravels",
+        "Bridge Pa Triangle",
+        "Havelock North",
+        "Napier",
+        "Maraekakaho",
+        "Ngatarawa",
+        "Roy's Hill",
+        "Dartmoor",
+        "Mangatahi"
+      ]
+    },
+    "Martinborough-Wellington": {
+      "Martinborough": [
+        "Martinborough",
+        "Gladstone",
+        "Masterton",
+        "Greytown",
+        "Featherston",
+        "Ata Rangi"
+      ],
+      "Wellington": [
+        "Wellington Region",
+        "Matakana Island"
+      ]
+    },
+    "Nelson-Tasman": {
+      "Nelson": [
+        "Nelson",
+        "Waimea Plains",
+        "Upper Moutere",
+        "Moutere Hills",
+        "Brightwater",
+        "Hope",
+        "Redwood Valley"
+      ]
+    },
+    "Waipara-Canterbury": {
+      "North Canterbury": [
+        "Waipara Valley",
+        "Waipara",
+        "Omihi",
+        "Cheviot",
+        "Waikari"
+      ],
+      "Canterbury": [
+        "Canterbury",
+        "Christchurch Plains",
+        "Waiheke Island",
+        "Banks Peninsula"
+      ]
+    },
+    "Gisborne": {
+      "Gisborne": [
+        "Gisborne",
+        "Poverty Bay",
+        "Patutahi",
+        "Ormond",
+        "Manutuke"
+      ]
+    },
+    "Auckland": {
+      "Auckland": [
+        "Waiheke Island",
+        "Matakana",
+        "Kumeu",
+        "Henderson",
+        "West Auckland",
+        "Gulf Islands",
+        "Clevedon"
+      ]
+    },
+    "Other NZ": {
+      "Other": [
+        "Northland",
+        "Waikato",
+        "Bay of Plenty",
+        "Otago",
+        "Southland",
+        "Oamaru",
+        "Bannockburn",
+        "Waitaki Valley",
+        "North Otago"
+      ]
+    }
   },
   "Argentina": {
-    "Mendoza": {"Mendoza": ["Lujan de Cuyo","Maipo","Uco Valley"]},
-    "Salta": {"Salta": ["Cafayate"]}
+    "Mendoza": {
+      "Lujan de Cuyo": [
+        "Lujan de Cuyo",
+        "Agrelo",
+        "Perdriel",
+        "Vistalba",
+        "Las Compuertas",
+        "Chacras de Coria",
+        "Drummond",
+        "Carrodilla",
+        "Mayor Drummond",
+        "Ugarteche"
+      ],
+      "Uco Valley": [
+        "Uco Valley",
+        "Tupungato",
+        "Tunuyan",
+        "San Carlos",
+        "Altamira",
+        "La Consulta",
+        "Eugenio Bustos",
+        "Vista Flores",
+        "Los Chacayes",
+        "Pareditas",
+        "Manzano Historico",
+        "Gualtallary",
+        "Los Arboles"
+      ],
+      "Maipu": [
+        "Maipú",
+        "Maipu",
+        "Rivadavia",
+        "General Gutierrez",
+        "Barrancas",
+        "Lumlunta",
+        "Cruz de Piedra",
+        "Russell"
+      ],
+      "Other Mendoza": [
+        "San Martin",
+        "Junin",
+        "Rivadavia",
+        "Las Heras",
+        "Lavalle",
+        "San Rafael",
+        "General Alvear",
+        "Valle de San Rafael",
+        "Valle de Uco"
+      ]
+    },
+    "Salta": {
+      "Calchaqui Valleys": [
+        "Cafayate",
+        "Molinos",
+        "Cachi",
+        "San Carlos",
+        "Payogasta",
+        "Seclantas",
+        "Angastaco",
+        "Animana",
+        "El Arenal"
+      ],
+      "Other Salta": [
+        "Rosario de la Frontera",
+        "Campo Quijano",
+        "Lerma Valley",
+        "Oran"
+      ]
+    },
+    "La Rioja": {
+      "La Rioja": [
+        "Famatina",
+        "Chilecito",
+        "Vinchina",
+        "General Ángel Vicente Peñaloza",
+        "Nonogasta",
+        "Guandacol"
+      ]
+    },
+    "San Juan": {
+      "San Juan": [
+        "Tulum Valley",
+        "Pedernal Valley",
+        "Calingasta",
+        "Iglesia",
+        "Ullum",
+        "Zonda",
+        "Jachal",
+        "Caucete"
+      ]
+    },
+    "Patagonia": {
+      "Rio Negro-Neuquen": [
+        "Alto Valle del Rio Negro",
+        "Valle Medio",
+        "Valle Inferior",
+        "San Patricio del Chañar",
+        "Añelo",
+        "Confluencia",
+        "Las Compuertas",
+        "General Roca",
+        "Mainqué",
+        "Villa Regina"
+      ]
+    },
+    "Other Argentina": {
+      "Other": [
+        "Catamarca",
+        "Tucuman",
+        "Jujuy",
+        "Entre Rios",
+        "Buenos Aires Province",
+        "Cordoba",
+        "La Pampa",
+        "Chubut",
+        "Santa Cruz"
+      ]
+    }
   },
   "Chile": {
-    "Central Valley": {"Central Valley": ["Maipo","Rapel","Colchagua","Cachapoal","Curico","Maule"]},
-    "Other": {"Other": ["Casablanca","San Antonio","Elqui"]}
+    "Atacama": {
+      "Atacama": [
+        "Copiapo Valley",
+        "Huasco Valley"
+      ]
+    },
+    "Coquimbo": {
+      "Coquimbo": [
+        "Elqui Valley",
+        "Limari Valley",
+        "Choapa Valley"
+      ]
+    },
+    "Aconcagua": {
+      "Aconcagua Valley": [
+        "Aconcagua Valley",
+        "Panquehue",
+        "Catemu",
+        "Putaendo"
+      ],
+      "Casablanca-San Antonio": [
+        "Casablanca Valley",
+        "San Antonio Valley",
+        "Leyda Valley",
+        "Lo Abarca",
+        "Rosario Valley",
+        "Bío Bío",
+        "Malleco"
+      ]
+    },
+    "Central Valley": {
+      "Maipo Valley": [
+        "Maipo Valley",
+        "Alto Maipo",
+        "Pacific Maipo",
+        "Central Maipo",
+        "Isla de Maipo",
+        "Buin",
+        "Pirque",
+        "Paine",
+        "Talagante",
+        "Melipilla"
+      ],
+      "Rapel Valley": [
+        "Rapel Valley",
+        "Cachapoal Valley",
+        "Colchagua Valley",
+        "Peumo",
+        "Marchigue",
+        "Palmilla",
+        "Apalta",
+        "Los Lingues",
+        "Chimbarongo",
+        "Nancagua"
+      ],
+      "Curico Valley": [
+        "Curicó Valley",
+        "Teno Valley",
+        "Lontue Valley",
+        "Sagrada Familia",
+        "Rauco",
+        "Romeral"
+      ],
+      "Maule Valley": [
+        "Maule Valley",
+        "Claro Valley",
+        "Loncomilla Valley",
+        "Tutuven Valley",
+        "Cauquenes",
+        "San Javier",
+        "Linares",
+        "Parral",
+        "Retiro",
+        "Pencahue"
+      ]
+    },
+    "Southern Chile": {
+      "Bio Bio-Itata": [
+        "Bio Bio Valley",
+        "Itata Valley",
+        "Malleco Valley",
+        "Treuen",
+        "Portezuelo",
+        "Quillon",
+        "Yumbel"
+      ],
+      "Other South": [
+        "Osorno",
+        "Los Lagos",
+        "Aysen",
+        "Patagonia Chile"
+      ]
+    }
   },
   "South Africa": {
-    "Western Cape": {"Western Cape": ["Stellenbosch","Franschhoek","Paarl","Swartland","Constantia","Elgin","Walker Bay"]}
+    "Coastal Region": {
+      "Stellenbosch": [
+        "Stellenbosch",
+        "Bottelary",
+        "Devon Valley",
+        "Jonkershoek Valley",
+        "Papegaaiberg",
+        "Simonsberg-Stellenbosch",
+        "Polkadraai Hills",
+        "Banghoek",
+        "Stellenbosch Kloof",
+        "Helderberg"
+      ],
+      "Franschhoek": [
+        "Franschhoek Valley",
+        "Berg en Dal",
+        "Franschhoek"
+      ],
+      "Paarl": [
+        "Paarl",
+        "Agter-Paarl",
+        "Voor-Paardeberg",
+        "Wellington",
+        "Paarl Mountain",
+        "Simonsberg-Paarl"
+      ],
+      "Swartland": [
+        "Swartland",
+        "Riebeekberg",
+        "Paardeberg",
+        "Malmesbury",
+        "St Helena Bay",
+        "Tulbagh"
+      ],
+      "Cape Town": [
+        "Constantia",
+        "Hout Bay",
+        "Cape Point",
+        "Durbanville",
+        "Philadelphia",
+        "Tygerberg"
+      ]
+    },
+    "Cape South Coast": {
+      "Elgin-Walker Bay": [
+        "Elgin",
+        "Walker Bay",
+        "Hemel-en-Aarde Valley",
+        "Hemel-en-Aarde Ridge",
+        "Upper Hemel-en-Aarde Valley",
+        "Stanford Foothills",
+        "Bot River",
+        "Grabouw",
+        "Hermanus"
+      ],
+      "Other Cape South Coast": [
+        "Overberg",
+        "Cape Agulhas",
+        "Elim",
+        "Napier",
+        "Plettenberg Bay",
+        "Swellendam"
+      ]
+    },
+    "Breede River Valley": {
+      "Breede River Valley": [
+        "Robertson",
+        "Bonnievale",
+        "McGregor",
+        "Worcester",
+        "Hex River Valley",
+        "Nuy",
+        "Breedekloof",
+        "Slanghoek",
+        "Goudini"
+      ]
+    },
+    "Olifants River": {
+      "Olifants River": [
+        "Citrusdal Valley",
+        "Citrusdal Mountain",
+        "Lutzville Valley",
+        "Koekenaap",
+        "Bamboes Bay",
+        "Vredendal"
+      ]
+    },
+    "Klein Karoo": {
+      "Klein Karoo": [
+        "Calitzdorp",
+        "Oudtshoorn",
+        "Tradouw Valley",
+        "Montagu",
+        "Barrydale",
+        "Ladysmith",
+        "Tradouw Highlands"
+      ]
+    },
+    "Other South Africa": {
+      "Other": [
+        "Orange River",
+        "Douglas",
+        "Hartswater",
+        "Sutherland-Karoo",
+        "Ceres Plateau",
+        "Prince Albert Valley",
+        "Cederberg",
+        "Bamboes Bay",
+        "Lutzville"
+      ]
+    }
   },
   "Austria": {
-    "Wachau": {"Wachau": ["Wachau","Kremstal","Kamptal"]},
-    "Burgenland": {"Burgenland": ["Neusiedlersee","Mittelburgenland"]},
-    "Other": {"Other": ["Steiermark","Weinviertel"]}
+    "Niederösterreich": {
+      "Wachau": [
+        "Wachau",
+        "Spitz",
+        "Weissenkirchen",
+        "Dürnstein",
+        "Loiben",
+        "Rossatz",
+        "Aggsbach",
+        "Schwallenbach",
+        "Mühldorf",
+        "Arnsdorf",
+        "Mautern"
+      ],
+      "Kremstal": [
+        "Kremstal",
+        "Krems",
+        "Rohrendorf",
+        "Stratzing",
+        "Senftenberg",
+        "Hollenburg",
+        "Oberloiben",
+        "Stein an der Donau"
+      ],
+      "Kamptal": [
+        "Kamptal",
+        "Langenlois",
+        "Zöbing",
+        "Gobelsburg",
+        "Strass",
+        "Schönberg",
+        "Kammern",
+        "Etsdorf",
+        "Zöbing"
+      ],
+      "Traisental": [
+        "Traisental",
+        "Traismauer",
+        "Herzogenburg",
+        "Statzendorf",
+        "Getzersdorf"
+      ],
+      "Wagram": [
+        "Wagram",
+        "Großriedenthal",
+        "Kirchberg am Wagram",
+        "Feuersbrunn",
+        "Königsbrunn",
+        "Tattendorf",
+        "Absdorf"
+      ],
+      "Weinviertel": [
+        "Weinviertel",
+        "Retz",
+        "Poysdorf",
+        "Matzen",
+        "Zistersdorf",
+        "Ebenthal",
+        "Kreuttal",
+        "Pulkau"
+      ],
+      "Thermenregion": [
+        "Thermenregion",
+        "Gumpoldskirchen",
+        "Bad Vöslau",
+        "Tattendorf",
+        "Pfaffstätten",
+        "Traiskirchen"
+      ],
+      "Carnuntum": [
+        "Carnuntum",
+        "Petronell",
+        "Prellenkirchen",
+        "Göttlesbrunn",
+        "Arbesthal"
+      ]
+    },
+    "Burgenland": {
+      "Neusiedlersee": [
+        "Neusiedlersee",
+        "Gols",
+        "Andau",
+        "Halbturn",
+        "Podersdorf",
+        "Rust",
+        "Mörbisch",
+        "Frauenkirchen",
+        "Apetlon",
+        "Illmitz",
+        "Oggau",
+        "Oslip"
+      ],
+      "Leithaberg": [
+        "Leithaberg DAC",
+        "Purbach",
+        "Breitenbrunn",
+        "Donnerskirchen",
+        "Oggau",
+        "Schützen am Gebirge",
+        "Jois",
+        "Winden am See"
+      ],
+      "Mittelburgenland": [
+        "Mittelburgenland DAC",
+        "Deutschkreutz",
+        "Neckenmarkt",
+        "Horitschon",
+        "Raiding",
+        "Lutzmannsburg"
+      ],
+      "Südburgenland": [
+        "Südburgenland",
+        "Eisenberg DAC",
+        "Rechnitz",
+        "Deutsch Schützen",
+        "Heiligenbrunn",
+        "Güssing",
+        "Csaterberg"
+      ]
+    },
+    "Steiermark": {
+      "Südsteiermark": [
+        "Südsteiermark DAC",
+        "Spielfeld",
+        "Gamlitz",
+        "Ehrenhausen",
+        "Leibnitz",
+        "Kitzeck",
+        "Sulztal",
+        "Eckberg",
+        "Grassnitzberg",
+        "Kranachberg",
+        "Zieregg"
+      ],
+      "Weststeiermark": [
+        "Weststeiermark",
+        "Stainz",
+        "Schilcher",
+        "Deutschlandsberg",
+        "Kitzeck im Sausal"
+      ],
+      "Vulkanland": [
+        "Vulkanland Steiermark DAC",
+        "Straden",
+        "Klöch",
+        "Kapfenstein",
+        "Tieschen",
+        "Riegersburg",
+        "Fehring"
+      ]
+    },
+    "Wien": {
+      "Wien": [
+        "Wien",
+        "Grinzing",
+        "Sievering",
+        "Neustift am Walde",
+        "Stammersdorf",
+        "Floridsdorf",
+        "Jedlersdorf",
+        "Nussberg",
+        "Bisamberg",
+        "Mauer"
+      ]
+    }
+  },
+  "Hungary": {
+    "Tokaj": {
+      "Tokaj": [
+        "Tokaji Aszu",
+        "Tokaji Aszu Essencia",
+        "Tokaji Eszencia",
+        "Tokaji Furmint",
+        "Tokaji Hárslevelű",
+        "Tokaji Szamorodni",
+        "Tokaji Forditas",
+        "Tokaji Maslás",
+        "Tokaji Szamorodni Sweet",
+        "Tokaji Szamorodni Dry",
+        "Tokaj Dry Furmint",
+        "Mad",
+        "Tallya",
+        "Tokaj town",
+        "Bodrogkeresztur",
+        "Olaszliszka",
+        "Tarcal",
+        "Tolcsva",
+        "Erdőbénye",
+        "Sárospatak",
+        "Sátoraljaújhely"
+      ],
+      "Other Tokaj": [
+        "Late Harvest Furmint",
+        "Dry Furmint",
+        "Kabar",
+        "Zéta",
+        "Kövérszőlő",
+        "Muscat Blanc"
+      ]
+    },
+    "Other Hungary": {
+      "Eger": [
+        "Eger",
+        "Egri Bikavér",
+        "Egri Csillag",
+        "Egri Leányka",
+        "Egri Chardonnay"
+      ],
+      "Villány": [
+        "Villány",
+        "Villányi Franc",
+        "Villányi Merlot",
+        "Villányi Cabernet",
+        "Siklós"
+      ],
+      "Szekszárd": [
+        "Szekszárd",
+        "Szekszárdi Bikavér",
+        "Szekszárdi Kadarka"
+      ],
+      "Other Regions": [
+        "Badacsony",
+        "Balaton Felvidék",
+        "Balatonfüred-Csopak",
+        "Somló",
+        "Sopron",
+        "Matra",
+        "Kunság",
+        "Hajós-Baja",
+        "Pécs",
+        "Tolna",
+        "Neszmély",
+        "Ászár-Neszmély",
+        "Etyek-Buda",
+        "Pannonhalma"
+      ]
+    }
+  },
+  "Greece": {
+    "Peloponnese": {
+      "Nemea-Mantinia": [
+        "Nemea",
+        "Nemea Agiorgitiko",
+        "Ancient Nemea",
+        "Mantinia",
+        "Mantinia Moschofilero"
+      ],
+      "Other Peloponnese": [
+        "Patras",
+        "Muscat of Patras",
+        "Mavrodaphne of Patras",
+        "Muscat Rio of Patras",
+        "Aigialia",
+        "Slopes of Megara"
+      ]
+    },
+    "Macedonia": {
+      "Naoussa-Amyndeon": [
+        "Naoussa",
+        "Naoussa Xinomavro",
+        "Amyndeon",
+        "Amyndeon Xinomavro",
+        "Florina"
+      ],
+      "Other Macedonia": [
+        "Goumenissa",
+        "Drama",
+        "Kavala",
+        "Slopes of Meliton",
+        "Avdira",
+        "Maronia",
+        "Epanomi",
+        "Thessaloniki"
+      ]
+    },
+    "Aegean Islands": {
+      "Santorini-Cyclades": [
+        "Santorini",
+        "Santorini Assyrtiko",
+        "Santorini Vinsanto",
+        "Nykteri",
+        "Paros"
+      ],
+      "Other Islands": [
+        "Samos",
+        "Muscat of Samos",
+        "Muscat of Samos Grand Cru",
+        "Lemnos",
+        "Muscat of Lemnos",
+        "Rhodes",
+        "Muscat of Rhodes",
+        "Cephalonia",
+        "Muscat of Cephalonia",
+        "Robola of Cephalonia",
+        "Mavrodaphne of Cephalonia",
+        "Lefkada"
+      ]
+    },
+    "Central Greece": {
+      "Central Greece": [
+        "Rapsani",
+        "Rapsani Reserve",
+        "Anchialos",
+        "Karditsa",
+        "Slopes of Meliton",
+        "Magnesia",
+        "Corinthos Currant",
+        "Attica",
+        "Mesogia"
+      ]
+    },
+    "Crete": {
+      "Crete": [
+        "Archanes",
+        "Dafnes",
+        "Peza",
+        "Sitia",
+        "Crete IGP",
+        "Heraklion",
+        "Rethymnon",
+        "Chania",
+        "Lasithi"
+      ]
+    },
+    "Epirus-Thessaly": {
+      "Epirus-Thessaly": [
+        "Zitsa",
+        "Metsovo",
+        "Ioannina",
+        "Tyrnavos"
+      ]
+    }
+  },
+  "Lebanon": {
+    "Bekaa Valley": {
+      "Bekaa Valley": [
+        "Bekaa Valley",
+        "West Bekaa",
+        "Zahle",
+        "Baalbek",
+        "Kefraya",
+        "Musar",
+        "Ksara",
+        "Marsyas Valley",
+        "Deir el Ahmar",
+        "Hermel"
+      ]
+    }
+  },
+  "Israel": {
+    "Galilee": {
+      "Upper Galilee": [
+        "Upper Galilee",
+        "Safed",
+        "Meron",
+        "Kerem Ben Zimra",
+        "Amiad"
+      ],
+      "Lower Galilee": [
+        "Lower Galilee",
+        "Nazareth",
+        "Jezreel Valley"
+      ],
+      "Golan Heights": [
+        "Golan Heights",
+        "Yarden",
+        "Mount Hermon",
+        "Quatzrin",
+        "Odem",
+        "Eliad"
+      ]
+    },
+    "Other Israel": {
+      "Other": [
+        "Judean Hills",
+        "Jerusalem Mountains",
+        "Shimshon",
+        "Shomron",
+        "Samson",
+        "Negev",
+        "Arad",
+        "Ramat Arad"
+      ]
+    }
+  },
+  "Georgia": {
+    "Kakheti": {
+      "Kakheti": [
+        "Kakheti",
+        "Telavi",
+        "Tsinandali",
+        "Gurjaani",
+        "Kvareli",
+        "Mukuzani",
+        "Napareuli",
+        "Akhasheni",
+        "Manavi",
+        "Tibaani",
+        "Kondoli",
+        "Vazisubani",
+        "Kardanakhi",
+        "Khashmi",
+        "Rkaul"
+      ]
+    },
+    "Other Georgia": {
+      "Other": [
+        "Kartli",
+        "Imereti",
+        "Racha-Lechkhumi",
+        "Kvemo Svaneti",
+        "Abkhazia"
+      ]
+    }
+  },
+  "Switzerland": {
+    "Valais": {
+      "Valais": [
+        "Valais",
+        "Fendant",
+        "Dole",
+        "Heida",
+        "Chamoson",
+        "Fully",
+        "Leytron",
+        "Nendaz",
+        "Sion",
+        "Sierre",
+        "Salquenen",
+        "Leuk",
+        "Visp",
+        "Visperterminen"
+      ]
+    },
+    "Vaud": {
+      "Vaud": [
+        "Vaud",
+        "Lavaux",
+        "La Côte",
+        "Chablais",
+        "Dézaley",
+        "Saint-Saphorin",
+        "Epesses",
+        "Lutry",
+        "Morges",
+        "Nyon",
+        "Aigle",
+        "Yvorne",
+        "Ollon",
+        "Bex"
+      ]
+    },
+    "Geneva-Neuchatel": {
+      "Geneva": [
+        "Geneva",
+        "Satigny",
+        "Russin",
+        "Lully",
+        "Peissy"
+      ],
+      "Neuchatel-Three Lakes": [
+        "Neuchatel",
+        "Twann",
+        "Ligerz",
+        "Schaffen",
+        "Biel",
+        "Morat",
+        "Murten",
+        "Vully"
+      ]
+    },
+    "German Switzerland": {
+      "German Switzerland": [
+        "Aargau",
+        "Thurgau",
+        "Zurich",
+        "Schaffhausen",
+        "Graubunden",
+        "Ticino",
+        "Zurich Weinland",
+        "Klettgau"
+      ]
+    }
   },
   "Other": {
-    "Other": {"Other": ["Other"]}
+    "Other": {
+      "Other": [
+        "Other"
+      ]
+    }
   }
 };
 
@@ -436,6 +3373,23 @@ function fillSelect(id, options, placeholder) {
     opt.value = options[i];
     opt.textContent = options[i];
     sel.appendChild(opt);
+  }
+}
+
+function toggleManual() {
+  var mf = ge("manualFields");
+  var btn = ge("manualToggleBtn");
+  if (mf.style.display === "none" || mf.style.display === "") {
+    mf.style.display = "block";
+    btn.textContent = "✕ Hide manual";
+  } else {
+    mf.style.display = "none";
+    btn.textContent = "✏️ Enter manually";
+    // Clear manual fields when hiding
+    ge("fCountryManual").value = "";
+    ge("fRegionManual").value = "";
+    ge("fSubregionManual").value = "";
+    ge("fAppellationManual").value = "";
   }
 }
 
@@ -653,16 +3607,23 @@ async function analyzeLabel() {
 async function saveWine() {
   var name = document.getElementById("fName").value.trim();
   if (!name) { alert("Wine name is required."); return; }
+  // Use manual location if filled
+  var mf = document.getElementById("manualFields");
+  var manualOn = mf && (mf.style.display === "block");
+  var countryVal = (manualOn && document.getElementById("fCountryManual").value.trim()) ? document.getElementById("fCountryManual").value.trim() : document.getElementById("fCountry").value;
+  var regionVal = (manualOn && document.getElementById("fRegionManual").value.trim()) ? document.getElementById("fRegionManual").value.trim() : document.getElementById("fRegion").value;
+  var subregionVal = (manualOn && document.getElementById("fSubregionManual").value.trim()) ? document.getElementById("fSubregionManual").value.trim() : document.getElementById("fSubregion").value;
+  var appellationVal = (manualOn && document.getElementById("fAppellationManual").value.trim()) ? document.getElementById("fAppellationManual").value.trim() : document.getElementById("fAppellation").value;
   var wine = {
     name: name,
     producer: document.getElementById("fProducer").value.trim(),
     grape: document.getElementById("fGrape").value.trim(),
     style: document.getElementById("fStyle").value,
     vintage: document.getElementById("fVintage").value.trim(),
-    country: document.getElementById("fCountry").value,
-    major_region: document.getElementById("fRegion").value,
-    subregion: document.getElementById("fSubregion").value,
-    appellation: document.getElementById("fAppellation").value,
+    country: countryVal,
+    major_region: regionVal,
+    subregion: subregionVal,
+    appellation: appellationVal,
     price: parseFloat(document.getElementById("fPrice").value) || null,
     date: document.getElementById("fDate").value,
     comment: document.getElementById("fComment").value.trim(),
