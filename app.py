@@ -134,6 +134,47 @@ def analyze_label():
         return jsonify(json.loads(text[start:end]))
     return jsonify({'error': 'Could not parse label', 'raw': text}), 500
 
+
+@app.route('/api/price-check', methods=['POST'])
+def price_check():
+    if not ANTHROPIC_API_KEY:
+        return jsonify({'error': 'ANTHROPIC_API_KEY not configured'}), 400
+
+    data = request.get_json()
+    wine_desc = data.get('wine', '')
+    prompt = data.get('prompt', '')
+
+    if not wine_desc:
+        return jsonify({'error': 'No wine description provided'}), 400
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    try:
+        msg = client.messages.create(
+            model='claude-opus-4-5',
+            max_tokens=600,
+            tools=[{"type": "web_search_20250305", "name": "web_search"}],
+            messages=[{'role': 'user', 'content': prompt or f"What is the current retail price for {wine_desc}? Give a price range in USD."}]
+        )
+        # Extract text from response (may include tool use blocks)
+        result = ' '.join(
+            block.text for block in msg.content
+            if hasattr(block, 'text')
+        ).strip()
+        return jsonify({'result': result})
+    except Exception as e:
+        # Fallback without web search if tool not available
+        try:
+            msg = client.messages.create(
+                model='claude-opus-4-5',
+                max_tokens=600,
+                messages=[{'role': 'user', 'content': (prompt or f"What is the current retail price for {wine_desc}?") + " Note: this is an estimate based on your training data."}]
+            )
+            result = msg.content[0].text.strip()
+            return jsonify({'result': result})
+        except Exception as e2:
+            return jsonify({'error': str(e2)}), 500
+
 @app.route('/api/export', methods=['GET'])
 def export_excel():
     try:
