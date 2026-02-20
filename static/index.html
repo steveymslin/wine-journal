@@ -3672,13 +3672,11 @@ async function checkPrice() {
   var wineParts = [vintage, producer, name, grape ? "("+grape+")" : "", appellation, region, country].filter(function(x){ return x; });
   var wineDesc = wineParts.join(" ");
 
-    var prompt = "You are a wine pricing expert. For the wine: " + wineDesc + ". Search for current retail price and respond in this EXACT format - PRICE_RANGE: $XX - $XX USD | TYPICAL_PRICE: $XX USD | SOURCE_NOTE: where price found | PRICE_FACTORS: one sentence on price factors. If no specific data available, give best estimate based on appellation and producer and note it is an estimate.";
-
   try {
     var resp = await fetch("/api/price-check", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ wine: wineDesc, prompt: prompt })
+      body: JSON.stringify({ wine: wineDesc })
     });
     var data = await resp.json();
     if (data.result) {
