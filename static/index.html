@@ -3255,17 +3255,6 @@ function fillSelect(id, options, placeholder) {
   }
 }
 
-function onGrapeChange(sel) {
-  var manual = document.getElementById("fGrapeManual");
-  if (sel.value === "__other__") {
-    manual.style.display = "block";
-    manual.focus();
-  } else {
-    manual.style.display = "none";
-    manual.value = "";
-  }
-}
-
 function toggleManual() {
   var mf = ge("manualFields");
   var btn = ge("manualToggleBtn");
@@ -3648,11 +3637,7 @@ async function checkPrice() {
   var name = document.getElementById("fName").value.trim();
   var producer = document.getElementById("fProducer").value.trim();
   var vintage = document.getElementById("fVintage").value.trim();
-  var grape = (function(){
-    var sel = document.getElementById("fGrape").value;
-    var manual = document.getElementById("fGrapeManual").value.trim();
-    return (sel === "__other__" && manual) ? manual : sel;
-  })();
+  var grape = document.getElementById("fGrape").value.trim();
   var country = document.getElementById("fCountry").value;
   var region = document.getElementById("fRegion").value;
   var appellation = document.getElementById("fAppellation").value;
