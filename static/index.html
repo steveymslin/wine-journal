@@ -373,62 +373,66 @@ input[type="date"]{color-scheme:dark;}
 var REGIONS = {
   "France": {
     "Bordeaux": {
+      "Generic Bordeaux": [
+        "Bordeaux",
+        "Bordeaux Superieur",
+        "Bordeaux Rose",
+        "Bordeaux Clairet",
+        "Cremant de Bordeaux"
+      ],
       "Medoc": [
-        "Medoc AOC",
+        "Medoc",
         "Haut-Medoc",
-        "Saint-Estephe",
-        "Pauillac",
-        "Saint-Julien",
-        "Listrac-Medoc",
-        "Moulis-en-Medoc",
         "Margaux",
-        "Saint-Laurent-Medoc"
+        "Moulis-en-Medoc",
+        "Listrac-Medoc",
+        "Saint-Julien",
+        "Pauillac",
+        "Saint-Estephe"
       ],
-      "Graves-Pessac": [
-        "Pessac-Leognan",
+      "Graves": [
         "Graves",
-        "Graves Superieures"
+        "Graves Superieures",
+        "Pessac-Leognan"
       ],
-      "Sauternes-Barsac": [
+      "Sauternais": [
         "Sauternes",
-        "Barsac",
-        "Cerons",
-        "Cadillac",
-        "Loupiac",
-        "Sainte-Croix-du-Mont"
+        "Barsac"
       ],
-      "Right Bank-Pomerol": [
-        "Pomerol",
-        "Lalande-de-Pomerol"
-      ],
-      "Right Bank-Saint-Emilion": [
+      "Libournais": [
         "Saint-Emilion",
         "Saint-Emilion Grand Cru",
-        "Saint-Georges-Saint-Emilion",
-        "Montagne-Saint-Emilion",
-        "Lussac-Saint-Emilion",
-        "Puisseguin-Saint-Emilion"
-      ],
-      "Right Bank-Other": [
+        "Saint-Emilion Grand Cru Classe",
+        "Saint-Emilion Premier Grand Cru Classe",
+        "Pomerol",
+        "Lalande-de-Pomerol",
         "Fronsac",
         "Canon-Fronsac",
-        "Castillon-Cotes de Bordeaux",
-        "Blaye-Cotes de Bordeaux",
-        "Bourg",
-        "Cotes de Bourg",
-        "Francs-Cotes de Bordeaux"
+        "Montagne-Saint-Emilion",
+        "Lussac-Saint-Emilion",
+        "Puisseguin-Saint-Emilion",
+        "Saint-Georges-Saint-Emilion"
       ],
       "Entre-Deux-Mers": [
         "Entre-Deux-Mers",
-        "Entre-Deux-Mers-Haut-Benauge",
-        "Cadillac-Cotes de Bordeaux",
-        "Premieres Cotes de Bordeaux"
+        "Entre-Deux-Mers Haut-Benauge"
       ],
-      "Generic Bordeaux": [
-        "Bordeaux AOC",
-        "Bordeaux Superieur",
-        "Bordeaux Rose",
-        "Cremant de Bordeaux"
+      "Entre-Deux-Mers Sweet": [
+        "Cadillac",
+        "Loupiac",
+        "Sainte-Croix-du-Mont",
+        "Cerons",
+        "Cotes de Bordeaux Saint-Macaire"
+      ],
+      "Cotes de Bordeaux": [
+        "Blaye Cotes de Bordeaux",
+        "Cadillac Cotes de Bordeaux",
+        "Castillon Cotes de Bordeaux",
+        "Francs Cotes de Bordeaux",
+        "Sainte-Foy Cotes de Bordeaux"
+      ],
+      "Other Cotes": [
+        "Cotes de Bourg"
       ]
     },
     "Burgundy": {
@@ -440,20 +444,21 @@ var REGIONS = {
         "Chablis Grand Cru Bougros",
         "Chablis Grand Cru Les Clos",
         "Chablis Grand Cru Grenouilles",
+        "Chablis Grand Cru La Moutonne",
         "Chablis Grand Cru Preuses",
         "Chablis Grand Cru Valmur",
         "Chablis Grand Cru Vaudesir",
         "Irancy",
-        "Saint-Bris"
+        "Saint-Bris",
+        "Bourgogne Cotes d Auxerre"
       ],
-      "Cote de Nuits-Villages": [
+      "Cote de Nuits": [
+        "Marsannay",
         "Marsannay Rouge",
         "Marsannay Blanc",
         "Marsannay Rose",
         "Fixin",
-        "Cote de Nuits-Villages"
-      ],
-      "Gevrey-Chambertin": [
+        "Fixin Premier Cru",
         "Gevrey-Chambertin",
         "Gevrey-Chambertin Premier Cru",
         "Chambertin",
@@ -464,29 +469,20 @@ var REGIONS = {
         "Latricieres-Chambertin",
         "Mazis-Chambertin",
         "Mazoyeres-Chambertin",
-        "Ruchottes-Chambertin"
-      ],
-      "Morey-Saint-Denis": [
+        "Ruchottes-Chambertin",
         "Morey-Saint-Denis",
         "Morey-Saint-Denis Premier Cru",
-        "Clos Saint-Denis",
         "Clos de la Roche",
+        "Clos Saint-Denis",
         "Clos des Lambrays",
         "Clos de Tart",
-        "Bonnes-Mares"
-      ],
-      "Chambolle-Musigny": [
         "Chambolle-Musigny",
         "Chambolle-Musigny Premier Cru",
         "Musigny",
-        "Bonnes-Mares"
-      ],
-      "Vougeot": [
+        "Bonnes-Mares",
         "Vougeot",
+        "Vougeot Premier Cru",
         "Clos de Vougeot",
-        "Vougeot Premier Cru"
-      ],
-      "Vosne-Romanee": [
         "Vosne-Romanee",
         "Vosne-Romanee Premier Cru",
         "Romanee-Conti",
@@ -496,70 +492,60 @@ var REGIONS = {
         "La Romanee",
         "La Grande Rue",
         "Echezeaux",
-        "Grands Echezeaux"
-      ],
-      "Nuits-Saint-Georges": [
+        "Grands Echezeaux",
         "Nuits-Saint-Georges",
-        "Nuits-Saint-Georges Premier Cru"
+        "Nuits-Saint-Georges Premier Cru",
+        "Cote de Nuits-Villages"
       ],
-      "Cote de Beaune-Villages": [
+      "Cote de Beaune": [
         "Ladoix",
         "Pernand-Vergelesses",
         "Aloxe-Corton",
-        "Savigny-les-Beaune",
-        "Chorey-les-Beaune",
-        "Cote de Beaune",
-        "Cote de Beaune-Villages"
-      ],
-      "Corton Grand Cru": [
         "Corton",
         "Corton-Charlemagne",
-        "Charlemagne"
-      ],
-      "Beaune": [
+        "Charlemagne",
+        "Savigny-les-Beaune",
+        "Savigny-les-Beaune Premier Cru",
+        "Chorey-les-Beaune",
         "Beaune",
-        "Beaune Premier Cru"
-      ],
-      "Pommard-Volnay": [
+        "Beaune Premier Cru",
         "Pommard",
         "Pommard Premier Cru",
         "Volnay",
         "Volnay Premier Cru",
-        "Monthélie",
+        "Monthelie",
         "Auxey-Duresses",
-        "Saint-Romain"
-      ],
-      "Meursault": [
+        "Saint-Romain",
         "Meursault",
         "Meursault Premier Cru",
-        "Blagny"
-      ],
-      "Puligny-Montrachet": [
+        "Blagny",
         "Puligny-Montrachet",
         "Puligny-Montrachet Premier Cru",
         "Montrachet",
         "Chevalier-Montrachet",
         "Batard-Montrachet",
-        "Bienvenues-Batard-Montrachet"
-      ],
-      "Chassagne-Montrachet": [
+        "Bienvenues-Batard-Montrachet",
         "Chassagne-Montrachet",
         "Chassagne-Montrachet Premier Cru",
-        "Montrachet",
-        "Batard-Montrachet",
-        "Criots-Batard-Montrachet"
-      ],
-      "Other Cote de Beaune": [
+        "Criots-Batard-Montrachet",
         "Saint-Aubin",
+        "Saint-Aubin Premier Cru",
         "Santenay",
-        "Maranges"
+        "Santenay Premier Cru",
+        "Maranges",
+        "Maranges Premier Cru",
+        "Cote de Beaune-Villages"
       ],
       "Cote Chalonnaise": [
         "Bouzeron",
         "Rully",
+        "Rully Premier Cru",
         "Mercurey",
+        "Mercurey Premier Cru",
         "Givry",
-        "Montagny"
+        "Givry Premier Cru",
+        "Montagny",
+        "Montagny Premier Cru"
       ],
       "Maconnais": [
         "Macon",
@@ -569,11 +555,10 @@ var REGIONS = {
         "Pouilly-Vinzelles",
         "Saint-Veran",
         "Vire-Clesse",
-        "Viré-Clessé",
-        "Crémant de Bourgogne"
+        "Cremant de Bourgogne"
       ],
       "Beaujolais": [
-        "Beaujolais AOC",
+        "Beaujolais",
         "Beaujolais-Villages",
         "Brouilly",
         "Chenas",
@@ -596,7 +581,7 @@ var REGIONS = {
         "Mailly-Champagne",
         "Sillery",
         "Beaumont-sur-Vesle",
-        "Trépail"
+        "Trepail"
       ],
       "Vallee de la Marne": [
         "Ay",
@@ -604,7 +589,7 @@ var REGIONS = {
         "Mareuil-sur-Ay",
         "Epernay",
         "Dizy",
-        "Cumières",
+        "Cumieres",
         "Damery",
         "Venteuil"
       ],
@@ -623,25 +608,19 @@ var REGIONS = {
         "Les Riceys",
         "Bar-sur-Seine",
         "Urville",
-        "Gyé-sur-Seine"
+        "Gye-sur-Seine"
       ],
       "Cote de Sezanne": [
-        "Sézanne",
+        "Sezanne",
         "Barbonne-Fayel",
         "Bethon"
       ],
-      "Champagne Style": [
+      "Champagne AOC": [
         "Champagne AOC",
         "Blanc de Blancs",
         "Blanc de Noirs",
         "Rose Champagne",
-        "Prestige Cuvee",
-        "Non-Vintage Brut",
-        "Vintage Champagne",
-        "Extra Brut",
-        "Brut Nature",
-        "Demi-Sec",
-        "Doux"
+        "Prestige Cuvee"
       ]
     },
     "Rhone Valley": {
@@ -660,62 +639,67 @@ var REGIONS = {
         "Gigondas",
         "Vacqueyras",
         "Beaumes-de-Venise",
+        "Muscat de Beaumes-de-Venise",
         "Rasteau",
+        "Rasteau Vin Doux Naturel",
         "Vinsobres",
+        "Cairanne",
         "Lirac",
         "Tavel",
+        "Cotes du Rhone",
+        "Cotes du Rhone Villages",
         "Luberon",
         "Ventoux",
         "Grignan-les-Adhemar",
-        "Cotes du Rhone",
-        "Cotes du Rhone Villages",
-        "Costières de Nîmes",
-        "Clairette de Die",
-        "Coteaux du Tricastin"
+        "Costieres de Nimes"
       ]
     },
     "Loire Valley": {
       "Pays Nantais": [
         "Muscadet",
         "Muscadet Sevre et Maine",
+        "Muscadet Sevre et Maine Sur Lie",
         "Muscadet Coteaux de la Loire",
-        "Muscadet Côtes de Grandlieu",
-        "Muscadet sur Lie",
+        "Muscadet Cotes de Grandlieu",
         "Gros Plant du Pays Nantais",
-        "Fiefs Vendéens"
+        "Fiefs Vendeens"
       ],
       "Anjou-Saumur": [
         "Anjou",
+        "Anjou Blanc",
+        "Anjou Rouge",
         "Anjou-Villages",
         "Anjou-Villages-Brissac",
+        "Cabernet d Anjou",
+        "Rose d Anjou",
         "Savennieres",
         "Savennieres Coulee de Serrant",
         "Savennieres Roche aux Moines",
         "Coteaux du Layon",
         "Coteaux du Layon Villages",
-        "Quarts de Chaume",
-        "Bonnezeaux",
         "Coteaux de l Aubance",
+        "Quarts de Chaume Grand Cru",
+        "Bonnezeaux",
         "Saumur",
+        "Saumur Blanc",
         "Saumur-Champigny",
         "Saumur Mousseux",
-        "Crement de Loire",
-        "Cabernet d Anjou",
-        "Rose d Anjou"
+        "Cremant de Loire"
       ],
       "Touraine": [
-        "Touraine AOC",
+        "Touraine",
         "Touraine-Amboise",
         "Touraine-Azay-le-Rideau",
         "Touraine-Mesland",
         "Touraine-Oisly",
+        "Touraine Noble Joue",
         "Chinon",
         "Bourgueil",
         "Saint-Nicolas-de-Bourgueil",
         "Vouvray",
         "Montlouis-sur-Loire",
         "Coteaux du Loir",
-        "Jasnières",
+        "Jasnieres",
         "Cheverny",
         "Cour-Cheverny"
       ],
@@ -728,26 +712,18 @@ var REGIONS = {
         "Reuilly",
         "Chateaumeillant",
         "Coteaux du Giennois",
-        "Orléans",
+        "Orleans",
         "Orleans-Clery"
       ]
     },
     "Alsace": {
       "Alsace": [
         "Alsace AOC",
-        "Alsace Grand Cru",
-        "Cremant dAlsace",
-        "Alsace Riesling",
-        "Alsace Gewurztraminer",
-        "Alsace Pinot Gris",
-        "Alsace Muscat",
-        "Alsace Pinot Noir",
-        "Alsace Sylvaner",
-        "Alsace Pinot Blanc",
-        "Alsace Edelzwicker",
-        "Alsace Gentil",
+        "Cremant d Alsace",
         "Vendange Tardive",
-        "Selection de Grains Nobles"
+        "Selection de Grains Nobles",
+        "Edelzwicker",
+        "Gentil"
       ],
       "Alsace Grand Cru": [
         "Altenberg de Bergbieten",
@@ -816,9 +792,7 @@ var REGIONS = {
         "Les Baux-de-Provence",
         "Coteaux d Aix-en-Provence",
         "Coteaux Varois en Provence",
-        "Coteaux de Pierrevert",
-        "Coteaux d Entraygues",
-        "Pierce"
+        "Coteaux de Pierrevert"
       ]
     },
     "Jura": {
@@ -938,8 +912,7 @@ var REGIONS = {
         "Banyuls",
         "Banyuls Grand Cru",
         "Rivesaltes",
-        "Muscat de Rivesaltes",
-        "Muscat de Noël"
+        "Muscat de Rivesaltes"
       ]
     },
     "Corsica": {
@@ -960,16 +933,9 @@ var REGIONS = {
     "Piedmont": {
       "Barolo-Barbaresco": [
         "Barolo",
+        "Barolo Riserva",
         "Barbaresco",
-        "Barolo DOCG",
-        "Barbaresco DOCG",
-        "Barolo Serralunga",
-        "Barolo La Morra",
-        "Barolo Castiglione Falletto",
-        "Barolo Barolo",
-        "Barolo Novello",
-        "Barbaresco Treiso",
-        "Barbaresco Neive"
+        "Barbaresco Riserva"
       ],
       "Langhe": [
         "Langhe DOC",
@@ -1004,8 +970,7 @@ var REGIONS = {
         "Caluso Passito",
         "Loazzolo",
         "Piemonte DOC",
-        "Gavi",
-        "Cortese di Gavi"
+        "Gavi"
       ],
       "Novara-Vercelli Hills": [
         "Ghemme",
@@ -1072,8 +1037,7 @@ var REGIONS = {
         "Montecarlo",
         "Candia dei Colli Apuani",
         "Cortona",
-        "Montecucco",
-        "Scansano"
+        "Montecucco"
       ]
     },
     "Veneto": {
@@ -1307,9 +1271,6 @@ var REGIONS = {
         "Marsala Superiore",
         "Marsala Vergine",
         "Marsala Superiore Riserva",
-        "Moscato di Pantelleria",
-        "Passito di Pantelleria",
-        "Malvasia delle Lipari",
         "Sicilia DOC",
         "Menfi",
         "Sciacca",
@@ -1461,20 +1422,12 @@ var REGIONS = {
         "Rioja DOCa",
         "Rioja Alta",
         "Rioja Alavesa",
-        "Rioja Oriental",
-        "Rioja Crianza",
-        "Rioja Reserva",
-        "Rioja Gran Reserva",
-        "Rioja Blanco",
-        "Rioja Rosado"
+        "Rioja Oriental"
       ]
     },
     "Ribera del Duero": {
       "Ribera del Duero": [
-        "Ribera del Duero DO",
-        "Ribera del Duero Crianza",
-        "Ribera del Duero Reserva",
-        "Ribera del Duero Gran Reserva"
+        "Ribera del Duero DO"
       ]
     },
     "Priorat": {
@@ -1508,10 +1461,7 @@ var REGIONS = {
         "Corpinnat",
         "Penedes",
         "Alt Penedes",
-        "Penedes Maritim",
-        "Cava Brut",
-        "Cava Reserva",
-        "Cava Gran Reserva"
+        "Penedes Maritim"
       ],
       "Other Catalonia": [
         "Conca de Barbera",
@@ -1521,20 +1471,14 @@ var REGIONS = {
         "Alella",
         "Terra Alta",
         "Catalunya DOC",
-        "Pla i Llevant",
-        "Tarragona",
-        "Tarragona Clàssic"
+        "Tarragona"
       ]
     },
     "Castile-Leon": {
       "Castile-Leon": [
-        "Ribera del Duero",
         "Rueda",
-        "Rueda Verdejo",
-        "Rueda Sauvignon Blanc",
         "Toro",
         "Bierzo",
-        "Bierzo Mencía",
         "Cigales",
         "Arlanza",
         "Arribes",
@@ -1549,11 +1493,8 @@ var REGIONS = {
         "Valdepenas",
         "Manchuela",
         "Almansa",
-        "Uclés",
-        "Ribera del Jucar",
-        "Jumilla",
-        "Yecla",
-        "Bullas"
+        "Ucles",
+        "Ribera del Jucar"
       ],
       "Madrid-Extremadura": [
         "Vinos de Madrid",
@@ -1566,11 +1507,9 @@ var REGIONS = {
     },
     "Basque-Navarre": {
       "Basque Country": [
-        "Txakoli de Getaria",
-        "Txakoli de Bizkaia",
-        "Txakoli de Alava",
         "Getariako Txakolina",
-        "Bizkaiko Txakolina"
+        "Bizkaiko Txakolina",
+        "Arabako Txakolina"
       ],
       "Navarre": [
         "Navarra DO",
@@ -1583,8 +1522,7 @@ var REGIONS = {
         "Campo de Borja",
         "Carinena",
         "Calatayud",
-        "Somontano",
-        "Vin de Pays dAragon"
+        "Somontano"
       ]
     },
     "Andalusia": {
@@ -1687,29 +1625,23 @@ var REGIONS = {
         "Karthauserhofberg"
       ],
       "Upper-Lower Mosel": [
-        "Cochemer Zeyl",
-        "Terrassenmosel",
-        "Bremm",
-        "Senheim",
         "Zell",
         "Merl",
-        "Bullay"
+        "Bullay",
+        "Bremm",
+        "Senheim"
       ]
     },
     "Rheingau": {
       "Rheingau": [
         "Hochheim",
         "Johannisberg",
-        "Johannisberg Klaus",
         "Geisenheim",
         "Rudesheim",
-        "Rudesheim Berg Schlossberg",
         "Hattenheim",
-        "Marcobrunn",
         "Steinberg",
         "Erbach",
         "Kiedrich",
-        "Kiedrich Grafenberg",
         "Rauenthal",
         "Winkel",
         "Schloss Vollrads",
@@ -1740,18 +1672,15 @@ var REGIONS = {
     "Pfalz": {
       "Mittelhaardt": [
         "Forst",
-        "Forst Kirchenstück",
-        "Forst Jesuitengarten",
         "Deidesheim",
         "Ruppertsberg",
         "Wachenheim",
-        "Wachenheim Gerümpel"
-      ],
-      "South Pfalz": [
         "Bad Durkheim",
         "Ungstein",
         "Kallstadt",
-        "Freinsheim",
+        "Freinsheim"
+      ],
+      "South Pfalz": [
         "Burrweiler",
         "Schweigen",
         "Leinsweiler",
@@ -1815,10 +1744,7 @@ var REGIONS = {
         "Stromberg-Heuchelberg",
         "Kocher-Jagst-Tauber",
         "Oberer Neckar",
-        "Württembergisch Unterland",
-        "Lemberger",
-        "Trollinger",
-        "Schwarzriesling"
+        "Württembergisch Unterland"
       ]
     },
     "Mittelrhein": {
@@ -1876,9 +1802,7 @@ var REGIONS = {
         "Douro DOC",
         "Douro Baixo Corgo",
         "Douro Cima Corgo",
-        "Douro Superior",
-        "Douro Branco",
-        "Douro Rosé"
+        "Douro Superior"
       ],
       "Port Wine": [
         "Vintage Port",
@@ -1894,9 +1818,7 @@ var REGIONS = {
         "White Port",
         "Ruby Port",
         "Ruby Reserve",
-        "Garrafeira Port",
-        "Rosé Port",
-        "Pink Port"
+        "Rose Port"
       ]
     },
     "Alentejo": {
@@ -1916,13 +1838,8 @@ var REGIONS = {
     "Vinho Verde": {
       "Vinho Verde": [
         "Vinho Verde DOC",
-        "Vinho Verde Alvarinho",
-        "Vinho Verde Loureiro",
-        "Vinho Verde Arinto",
         "Vinho Verde Espumante",
         "Moncao e Melgaco",
-        "Moncao",
-        "Melgaco",
         "Lima",
         "Braga",
         "Baiao",
@@ -1931,15 +1848,12 @@ var REGIONS = {
         "Ave",
         "Cavado",
         "Basto",
-        "Paiva",
-        "Monção e Melgaço Alvarinho"
+        "Paiva"
       ]
     },
     "Dao": {
       "Dao": [
         "Dao DOC",
-        "Dao Encruzado",
-        "Dao Touriga Nacional",
         "Serra da Estrela",
         "Terras de Silgueiros",
         "Castendo",
@@ -1954,10 +1868,7 @@ var REGIONS = {
       "Bairrada": [
         "Bairrada DOC",
         "Bairrada Espumante",
-        "Bairrada Reserva",
-        "Sangalhos",
-        "Baga",
-        "Casta Baga"
+        "Sangalhos"
       ]
     },
     "Lisboa": {
@@ -1970,9 +1881,7 @@ var REGIONS = {
         "Arruda",
         "Alenquer",
         "Obidos",
-        "Encostas d Aire",
-        "Tejo",
-        "Ribatejo"
+        "Encostas d Aire"
       ],
       "Setubal Peninsula": [
         "Setubal DOC",
@@ -1989,10 +1898,8 @@ var REGIONS = {
         "Cartaxo",
         "Chamusca",
         "Coruche",
-        "Santarém",
-        "Tomar",
-        "Coruche",
-        "Chamusca"
+        "Santarem",
+        "Tomar"
       ]
     },
     "Algarve": {
@@ -2083,7 +1990,6 @@ var REGIONS = {
         "Paso Robles Willow Creek",
         "Paso Robles Highlands",
         "Santa Barbara County",
-        "Santa Rita Hills",
         "Sta Rita Hills",
         "Santa Maria Valley",
         "Santa Ynez Valley",
@@ -2166,8 +2072,6 @@ var REGIONS = {
         "Columbia Gorge AVA",
         "Hood River",
         "The Dalles",
-        "Walla Walla Valley Oregon",
-        "Snake River Valley",
         "Rocks District of Milton-Freewater"
       ]
     },
@@ -2250,9 +2154,7 @@ var REGIONS = {
     "Other USA": {
       "Pacific Northwest": [
         "Idaho AVA",
-        "Snake River Valley Idaho",
-        "Lewis-Clark Valley Idaho",
-        "Walla Walla Valley Washington"
+        "Snake River Valley Idaho"
       ],
       "Mountain States": [
         "Colorado Grand Valley",
@@ -2270,8 +2172,7 @@ var REGIONS = {
         "Missouri Augusta",
         "Maryland Catoctin",
         "Pennsylvania",
-        "Ohio Isle St George",
-        "Virginia Shenandoah"
+        "Ohio Isle St George"
       ]
     }
   },
@@ -2279,11 +2180,8 @@ var REGIONS = {
     "South Australia": {
       "Barossa": [
         "Barossa Valley",
-        "Barossa",
         "Eden Valley",
-        "High Eden",
-        "Rowland Flat",
-        "Seppeltsfield"
+        "High Eden"
       ],
       "McLaren Vale-Fleurieu": [
         "McLaren Vale",
@@ -2308,7 +2206,6 @@ var REGIONS = {
         "Robe",
         "Mount Gambier",
         "Bordertown",
-        "Bordertown",
         "Cape Jaffa",
         "Wattle Range"
       ],
@@ -2322,11 +2219,9 @@ var REGIONS = {
       ],
       "Other South Australia": [
         "Riverland",
-        "Riverland",
         "Southern Flinders Ranges",
         "Far North SA",
-        "Adelaide Plains",
-        "Currency Creek"
+        "Adelaide Plains"
       ]
     },
     "Victoria": {
@@ -2360,7 +2255,6 @@ var REGIONS = {
       "Grampians-Pyrenees": [
         "Grampians",
         "Great Western",
-        "Rymple",
         "Pyrenees",
         "Moonambel",
         "Avoca",
@@ -2395,7 +2289,6 @@ var REGIONS = {
     "New South Wales": {
       "Hunter Valley": [
         "Hunter Valley",
-        "Hunter",
         "Lower Hunter",
         "Upper Hunter",
         "Broke Fordwich",
@@ -2413,8 +2306,7 @@ var REGIONS = {
         "Young",
         "Canberra District",
         "Tumbarumba",
-        "Gundagai",
-        "Tumbarumba"
+        "Gundagai"
       ],
       "Other NSW": [
         "Shoalhaven Coast",
@@ -2457,7 +2349,6 @@ var REGIONS = {
         "Geographe",
         "Peel",
         "Gingin",
-        "Margaret River North",
         "Esperance"
       ]
     },
@@ -2490,14 +2381,7 @@ var REGIONS = {
         "Marlborough",
         "Wairau Valley",
         "Awatere Valley",
-        "Southern Valleys",
-        "Rapaura",
-        "Renwick",
-        "Brancott",
-        "Fairhall",
-        "Omaka",
-        "Waihopai Valley",
-        "Ben Morven"
+        "Southern Valleys"
       ]
     },
     "Central Otago": {
@@ -2539,8 +2423,7 @@ var REGIONS = {
         "Ata Rangi"
       ],
       "Wellington": [
-        "Wellington Region",
-        "Matakana Island"
+        "Wellington Region"
       ]
     },
     "Nelson-Tasman": {
@@ -2565,7 +2448,6 @@ var REGIONS = {
       "Canterbury": [
         "Canterbury",
         "Christchurch Plains",
-        "Waiheke Island",
         "Banks Peninsula"
       ]
     },
@@ -2594,10 +2476,7 @@ var REGIONS = {
         "Northland",
         "Waikato",
         "Bay of Plenty",
-        "Otago",
         "Southland",
-        "Oamaru",
-        "Bannockburn",
         "Waitaki Valley",
         "North Otago"
       ]
@@ -2633,9 +2512,7 @@ var REGIONS = {
         "Los Arboles"
       ],
       "Maipu": [
-        "Maipú",
         "Maipu",
-        "Rivadavia",
         "General Gutierrez",
         "Barrancas",
         "Lumlunta",
@@ -2645,13 +2522,11 @@ var REGIONS = {
       "Other Mendoza": [
         "San Martin",
         "Junin",
-        "Rivadavia",
         "Las Heras",
         "Lavalle",
         "San Rafael",
         "General Alvear",
-        "Valle de San Rafael",
-        "Valle de Uco"
+        "Valle de San Rafael"
       ]
     },
     "Salta": {
@@ -2700,12 +2575,11 @@ var REGIONS = {
         "Alto Valle del Rio Negro",
         "Valle Medio",
         "Valle Inferior",
-        "San Patricio del Chañar",
-        "Añelo",
+        "San Patricio del Chanar",
+        "Anelo",
         "Confluencia",
-        "Las Compuertas",
         "General Roca",
-        "Mainqué",
+        "Mainque",
         "Villa Regina"
       ]
     },
@@ -2749,23 +2623,17 @@ var REGIONS = {
         "San Antonio Valley",
         "Leyda Valley",
         "Lo Abarca",
-        "Rosario Valley",
-        "Bío Bío",
-        "Malleco"
+        "Rosario Valley"
       ]
     },
     "Central Valley": {
       "Maipo Valley": [
         "Maipo Valley",
         "Alto Maipo",
-        "Pacific Maipo",
-        "Central Maipo",
         "Isla de Maipo",
         "Buin",
         "Pirque",
-        "Paine",
-        "Talagante",
-        "Melipilla"
+        "Paine"
       ],
       "Rapel Valley": [
         "Rapel Valley",
@@ -2804,11 +2672,7 @@ var REGIONS = {
       "Bio Bio-Itata": [
         "Bio Bio Valley",
         "Itata Valley",
-        "Malleco Valley",
-        "Treuen",
-        "Portezuelo",
-        "Quillon",
-        "Yumbel"
+        "Malleco Valley"
       ],
       "Other South": [
         "Osorno",
@@ -2834,8 +2698,7 @@ var REGIONS = {
       ],
       "Franschhoek": [
         "Franschhoek Valley",
-        "Berg en Dal",
-        "Franschhoek"
+        "Berg en Dal"
       ],
       "Paarl": [
         "Paarl",
@@ -2902,7 +2765,6 @@ var REGIONS = {
         "Citrusdal Mountain",
         "Lutzville Valley",
         "Koekenaap",
-        "Bamboes Bay",
         "Vredendal"
       ]
     },
@@ -2925,9 +2787,7 @@ var REGIONS = {
         "Sutherland-Karoo",
         "Ceres Plateau",
         "Prince Albert Valley",
-        "Cederberg",
-        "Bamboes Bay",
-        "Lutzville"
+        "Cederberg"
       ]
     }
   },
@@ -2964,8 +2824,7 @@ var REGIONS = {
         "Strass",
         "Schönberg",
         "Kammern",
-        "Etsdorf",
-        "Zöbing"
+        "Etsdorf"
       ],
       "Traisental": [
         "Traisental",
@@ -2980,7 +2839,6 @@ var REGIONS = {
         "Kirchberg am Wagram",
         "Feuersbrunn",
         "Königsbrunn",
-        "Tattendorf",
         "Absdorf"
       ],
       "Weinviertel": [
@@ -3021,7 +2879,6 @@ var REGIONS = {
         "Frauenkirchen",
         "Apetlon",
         "Illmitz",
-        "Oggau",
         "Oslip"
       ],
       "Leithaberg": [
@@ -3102,15 +2959,12 @@ var REGIONS = {
     "Tokaj": {
       "Tokaj": [
         "Tokaji Aszu",
-        "Tokaji Aszu Essencia",
         "Tokaji Eszencia",
         "Tokaji Furmint",
         "Tokaji Hárslevelű",
         "Tokaji Szamorodni",
         "Tokaji Forditas",
         "Tokaji Maslás",
-        "Tokaji Szamorodni Sweet",
-        "Tokaji Szamorodni Dry",
         "Tokaj Dry Furmint",
         "Mad",
         "Tallya",
@@ -3124,8 +2978,6 @@ var REGIONS = {
         "Sátoraljaújhely"
       ],
       "Other Tokaj": [
-        "Late Harvest Furmint",
-        "Dry Furmint",
         "Kabar",
         "Zéta",
         "Kövérszőlő",
@@ -3137,14 +2989,10 @@ var REGIONS = {
         "Eger",
         "Egri Bikavér",
         "Egri Csillag",
-        "Egri Leányka",
-        "Egri Chardonnay"
+        "Egri Leányka"
       ],
       "Villány": [
         "Villány",
-        "Villányi Franc",
-        "Villányi Merlot",
-        "Villányi Cabernet",
         "Siklós"
       ],
       "Szekszárd": [
@@ -3174,10 +3022,7 @@ var REGIONS = {
     "Peloponnese": {
       "Nemea-Mantinia": [
         "Nemea",
-        "Nemea Agiorgitiko",
-        "Ancient Nemea",
-        "Mantinia",
-        "Mantinia Moschofilero"
+        "Mantinia"
       ],
       "Other Peloponnese": [
         "Patras",
@@ -3191,9 +3036,7 @@ var REGIONS = {
     "Macedonia": {
       "Naoussa-Amyndeon": [
         "Naoussa",
-        "Naoussa Xinomavro",
         "Amyndeon",
-        "Amyndeon Xinomavro",
         "Florina"
       ],
       "Other Macedonia": [
@@ -3210,7 +3053,6 @@ var REGIONS = {
     "Aegean Islands": {
       "Santorini-Cyclades": [
         "Santorini",
-        "Santorini Assyrtiko",
         "Santorini Vinsanto",
         "Nykteri",
         "Paros"
@@ -3236,9 +3078,7 @@ var REGIONS = {
         "Rapsani Reserve",
         "Anchialos",
         "Karditsa",
-        "Slopes of Meliton",
         "Magnesia",
-        "Corinthos Currant",
         "Attica",
         "Mesogia"
       ]
@@ -3297,20 +3137,17 @@ var REGIONS = {
       ],
       "Golan Heights": [
         "Golan Heights",
-        "Yarden",
         "Mount Hermon",
         "Quatzrin",
-        "Odem",
-        "Eliad"
+        "Odem"
       ]
     },
     "Other Israel": {
       "Other": [
         "Judean Hills",
         "Jerusalem Mountains",
-        "Shimshon",
-        "Shomron",
         "Samson",
+        "Shomron",
         "Negev",
         "Arad",
         "Ramat Arad"
@@ -3342,8 +3179,7 @@ var REGIONS = {
         "Kartli",
         "Imereti",
         "Racha-Lechkhumi",
-        "Kvemo Svaneti",
-        "Abkhazia"
+        "Kvemo Svaneti"
       ]
     }
   },
@@ -3351,8 +3187,6 @@ var REGIONS = {
     "Valais": {
       "Valais": [
         "Valais",
-        "Fendant",
-        "Dole",
         "Heida",
         "Chamoson",
         "Fully",
@@ -3396,7 +3230,6 @@ var REGIONS = {
         "Neuchatel",
         "Twann",
         "Ligerz",
-        "Schaffen",
         "Biel",
         "Morat",
         "Murten",
@@ -3410,9 +3243,15 @@ var REGIONS = {
         "Zurich",
         "Schaffhausen",
         "Graubunden",
-        "Ticino",
         "Zurich Weinland",
         "Klettgau"
+      ],
+      "Italian Switzerland": [
+        "Ticino",
+        "Lugano",
+        "Bellinzona",
+        "Locarno",
+        "Mendrisio"
       ]
     }
   },
