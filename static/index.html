@@ -286,7 +286,10 @@ input[type="date"]{color-scheme:dark;}
       <div class="field"><label>Vintage</label><input id="fVintage" placeholder="2021" inputmode="numeric"></div>
     </div>
 
-    <div class="section-label">Location</div>
+    <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Location</span>
+      <button type="button" onclick="toggleManual()" id="manualToggleBtn" style="font-size:.68rem;padding:.2rem .5rem;background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.3);color:var(--acc);border-radius:4px;cursor:pointer;font-family:inherit">✏️ Enter manually</button>
+    </div>
     <div class="field">
       <label>Country</label>
       <select id="fCountry" onchange="onCountryChange()">
@@ -330,6 +333,20 @@ input[type="date"]{color-scheme:dark;}
       <select id="fAppellation">
         <option value="">— Select Appellation —</option>
       </select>
+    </div>
+
+    <div id="manualFields" style="display:none">
+      <div style="font-size:.72rem;color:var(--acc);margin-bottom:.4rem;padding:.4rem .6rem;background:rgba(74,158,255,.08);border-radius:6px;border:1px solid rgba(74,158,255,.2)">
+        ✏️ Not in the list? Type manually below.
+      </div>
+      <div class="row2">
+        <div class="field"><label>Country (manual)</label><input id="fCountryManual" placeholder="e.g. China, Thailand…"></div>
+        <div class="field"><label>Region (manual)</label><input id="fRegionManual" placeholder="e.g. Ningxia"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Sub-Region (manual)</label><input id="fSubregionManual" placeholder="e.g. Helan Mountain East"></div>
+        <div class="field"><label>Appellation (manual)</label><input id="fAppellationManual" placeholder="e.g. Silver Heights"></div>
+      </div>
     </div>
 
     <div class="section-label">Details</div>
@@ -3632,7 +3649,6 @@ function openEdit(id) {
   setScore(currentScore);
   var img = document.getElementById("previewImg");
   if (currentImageData) { img.src = currentImageData; img.style.display = "block"; } else { img.style.display = "none"; }
-  document.getElementById("uploadHint").textContent = currentImageData ? "Tap to change photo" : "Tap to add photo";
   var ab = document.getElementById("analyzeBtn");
   ab.style.display = currentImageData ? "block" : "none"; ab.disabled = false;
   setStatus("", "");
@@ -3658,10 +3674,21 @@ function clearForm() {
   fillSelect("fAppellation", [], "— Select Appellation —");
   document.getElementById("fCountry").value = "";
   setScore(0);
-  document.getElementById("previewImg").style.display = "none";
-  document.getElementById("uploadHint").textContent = "Tap to photograph the label";
+  // Reset photo section (new dual-button layout)
+  currentImageData = null;
+  document.getElementById("photoPreviewWrap").style.display = "none";
+  document.getElementById("previewImg").src = "";
+  document.getElementById("fileInputCamera").value = "";
+  document.getElementById("fileInputAlbum").value = "";
   document.getElementById("analyzeBtn").style.display = "none";
   document.getElementById("analyzeBtn").disabled = true;
+  // Reset manual location fields
+  var mf = document.getElementById("manualFields");
+  if (mf) mf.style.display = "none";
+  var mtb = document.getElementById("manualToggleBtn");
+  if (mtb) mtb.textContent = "✏️ Enter manually";
+  var mfids = ["fCountryManual","fRegionManual","fSubregionManual","fAppellationManual"];
+  for (var i = 0; i < mfids.length; i++) { var el = document.getElementById(mfids[i]); if (el) el.value = ""; }
   setStatus("", "");
 }
 
