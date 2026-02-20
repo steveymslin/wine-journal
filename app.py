@@ -154,48 +154,23 @@ def price_check():
     )
 
     try:
-        # Multi-turn loop to handle web_search tool use
-        messages = [{'role': 'user', 'content': user_prompt}]
-        for _ in range(5):  # max 5 turns
-            msg = client.messages.create(
-                model='claude-sonnet-4-5',
-                max_tokens=600,
-                tools=[{"type": "web_search_20250305", "name": "web_search"}],
-                messages=messages
-            )
-            # Collect any text in this response
-            text_parts = [b.text for b in msg.content if hasattr(b, 'text') and b.text]
-
-            if msg.stop_reason == 'end_turn':
-                result = ' '.join(text_parts).strip()
-                return jsonify({'result': result})
-
-            if msg.stop_reason == 'tool_use':
-                # Add assistant turn with all content blocks
-                messages.append({'role': 'assistant', 'content': msg.content})
-                # Build tool results for each tool_use block
-                tool_results = []
-                for block in msg.content:
-                    if block.type == 'tool_use':
-                        tool_results.append({
-                            'type': 'tool_result',
-                            'tool_use_id': block.id,
-                            'content': ''  # web_search handles its own results internally
-                        })
-                if tool_results:
-                    messages.append({'role': 'user', 'content': tool_results})
-                continue
-
-            # Any other stop reason - return what we have
-            result = ' '.join(text_parts).strip()
-            if result:
-                return jsonify({'result': result})
-            break
-
-        raise Exception("No result after tool loop")
+        # web_search_20250305 is server-side: Anthropic handles search internally.
+        # Just call once and the model returns text after searching.
+        msg = client.messages.create(
+            model='claude-sonnet-4-5',
+            max_tokens=400,
+            tools=[{"type": "web_search_20250305", "name": "web_search"}],
+            messages=[{'role': 'user', 'content': user_prompt}]
+        )
+        # Extract all text blocks from response
+        text_parts = [b.text for b in msg.content if hasattr(b, 'text') and b.text]
+        result = ' '.join(text_parts).strip()
+        if result:
+            return jsonify({'result': result})
+        raise Exception("Empty response")
 
     except Exception as e:
-        # Fallback: no web search, use training knowledge
+        # Fallback: use training knowledge without web search
         try:
             msg = client.messages.create(
                 model='claude-sonnet-4-5',
