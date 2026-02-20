@@ -142,36 +142,68 @@ def price_check():
 
     data = request.get_json()
     wine_desc = data.get('wine', '')
-    prompt = data.get('prompt', '')
 
     if not wine_desc:
         return jsonify({'error': 'No wine description provided'}), 400
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    user_prompt = (
+        f"What is the current retail price for this wine: {wine_desc}? "
+        f"Reply in this exact format: PRICE_RANGE: $XX - $XX USD | TYPICAL_PRICE: $XX USD. "
+        f"Keep it brief, just the prices."
+    )
 
     try:
-        msg = client.messages.create(
-            model='claude-opus-4-5',
-            max_tokens=600,
-            tools=[{"type": "web_search_20250305", "name": "web_search"}],
-            messages=[{'role': 'user', 'content': prompt or f"What is the current retail price for {wine_desc}? Give a price range in USD."}]
-        )
-        # Extract text from response (may include tool use blocks)
-        result = ' '.join(
-            block.text for block in msg.content
-            if hasattr(block, 'text')
-        ).strip()
-        return jsonify({'result': result})
+        # Multi-turn loop to handle web_search tool use
+        messages = [{'role': 'user', 'content': user_prompt}]
+        for _ in range(5):  # max 5 turns
+            msg = client.messages.create(
+                model='claude-sonnet-4-5',
+                max_tokens=600,
+                tools=[{"type": "web_search_20250305", "name": "web_search"}],
+                messages=messages
+            )
+            # Collect any text in this response
+            text_parts = [b.text for b in msg.content if hasattr(b, 'text') and b.text]
+
+            if msg.stop_reason == 'end_turn':
+                result = ' '.join(text_parts).strip()
+                return jsonify({'result': result})
+
+            if msg.stop_reason == 'tool_use':
+                # Add assistant turn with all content blocks
+                messages.append({'role': 'assistant', 'content': msg.content})
+                # Build tool results for each tool_use block
+                tool_results = []
+                for block in msg.content:
+                    if block.type == 'tool_use':
+                        tool_results.append({
+                            'type': 'tool_result',
+                            'tool_use_id': block.id,
+                            'content': ''  # web_search handles its own results internally
+                        })
+                if tool_results:
+                    messages.append({'role': 'user', 'content': tool_results})
+                continue
+
+            # Any other stop reason - return what we have
+            result = ' '.join(text_parts).strip()
+            if result:
+                return jsonify({'result': result})
+            break
+
+        raise Exception("No result after tool loop")
+
     except Exception as e:
-        # Fallback without web search if tool not available
+        # Fallback: no web search, use training knowledge
         try:
             msg = client.messages.create(
-                model='claude-opus-4-5',
-                max_tokens=600,
-                messages=[{'role': 'user', 'content': (prompt or f"What is the current retail price for {wine_desc}?") + " Note: this is an estimate based on your training data."}]
+                model='claude-sonnet-4-5',
+                max_tokens=300,
+                messages=[{'role': 'user', 'content': user_prompt + " Use your best estimate from training data."}]
             )
             result = msg.content[0].text.strip()
-            return jsonify({'result': result})
+            return jsonify({'result': result + ' (estimated)'})
         except Exception as e2:
             return jsonify({'error': str(e2)}), 500
 
