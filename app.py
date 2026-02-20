@@ -78,6 +78,21 @@ def delete_wine(wine_id):
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze_label():
+    # Handle WSET tasting note generation (JSON body, no image)
+    if request.is_json:
+        data = request.get_json()
+        if data.get('wset_mode'):
+            if not ANTHROPIC_API_KEY:
+                return jsonify({'error': 'ANTHROPIC_API_KEY not configured'}), 400
+            client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+            msg = client.messages.create(
+                model='claude-opus-4-5',
+                max_tokens=800,
+                messages=[{'role': 'user', 'content': data.get('prompt', '')}]
+            )
+            note = msg.content[0].text.strip()
+            return jsonify({'tasting_note': note})
+
     if 'image' not in request.files:
         return jsonify({'error': 'No image provided'}), 400
 
