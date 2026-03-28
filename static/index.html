@@ -127,10 +127,39 @@ input[type="date"]{color-scheme:dark;}
       <div class="header-sub" id="countLabel">Votre journal de cave personnel</div>
     </div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="exportCSV()" title="Export">📊</button>
-      <button class="icon-btn" id="viewBtn" onclick="toggleView()">☰</button>
+      <button class="icon-btn" onclick="toggleMenu()" title="Menu" id="menuBtn">☰</button>
+      <button class="icon-btn" id="viewBtn" onclick="toggleView()">⊞</button>
     </div>
   </div>
+  <!-- Backup/Restore Menu -->
+  <div id="menuPanel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:.75rem;overflow:hidden;">
+    <div style="padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;">Backup &amp; Restore</div>
+    <button onclick="exportCSV()" style="width:100%;padding:.75rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
+      <span style="font-size:1.1rem">📤</span>
+      <div>
+        <div style="font-weight:600">Export Backup</div>
+        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Save all wines as CSV to Files app</div>
+      </div>
+    </button>
+    <button onclick="document.getElementById('importFileInput').click()" style="width:100%;padding:.75rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
+      <span style="font-size:1.1rem">📥</span>
+      <div>
+        <div style="font-weight:600">Import from CSV</div>
+        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Restore wines from a backup file</div>
+      </div>
+    </button>
+    <div style="padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">View</div>
+    <button onclick="toggleView();toggleMenu()" style="width:100%;padding:.75rem 1rem;background:none;border:none;color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
+      <span style="font-size:1.1rem" id="viewModeIcon">☰</span>
+      <div>
+        <div style="font-weight:600" id="viewModeLabel">Switch to Grid View</div>
+        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Toggle between list and grid</div>
+      </div>
+    </button>
+  </div>
+  <input type="file" id="importFileInput" accept=".csv" style="display:none" onchange="importCSV(this)">
+  <div id="importStatus" style="display:none;padding:.5rem .75rem;border-radius:8px;font-size:.8rem;margin-bottom:.5rem;text-align:center;"></div>
+
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input class="search-input" id="searchInput" placeholder="Search wine, producer, region…" oninput="onSearch()">
