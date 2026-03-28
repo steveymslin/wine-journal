@@ -162,11 +162,19 @@ input[type="date"]{color-scheme:dark;}
     </div>
 
     <input type="hidden" id="editId">
-    <img id="previewImg" class="preview-img">
-    <div class="upload-zone">
-      <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleFile(event)">
-      <div class="upload-zone-icon">📷</div>
-      <div class="upload-hint" id="uploadHint">Tap to photograph the label</div>
+    <div id="photoPreviewWrap" style="display:none;margin-bottom:.75rem;position:relative">
+      <img id="previewImg" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;display:block;">
+      <button type="button" onclick="clearPhoto()" style="position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.55);border:none;color:white;border-radius:50%;width:26px;height:26px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem">
+      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
+        <input type="file" id="fileInputCamera" accept="image/*" capture="environment" onchange="handleFile(event)" style="display:none">
+        <span style="font-size:1.5rem">📷</span>Take Photo
+      </label>
+      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
+        <input type="file" id="fileInputAlbum" accept="image/*" onchange="handleFile(event)" style="display:none">
+        <span style="font-size:1.5rem">🖼️</span>From Album
+      </label>
     </div>
     <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Read Label with AI</button>
     <div class="status-msg" id="statusMsg"></div>
@@ -648,9 +656,9 @@ function openEdit(id) {
   wineryEl.style.height = wineryEl.scrollHeight + "px";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
+  var wrap = document.getElementById("photoPreviewWrap");
   var img = document.getElementById("previewImg");
-  if (currentImageData) { img.src = currentImageData; img.style.display = "block"; } else { img.style.display = "none"; }
-  document.getElementById("uploadHint").textContent = currentImageData ? "Tap to change photo" : "Tap to add photo";
+  if (currentImageData) { img.src = currentImageData; wrap.style.display = "block"; } else { wrap.style.display = "none"; }
   var ab = document.getElementById("analyzeBtn");
   ab.style.display = currentImageData ? "block" : "none"; ab.disabled = false;
   setStatus("", "");
@@ -661,7 +669,8 @@ function openEdit(id) {
 function closeSheet() {
   document.getElementById("overlay").classList.remove("open");
   document.body.style.overflow = "";
-  document.getElementById("fileInput").value = "";
+  document.getElementById("fileInputCamera").value = "";
+  document.getElementById("fileInputAlbum").value = "";
 }
 
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
@@ -677,8 +686,7 @@ function clearForm() {
   fillSelect("fAppellation", [], "— Select Appellation —");
   document.getElementById("fCountry").value = "";
   setScore(0);
-  document.getElementById("previewImg").style.display = "none";
-  document.getElementById("uploadHint").textContent = "Tap to photograph the label";
+  document.getElementById("photoPreviewWrap").style.display = "none";
   document.getElementById("analyzeBtn").style.display = "none";
   document.getElementById("analyzeBtn").disabled = true;
   setStatus("", "");
@@ -690,12 +698,21 @@ function handleFile(e) {
   reader.onload = function(ev) {
     currentImageData = ev.target.result;
     var img = document.getElementById("previewImg");
-    img.src = currentImageData; img.style.display = "block";
-    document.getElementById("uploadHint").textContent = "Tap to change photo";
+    img.src = currentImageData;
+    document.getElementById("photoPreviewWrap").style.display = "block";
     document.getElementById("analyzeBtn").style.display = "block";
     document.getElementById("analyzeBtn").disabled = false;
   };
   reader.readAsDataURL(file);
+}
+
+function clearPhoto() {
+  currentImageData = null;
+  document.getElementById("photoPreviewWrap").style.display = "none";
+  document.getElementById("analyzeBtn").style.display = "none";
+  document.getElementById("analyzeBtn").disabled = true;
+  document.getElementById("fileInputCamera").value = "";
+  document.getElementById("fileInputAlbum").value = "";
 }
 
 function setStatus(msg, type) {
@@ -705,14 +722,16 @@ function setStatus(msg, type) {
 }
 
 async function analyzeLabel() {
-  var fi = document.getElementById("fileInput");
-  if (!fi.files[0] && !currentImageData) return;
+  var camFile = document.getElementById("fileInputCamera").files[0];
+  var albFile = document.getElementById("fileInputAlbum").files[0];
+  var fi = camFile || albFile;
+  if (!fi && !currentImageData) return;
   setStatus("Reading label…", "loading");
   document.getElementById("analyzeBtn").disabled = true;
   try {
     var body;
-    if (fi.files[0]) {
-      body = new FormData(); body.append("image", fi.files[0]);
+    if (fi) {
+      body = new FormData(); body.append("image", fi);
     } else {
       var res = await fetch(currentImageData);
       var blob = await res.blob();
