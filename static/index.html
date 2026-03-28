@@ -4,13 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Cave à Vin">
-  <link rel="apple-touch-icon" href="/icon-192.png">
-  <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Cave à Vin">
-<title>Cave à Vin</title>
+<meta name="apple-mobile-web-app-title" content="Wine Journal">
+<title>Wine Journal</title>
 <style>
 :root {
   --bg:#0A1628; --surface:#112240; --card:#1A3358; --border:#1E3D6B;
@@ -103,23 +99,6 @@ input[type="date"]{color-scheme:dark;}
 .save-btn{width:100%;padding:.85rem;background:var(--accent);border:none;color:white;font-size:.95rem;font-weight:600;cursor:pointer;border-radius:10px;margin-top:.6rem;font-family:inherit;}
 .save-btn:disabled{opacity:.5;}
 .cancel-btn{width:100%;padding:.7rem;margin-top:.5rem;background:none;border:1px solid var(--border);color:var(--dim);font-size:.9rem;cursor:pointer;border-radius:10px;font-family:inherit;}
-
-.pronun-btn{background:none;border:none;color:var(--acc);font-size:.85rem;cursor:pointer;padding:.1rem .3rem;opacity:.7;flex-shrink:0;line-height:1;}
-.pronun-btn:active{opacity:1;}
-#pronunPopup{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);border-radius:16px 16px 0 0;padding:1.2rem 1.4rem 2.5rem;z-index:2000;box-shadow:0 -8px 32px rgba(0,0,0,.5);}
-#pronunPopup.open{display:block;}
-.pronun-close{float:right;background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
-.pronun-wine-name{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.1rem;padding-right:1.5rem;}
-.pronun-origin{font-size:.72rem;color:var(--dim);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em;}
-.pronun-phonetic{font-size:1.5rem;font-weight:600;color:var(--acc);letter-spacing:.04em;margin-bottom:.4rem;}
-.pronun-syllables{font-size:.8rem;color:var(--dim);margin-bottom:.7rem;}
-.pronun-guide{font-size:.82rem;color:var(--white);line-height:1.6;margin-bottom:.6rem;}
-.pronun-tip{font-size:.75rem;color:var(--yellow);font-style:italic;margin-top:.3rem;}
-.pronun-loading{font-size:.85rem;color:var(--dim);text-align:center;padding:1.2rem 0;}
-
-#fComment::-webkit-scrollbar { width: 4px; }
-#fComment::-webkit-scrollbar-track { background: transparent; }
-#fComment::-webkit-scrollbar-thumb { background: rgba(255,255,255,.35); border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -127,43 +106,14 @@ input[type="date"]{color-scheme:dark;}
 <div class="header">
   <div class="header-top">
     <div>
-      <h1>🍷 Cave à Vin</h1>
-      <div class="header-sub" id="countLabel">Votre journal de cave personnel</div>
+      <h1>🍷 Wine Journal</h1>
+      <div class="header-sub" id="countLabel">Your personal cellar diary</div>
     </div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="toggleMenu()" title="Menu" id="menuBtn">☰</button>
-      <button class="icon-btn" id="viewBtn" onclick="toggleView()">⊞</button>
+      <button class="icon-btn" onclick="exportCSV()" title="Export">📊</button>
+      <button class="icon-btn" id="viewBtn" onclick="toggleView()">☰</button>
     </div>
   </div>
-  <!-- Backup/Restore Menu -->
-  <div id="menuPanel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:.75rem;overflow:hidden;">
-    <div style="padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;">Backup &amp; Restore</div>
-    <button onclick="exportCSV()" style="width:100%;padding:.75rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
-      <span style="font-size:1.1rem">📤</span>
-      <div>
-        <div style="font-weight:600">Export Backup</div>
-        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Save all wines as CSV to Files app</div>
-      </div>
-    </button>
-    <button onclick="document.getElementById('importFileInput').click()" style="width:100%;padding:.75rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
-      <span style="font-size:1.1rem">📥</span>
-      <div>
-        <div style="font-weight:600">Import from CSV</div>
-        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Restore wines from a backup file</div>
-      </div>
-    </button>
-    <div style="padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">View</div>
-    <button onclick="toggleView();toggleMenu()" style="width:100%;padding:.75rem 1rem;background:none;border:none;color:var(--white);font-size:.9rem;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;gap:.75rem;">
-      <span style="font-size:1.1rem" id="viewModeIcon">☰</span>
-      <div>
-        <div style="font-weight:600" id="viewModeLabel">Switch to Grid View</div>
-        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Toggle between list and grid</div>
-      </div>
-    </button>
-  </div>
-  <input type="file" id="importFileInput" accept=".csv" style="display:none" onchange="importCSV(this)">
-  <div id="importStatus" style="display:none;padding:.5rem .75rem;border-radius:8px;font-size:.8rem;margin-bottom:.5rem;text-align:center;"></div>
-
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input class="search-input" id="searchInput" placeholder="Search wine, producer, region…" oninput="onSearch()">
@@ -200,31 +150,19 @@ input[type="date"]{color-scheme:dark;}
 
     <input type="hidden" id="editId">
     <img id="previewImg" class="preview-img">
-    <div id="photoPreviewWrap" style="display:none;margin-bottom:.75rem;position:relative">
-      <img id="previewImg" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;display:block;">
-      <button type="button" onclick="clearPhoto()" style="position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.55);border:none;color:white;border-radius:50%;width:26px;height:26px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    <div class="upload-zone">
+      <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleFile(event)">
+      <div class="upload-zone-icon">📷</div>
+      <div class="upload-hint" id="uploadHint">Tap to photograph the label</div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem">
-      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
-        <input type="file" id="fileInputCamera" accept="image/*" capture="environment" onchange="handleFile(event,'camera')" style="display:none">
-        <span style="font-size:1.5rem">📷</span>Take Photo
-      </label>
-      <label style="display:flex;flex-direction:column;align-items:center;gap:.35rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;cursor:pointer;font-size:.82rem;color:var(--dim)">
-        <input type="file" id="fileInputAlbum" accept="image/*" onchange="handleFile(event,'album')" style="display:none">
-        <span style="font-size:1.5rem">🖼️</span>From Album
-      </label>
-    </div>
-    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Analyze</button>
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Read Label with AI</button>
     <div class="status-msg" id="statusMsg"></div>
     <div class="sep"></div>
 
     <div class="section-label">Wine Info</div>
     <div class="field"><label>Wine Name *</label><input id="fName" placeholder="e.g. Maranges 1er Cru"></div>
     <div class="field"><label>Producer / Domaine</label><input id="fProducer" placeholder="e.g. Bachelet-Monnot"></div>
-    <div class="field">
-      <label>Grape Variety</label>
-      <input id="fGrape" placeholder="e.g. Pinot Noir, GSM Blend, Chardonnay…" autocomplete="off">
-    </div>
+    <div class="field"><label>Grape Variety</label><input id="fGrape" placeholder="e.g. Pinot Noir"></div>
     <div class="row2">
       <div class="field">
         <label>Wine Style</label>
@@ -240,10 +178,7 @@ input[type="date"]{color-scheme:dark;}
       <div class="field"><label>Vintage</label><input id="fVintage" placeholder="2021" inputmode="numeric"></div>
     </div>
 
-    <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
-      <span>Location</span>
-      <button type="button" onclick="toggleManual()" id="manualToggleBtn" style="font-size:.68rem;padding:.2rem .5rem;background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.3);color:var(--acc);border-radius:4px;cursor:pointer;font-family:inherit">✏️ Enter manually</button>
-    </div>
+    <div class="section-label">Location</div>
     <div class="field">
       <label>Country</label>
       <select id="fCountry" onchange="onCountryChange()">
@@ -252,22 +187,7 @@ input[type="date"]{color-scheme:dark;}
         <option>Germany</option><option>Portugal</option><option>USA</option>
         <option>Australia</option><option>New Zealand</option>
         <option>Argentina</option><option>Chile</option>
-        <option>South Africa</option><option>Austria</option>
-        <option>Hungary</option><option>Greece</option>
-        <option>Switzerland</option><option>Georgia</option>
-        <option>Lebanon</option><option>Israel</option>
-        <option>China</option><option>Japan</option>
-        <option>Thailand</option><option>India</option>
-        <option>Morocco</option><option>Tunisia</option>
-        <option>Algeria</option><option>Croatia</option>
-        <option>Slovenia</option><option>Romania</option>
-        <option>Bulgaria</option><option>Serbia</option>
-        <option>North Macedonia</option><option>Moldova</option>
-        <option>Ukraine</option><option>Turkey</option>
-        <option>Uruguay</option><option>Mexico</option>
-        <option>Brazil</option><option>Canada</option>
-        <option>England</option>
-        <option value="Other">Other (enter manually below)</option>
+        <option>South Africa</option><option>Austria</option><option>Other</option>
       </select>
     </div>
     <div class="field">
@@ -289,65 +209,19 @@ input[type="date"]{color-scheme:dark;}
       </select>
     </div>
 
-    <div id="manualFields" style="display:none">
-      <div style="font-size:.72rem;color:var(--acc);margin-bottom:.4rem;padding:.4rem .6rem;background:rgba(74,158,255,.08);border-radius:6px;border:1px solid rgba(74,158,255,.2)">
-        ✏️ Not in the list? Type manually below.
-      </div>
-      <div class="row2">
-        <div class="field"><label>Country (manual)</label><input id="fCountryManual" placeholder="e.g. China, Thailand…"></div>
-        <div class="field"><label>Region (manual)</label><input id="fRegionManual" placeholder="e.g. Ningxia"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Sub-Region (manual)</label><input id="fSubregionManual" placeholder="e.g. Helan Mountain East"></div>
-        <div class="field"><label>Appellation (manual)</label><input id="fAppellationManual" placeholder="e.g. Silver Heights"></div>
-      </div>
-    </div>
-
     <div class="section-label">Details</div>
     <div class="row2">
-      <div class="field">
-        <label style="display:flex;justify-content:space-between;align-items:center">
-          <span>Price (USD)</span>
-          <button type="button" id="priceBtn" onclick="checkPrice()" style="font-size:.68rem;padding:.2rem .5rem;background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.3);color:var(--acc);border-radius:4px;cursor:pointer;font-family:inherit">🔍 Check Price</button>
-        </label>
-        <input id="fPrice" type="number" placeholder="0.00" inputmode="decimal">
-        <div id="priceResult" style="display:none;font-size:.75rem;margin-top:.35rem;padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;border:1px solid rgba(74,158,255,.15);color:var(--dim);line-height:1.4"></div>
-      </div>
+      <div class="field"><label>Price</label><input id="fPrice" type="number" placeholder="0.00" inputmode="decimal"></div>
       <div class="field"><label>Date Consumed</label><input type="date" id="fDate"></div>
     </div>
     <div style="margin-bottom:.8rem">
       <div class="score-label" id="scoreLabel">Score (1-10)</div>
       <div class="score-row" id="scoreRow"></div>
     </div>
-    <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
-      <span>Tasting Notes</span>
-      <button type="button" id="wsetBtn" onclick="generateWsetNote()" style="font-size:.68rem;padding:.25rem .6rem;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(41,121,212,.2));border:1px solid rgba(74,158,255,.4);color:var(--acc);border-radius:5px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem">✦ WSET Note</button>
-    </div>
-    <div id="wsetStatus" style="display:none;font-size:.75rem;color:var(--acc);padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;margin-bottom:.5rem;text-align:center">Generating WSET tasting note…</div>
-    <div class="field"><textarea id="fComment" placeholder="Write your tasting notes, or use ✦ Generate WSET Note above…" style="min-height:120px;scrollbar-color:rgba(255,255,255,.4) transparent;scrollbar-width:thin"></textarea></div>
-    <div class="field">
-      <label style="display:flex;justify-content:space-between;align-items:center">
-        <span>Winery Introduction</span>
-        <span id="wineryStatus" style="display:none;font-size:.68rem;color:var(--acc)">Generating…</span>
-      </label>
-      <textarea id="fWinery" placeholder="Brief winery introduction (auto-filled by Analyze, or write your own)…" style="min-height:80px;overflow:hidden;resize:none" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-    </div>
+    <div class="section-label">Tasting Notes</div>
+    <div class="field"><textarea id="fComment" placeholder="Aroma, taste, finish, food pairing…"></textarea></div>
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
-  </div>
-</div>
-
-<!-- Pronunciation Popup -->
-<div id="pronunPopup">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem">
-    <div>
-      <div class="pronun-wine-name" id="pronunWineName"></div>
-      <div class="pronun-origin" id="pronunOrigin"></div>
-    </div>
-    <button class="pronun-close" onclick="closePronun()">✕</button>
-  </div>
-  <div id="pronunContent">
-    <div class="pronun-loading">Looking up pronunciation…</div>
   </div>
 </div>
 
@@ -355,2894 +229,133 @@ input[type="date"]{color-scheme:dark;}
 var REGIONS = {
   "France": {
     "Bordeaux": {
-      "Generic Bordeaux": [
-        "Bordeaux",
-        "Bordeaux Superieur",
-        "Bordeaux Rose",
-        "Bordeaux Clairet",
-        "Cremant de Bordeaux"
-      ],
-      "Medoc": [
-        "Medoc",
-        "Haut-Medoc",
-        "Margaux",
-        "Moulis-en-Medoc",
-        "Listrac-Medoc",
-        "Saint-Julien",
-        "Pauillac",
-        "Saint-Estephe"
-      ],
-      "Graves": [
-        "Graves",
-        "Graves Superieures",
-        "Pessac-Leognan"
-      ],
-      "Sauternais": [
-        "Sauternes",
-        "Barsac"
-      ],
-      "Libournais": [
-        "Saint-Emilion",
-        "Saint-Emilion Grand Cru",
-        "Saint-Emilion Grand Cru Classe",
-        "Saint-Emilion Premier Grand Cru Classe",
-        "Pomerol",
-        "Lalande-de-Pomerol",
-        "Fronsac",
-        "Canon-Fronsac",
-        "Montagne-Saint-Emilion",
-        "Lussac-Saint-Emilion",
-        "Puisseguin-Saint-Emilion",
-        "Saint-Georges-Saint-Emilion"
-      ],
-      "Entre-Deux-Mers": [
-        "Entre-Deux-Mers",
-        "Entre-Deux-Mers Haut-Benauge"
-      ],
-      "Entre-Deux-Mers Sweet": [
-        "Cadillac",
-        "Loupiac",
-        "Sainte-Croix-du-Mont",
-        "Cerons",
-        "Cotes de Bordeaux Saint-Macaire"
-      ],
-      "Cotes de Bordeaux": [
-        "Blaye Cotes de Bordeaux",
-        "Cadillac Cotes de Bordeaux",
-        "Castillon Cotes de Bordeaux",
-        "Francs Cotes de Bordeaux",
-        "Sainte-Foy Cotes de Bordeaux"
-      ],
-      "Other Cotes": [
-        "Cotes de Bourg"
-      ]
+      "Left Bank": ["Pauillac","Saint-Estephe","Saint-Julien","Margaux","Listrac","Moulis"],
+      "Right Bank": ["Pomerol","Saint-Emilion","Fronsac"],
+      "Other Bordeaux": ["Graves","Sauternes","Pessac-Leognan","Entre-Deux-Mers"]
     },
     "Burgundy": {
-      "Chablis": [
-        "Petit Chablis",
-        "Chablis",
-        "Chablis Premier Cru",
-        "Chablis Grand Cru Blanchot",
-        "Chablis Grand Cru Bougros",
-        "Chablis Grand Cru Les Clos",
-        "Chablis Grand Cru Grenouilles",
-        "Chablis Grand Cru La Moutonne",
-        "Chablis Grand Cru Preuses",
-        "Chablis Grand Cru Valmur",
-        "Chablis Grand Cru Vaudesir",
-        "Irancy",
-        "Saint-Bris",
-        "Bourgogne Cotes d Auxerre"
-      ],
-      "Cote de Nuits": [
-        "Marsannay",
-        "Marsannay Rouge",
-        "Marsannay Blanc",
-        "Marsannay Rose",
-        "Fixin",
-        "Fixin Premier Cru",
-        "Gevrey-Chambertin",
-        "Gevrey-Chambertin Premier Cru",
-        "Chambertin",
-        "Chambertin-Clos de Beze",
-        "Chapelle-Chambertin",
-        "Charmes-Chambertin",
-        "Griotte-Chambertin",
-        "Latricieres-Chambertin",
-        "Mazis-Chambertin",
-        "Mazoyeres-Chambertin",
-        "Ruchottes-Chambertin",
-        "Morey-Saint-Denis",
-        "Morey-Saint-Denis Premier Cru",
-        "Clos de la Roche",
-        "Clos Saint-Denis",
-        "Clos des Lambrays",
-        "Clos de Tart",
-        "Chambolle-Musigny",
-        "Chambolle-Musigny Premier Cru",
-        "Musigny",
-        "Bonnes-Mares",
-        "Vougeot",
-        "Vougeot Premier Cru",
-        "Clos de Vougeot",
-        "Vosne-Romanee",
-        "Vosne-Romanee Premier Cru",
-        "Romanee-Conti",
-        "La Tache",
-        "Richebourg",
-        "Romanee-Saint-Vivant",
-        "La Romanee",
-        "La Grande Rue",
-        "Echezeaux",
-        "Grands Echezeaux",
-        "Nuits-Saint-Georges",
-        "Nuits-Saint-Georges Premier Cru",
-        "Cote de Nuits-Villages"
-      ],
-      "Cote de Beaune": [
-        "Ladoix",
-        "Pernand-Vergelesses",
-        "Aloxe-Corton",
-        "Corton",
-        "Corton-Charlemagne",
-        "Charlemagne",
-        "Savigny-les-Beaune",
-        "Savigny-les-Beaune Premier Cru",
-        "Chorey-les-Beaune",
-        "Beaune",
-        "Beaune Premier Cru",
-        "Pommard",
-        "Pommard Premier Cru",
-        "Volnay",
-        "Volnay Premier Cru",
-        "Monthelie",
-        "Auxey-Duresses",
-        "Saint-Romain",
-        "Meursault",
-        "Meursault Premier Cru",
-        "Blagny",
-        "Puligny-Montrachet",
-        "Puligny-Montrachet Premier Cru",
-        "Montrachet",
-        "Chevalier-Montrachet",
-        "Batard-Montrachet",
-        "Bienvenues-Batard-Montrachet",
-        "Chassagne-Montrachet",
-        "Chassagne-Montrachet Premier Cru",
-        "Criots-Batard-Montrachet",
-        "Saint-Aubin",
-        "Saint-Aubin Premier Cru",
-        "Santenay",
-        "Santenay Premier Cru",
-        "Maranges",
-        "Maranges Premier Cru",
-        "Cote de Beaune-Villages"
-      ],
-      "Cote Chalonnaise": [
-        "Bouzeron",
-        "Rully",
-        "Rully Premier Cru",
-        "Mercurey",
-        "Mercurey Premier Cru",
-        "Givry",
-        "Givry Premier Cru",
-        "Montagny",
-        "Montagny Premier Cru"
-      ],
-      "Maconnais": [
-        "Macon",
-        "Macon-Villages",
-        "Pouilly-Fuisse",
-        "Pouilly-Loche",
-        "Pouilly-Vinzelles",
-        "Saint-Veran",
-        "Vire-Clesse",
-        "Cremant de Bourgogne"
-      ],
-      "Beaujolais": [
-        "Beaujolais",
-        "Beaujolais-Villages",
-        "Brouilly",
-        "Chenas",
-        "Chiroubles",
-        "Cote de Brouilly",
-        "Fleurie",
-        "Julienas",
-        "Morgon",
-        "Moulin-a-Vent",
-        "Regnie",
-        "Saint-Amour"
-      ]
+      "Cote de Nuits": ["Gevrey-Chambertin","Morey-Saint-Denis","Chambolle-Musigny","Vougeot","Vosne-Romanee","Nuits-Saint-Georges"],
+      "Cote de Beaune": ["Aloxe-Corton","Beaune","Pommard","Volnay","Meursault","Puligny-Montrachet","Chassagne-Montrachet","Maranges"],
+      "Cote Chalonnaise": ["Mercurey","Givry","Rully","Montagny"],
+      "Maconnais": ["Macon","Pouilly-Fuisse","Saint-Veran"],
+      "Chablis": ["Chablis","Petit Chablis","Chablis Grand Cru"],
+      "Beaujolais": ["Beaujolais","Fleurie","Moulin-a-Vent","Morgon","Brouilly"]
     },
     "Champagne": {
-      "Montagne de Reims": [
-        "Bouzy",
-        "Ambonnay",
-        "Verzenay",
-        "Verzy",
-        "Mailly-Champagne",
-        "Sillery",
-        "Beaumont-sur-Vesle",
-        "Trepail"
-      ],
-      "Vallee de la Marne": [
-        "Ay",
-        "Hautvillers",
-        "Mareuil-sur-Ay",
-        "Epernay",
-        "Dizy",
-        "Cumieres",
-        "Damery",
-        "Venteuil"
-      ],
-      "Cote des Blancs": [
-        "Cramant",
-        "Avize",
-        "Oger",
-        "Le Mesnil-sur-Oger",
-        "Vertus",
-        "Bergeres-les-Vertus",
-        "Chouilly",
-        "Grauves"
-      ],
-      "Cote des Bar": [
-        "Bar-sur-Aube",
-        "Les Riceys",
-        "Bar-sur-Seine",
-        "Urville",
-        "Gye-sur-Seine"
-      ],
-      "Cote de Sezanne": [
-        "Sezanne",
-        "Barbonne-Fayel",
-        "Bethon"
-      ],
-      "Champagne AOC": [
-        "Champagne AOC",
-        "Blanc de Blancs",
-        "Blanc de Noirs",
-        "Rose Champagne",
-        "Prestige Cuvee"
-      ]
+      "Champagne": ["Champagne AOC","Blanc de Blancs","Blanc de Noirs","Rose Champagne"]
     },
     "Rhone Valley": {
-      "Northern Rhone": [
-        "Cote-Rotie",
-        "Condrieu",
-        "Chateau-Grillet",
-        "Saint-Joseph",
-        "Crozes-Hermitage",
-        "Hermitage",
-        "Cornas",
-        "Saint-Peray"
-      ],
-      "Southern Rhone": [
-        "Chateauneuf-du-Pape",
-        "Gigondas",
-        "Vacqueyras",
-        "Beaumes-de-Venise",
-        "Muscat de Beaumes-de-Venise",
-        "Rasteau",
-        "Rasteau Vin Doux Naturel",
-        "Vinsobres",
-        "Cairanne",
-        "Lirac",
-        "Tavel",
-        "Cotes du Rhone",
-        "Cotes du Rhone Villages",
-        "Luberon",
-        "Ventoux",
-        "Grignan-les-Adhemar",
-        "Costieres de Nimes"
-      ]
+      "Northern Rhone": ["Cote-Rotie","Hermitage","Crozes-Hermitage","Saint-Joseph","Cornas","Condrieu"],
+      "Southern Rhone": ["Chateauneuf-du-Pape","Gigondas","Vacqueyras","Lirac","Tavel"]
     },
     "Loire Valley": {
-      "Pays Nantais": [
-        "Muscadet",
-        "Muscadet Sevre et Maine",
-        "Muscadet Sevre et Maine Sur Lie",
-        "Muscadet Coteaux de la Loire",
-        "Muscadet Cotes de Grandlieu",
-        "Gros Plant du Pays Nantais",
-        "Fiefs Vendeens"
-      ],
-      "Anjou-Saumur": [
-        "Anjou",
-        "Anjou Blanc",
-        "Anjou Rouge",
-        "Anjou-Villages",
-        "Anjou-Villages-Brissac",
-        "Cabernet d Anjou",
-        "Rose d Anjou",
-        "Savennieres",
-        "Savennieres Coulee de Serrant",
-        "Savennieres Roche aux Moines",
-        "Coteaux du Layon",
-        "Coteaux du Layon Villages",
-        "Coteaux de l Aubance",
-        "Quarts de Chaume Grand Cru",
-        "Bonnezeaux",
-        "Saumur",
-        "Saumur Blanc",
-        "Saumur-Champigny",
-        "Saumur Mousseux",
-        "Cremant de Loire"
-      ],
-      "Touraine": [
-        "Touraine",
-        "Touraine-Amboise",
-        "Touraine-Azay-le-Rideau",
-        "Touraine-Mesland",
-        "Touraine-Oisly",
-        "Touraine Noble Joue",
-        "Chinon",
-        "Bourgueil",
-        "Saint-Nicolas-de-Bourgueil",
-        "Vouvray",
-        "Montlouis-sur-Loire",
-        "Coteaux du Loir",
-        "Jasnieres",
-        "Cheverny",
-        "Cour-Cheverny"
-      ],
-      "Central Vineyards": [
-        "Sancerre",
-        "Pouilly-Fume",
-        "Pouilly-sur-Loire",
-        "Menetou-Salon",
-        "Quincy",
-        "Reuilly",
-        "Chateaumeillant",
-        "Coteaux du Giennois",
-        "Orleans",
-        "Orleans-Clery"
-      ]
+      "Upper Loire": ["Sancerre","Pouilly-Fume","Menetou-Salon"],
+      "Middle Loire": ["Vouvray","Chinon","Bourgueil","Saumur"],
+      "Lower Loire": ["Muscadet","Anjou"]
     },
     "Alsace": {
-      "Alsace": [
-        "Alsace AOC",
-        "Cremant d Alsace",
-        "Vendange Tardive",
-        "Selection de Grains Nobles",
-        "Edelzwicker",
-        "Gentil"
-      ],
-      "Alsace Grand Cru": [
-        "Altenberg de Bergbieten",
-        "Altenberg de Bergheim",
-        "Altenberg de Wolxheim",
-        "Brand",
-        "Bruderthal",
-        "Eichberg",
-        "Engelberg",
-        "Florimont",
-        "Frankstein",
-        "Froehn",
-        "Furstentum",
-        "Geisberg",
-        "Gloeckelberg",
-        "Goldert",
-        "Hatschbourg",
-        "Hengst",
-        "Kanzlerberg",
-        "Kastelberg",
-        "Kessler",
-        "Kirchberg de Barr",
-        "Kirchberg de Ribeauville",
-        "Kitterlé",
-        "Mambourg",
-        "Mandelberg",
-        "Marckrain",
-        "Moenchberg",
-        "Muenchberg",
-        "Ollwiller",
-        "Osterberg",
-        "Pfersigberg",
-        "Pfingstberg",
-        "Praelatenberg",
-        "Rangen",
-        "Rosacker",
-        "Saering",
-        "Schlossberg",
-        "Schoenenbourg",
-        "Sommerberg",
-        "Sonnenglanz",
-        "Spiegel",
-        "Sporen",
-        "Steinert",
-        "Steingrubler",
-        "Steinklotz",
-        "Vorbourg",
-        "Wiebelsberg",
-        "Wineck-Schlossberg",
-        "Winzenberg",
-        "Zinnkoepflé",
-        "Zotzenberg"
-      ]
+      "Alsace": ["Alsace AOC","Alsace Grand Cru","Cremant d Alsace"]
     },
     "Provence": {
-      "Provence": [
-        "Cotes de Provence",
-        "Cotes de Provence Sainte-Victoire",
-        "Cotes de Provence Pierrefeu",
-        "Cotes de Provence La Londe",
-        "Cotes de Provence Frejus",
-        "Bandol",
-        "Cassis",
-        "Bellet",
-        "Palette",
-        "Les Baux-de-Provence",
-        "Coteaux d Aix-en-Provence",
-        "Coteaux Varois en Provence",
-        "Coteaux de Pierrevert"
-      ]
+      "Provence": ["Cotes de Provence","Bandol","Cassis"]
     },
     "Jura": {
-      "Jura": [
-        "Arbois",
-        "Arbois Vin Jaune",
-        "Arbois Vin de Paille",
-        "Arbois-Pupillin",
-        "Cotes du Jura",
-        "Cotes du Jura Vin Jaune",
-        "Cotes du Jura Vin de Paille",
-        "Etoile",
-        "Etoile Vin Jaune",
-        "Chateau-Chalon",
-        "Macvin du Jura",
-        "Cremant du Jura"
-      ]
+      "Jura": ["Arbois","Cotes du Jura","Chateau-Chalon"]
     },
-    "Savoie": {
-      "Savoie": [
-        "Vin de Savoie",
-        "Roussette de Savoie",
-        "Seyssel",
-        "Seyssel Mousseux",
-        "Bugey",
-        "Cerdon",
-        "Vin de Savoie Apremont",
-        "Vin de Savoie Abymes",
-        "Vin de Savoie Chignin",
-        "Vin de Savoie Chignin-Bergeron",
-        "Vin de Savoie Crépy"
-      ]
-    },
-    "Southwest France": {
-      "Gascony-Lot": [
-        "Gaillac",
-        "Gaillac Mousseux",
-        "Cotes du Frontonnais",
-        "Cotes de Gascogne",
-        "Buzet",
-        "Cotes du Marmandais",
-        "Brulhois",
-        "Entraygues-Le Fel",
-        "Estaing",
-        "Marcillac",
-        "Côtes d Aveyron"
-      ],
-      "Pyrenees": [
-        "Madiran",
-        "Pacherenc du Vic-Bilh",
-        "Jurancon",
-        "Jurancon Sec",
-        "Irouleguy",
-        "Bearn",
-        "Tursan"
-      ],
-      "Perigord": [
-        "Bergerac",
-        "Bergerac Sec",
-        "Bergerac Rouge",
-        "Côtes de Bergerac",
-        "Pecharmant",
-        "Monbazillac",
-        "Saussignac",
-        "Montravel",
-        "Haut-Montravel",
-        "Côtes de Montravel",
-        "Rosette"
-      ]
+    "South West": {
+      "South West": ["Cahors","Madiran","Jurançon","Gaillac","Bergerac"]
     },
     "Languedoc": {
-      "Languedoc-Herault": [
-        "Languedoc AOC",
-        "Pic Saint-Loup",
-        "La Clape",
-        "Terrasses du Larzac",
-        "Pezenas",
-        "Montpeyroux",
-        "Saint-Saturnin",
-        "Cabrières",
-        "Grés de Montpellier",
-        "Sommières",
-        "Picpoul de Pinet",
-        "Clairette du Languedoc",
-        "Muscat de Lunel",
-        "Muscat de Mireval",
-        "Muscat de Frontignan",
-        "Muscat de Saint-Jean-de-Minervois"
-      ],
-      "Languedoc-Aude": [
-        "Faugeres",
-        "Saint-Chinian",
-        "Minervois",
-        "Minervois La Liviniere",
-        "Fitou",
-        "Corbières",
-        "Corbières-Boutenac",
-        "Malepere",
-        "Cabardès",
-        "Limoux",
-        "Blanquette de Limoux",
-        "Blanquette Méthode Ancestrale",
-        "Cremant de Limoux"
-      ]
-    },
-    "Roussillon": {
-      "Roussillon": [
-        "Cotes du Roussillon",
-        "Cotes du Roussillon Villages",
-        "Cotes du Roussillon Villages Caramany",
-        "Cotes du Roussillon Villages Lesquerde",
-        "Cotes du Roussillon Villages Latour de France",
-        "Cotes du Roussillon Villages Tautavel",
-        "Collioure",
-        "Maury",
-        "Maury Sec",
-        "Banyuls",
-        "Banyuls Grand Cru",
-        "Rivesaltes",
-        "Muscat de Rivesaltes"
-      ]
-    },
-    "Corsica": {
-      "Corsica": [
-        "Patrimonio",
-        "Ajaccio",
-        "Vin de Corse",
-        "Vin de Corse Calvi",
-        "Vin de Corse Coteaux du Cap Corse",
-        "Vin de Corse Figari",
-        "Vin de Corse Porto Vecchio",
-        "Vin de Corse Sartène",
-        "Muscat du Cap Corse"
-      ]
+      "Languedoc": ["Languedoc AOC","Pic Saint-Loup","Faugeres","Saint-Chinian","Fitou"]
     }
   },
   "Italy": {
     "Piedmont": {
-      "Barolo-Barbaresco": [
-        "Barolo",
-        "Barolo Riserva",
-        "Barbaresco",
-        "Barbaresco Riserva"
-      ],
-      "Langhe": [
-        "Langhe DOC",
-        "Langhe Nebbiolo",
-        "Nebbiolo d Alba",
-        "Dolcetto d Alba",
-        "Dolcetto d Asti",
-        "Dolcetto di Dogliani",
-        "Dolcetto di Ovada",
-        "Dogliani",
-        "Diano d Alba",
-        "Barbera d Alba",
-        "Roero"
-      ],
-      "Monferrato-Asti": [
-        "Barbera d Asti",
-        "Barbera d Asti Superiore",
-        "Nizza",
-        "Grignolino d Asti",
-        "Grignolino del Monferrato Casalese",
-        "Freisa d Asti",
-        "Malvasia di Casorzo",
-        "Ruche di Castagnole Monferrato",
-        "Monferrato DOC"
-      ],
-      "Spumante-Other": [
-        "Moscato d Asti",
-        "Asti Spumante",
-        "Bracchetto d Acqui",
-        "Alta Langa",
-        "Erbaluce di Caluso",
-        "Caluso Passito",
-        "Loazzolo",
-        "Piemonte DOC",
-        "Gavi"
-      ],
-      "Novara-Vercelli Hills": [
-        "Ghemme",
-        "Gattinara",
-        "Boca",
-        "Bramaterra",
-        "Lessona",
-        "Sizzano",
-        "Fara",
-        "Colline Novaresi"
-      ]
+      "Piedmont": ["Barolo","Barbaresco","Barbera dAsti","Barbera dAlba","Dolcetto","Moscato dAsti","Gavi","Roero"]
     },
     "Tuscany": {
-      "Chianti": [
-        "Chianti DOCG",
-        "Chianti Classico DOCG",
-        "Chianti Classico Riserva",
-        "Chianti Classico Gran Selezione",
-        "Chianti Rufina",
-        "Chianti Colli Senesi",
-        "Chianti Colli Fiorentini",
-        "Chianti Colli Aretini",
-        "Chianti Colline Pisane",
-        "Chianti Montalbano",
-        "Chianti Montespertoli",
-        "Chianti Superiore"
-      ],
-      "Montalcino-Montepulciano": [
-        "Brunello di Montalcino",
-        "Brunello di Montalcino Riserva",
-        "Rosso di Montalcino",
-        "Vino Nobile di Montepulciano",
-        "Vino Nobile di Montepulciano Riserva",
-        "Rosso di Montepulciano",
-        "Morellino di Scansano",
-        "Morellino di Scansano Riserva"
-      ],
-      "Bolgheri-Coast": [
-        "Bolgheri",
-        "Bolgheri Sassicaia",
-        "Bolgheri Superiore",
-        "Maremma Toscana",
-        "Monteregio di Massa Marittima",
-        "Pitigliano",
-        "Sovana",
-        "Capalbio",
-        "Ansonica Costa dell Argentario",
-        "Parrina"
-      ],
-      "Other Tuscany": [
-        "Vernaccia di San Gimignano",
-        "Vernaccia di San Gimignano Riserva",
-        "Carmignano",
-        "Carmignano Riserva",
-        "Barco Reale di Carmignano",
-        "Pomino",
-        "Val di Cornia",
-        "Suvereto",
-        "Elba",
-        "Orcia",
-        "Bianco di Pitigliano",
-        "Colli dell Etruria Centrale",
-        "Colline Lucchesi",
-        "Montecarlo",
-        "Candia dei Colli Apuani",
-        "Cortona",
-        "Montecucco"
-      ]
+      "Tuscany": ["Chianti","Chianti Classico","Brunello di Montalcino","Vino Nobile di Montepulciano","Bolgheri","Maremma"]
     },
     "Veneto": {
-      "Valpolicella-Verona": [
-        "Valpolicella",
-        "Valpolicella Classico",
-        "Valpolicella Ripasso",
-        "Amarone della Valpolicella",
-        "Amarone della Valpolicella Classico",
-        "Recioto della Valpolicella",
-        "Bardolino",
-        "Bardolino Superiore",
-        "Bianco di Custoza",
-        "Lugana",
-        "Valdadige",
-        "Lessini Durello"
-      ],
-      "Soave": [
-        "Soave",
-        "Soave Classico",
-        "Soave Superiore",
-        "Recioto di Soave",
-        "Gambellara"
-      ],
-      "Prosecco": [
-        "Prosecco DOC",
-        "Prosecco Superiore DOCG",
-        "Conegliano Valdobbiadene Prosecco",
-        "Asolo Prosecco",
-        "Cartizze",
-        "Colli Asolani"
-      ],
-      "Other Veneto": [
-        "Colli Euganei",
-        "Breganze",
-        "Colli Berici",
-        "Montello",
-        "Piave",
-        "Lison-Pramaggiore",
-        "Vini del Piave",
-        "Colli di Conegliano",
-        "Montello Rosso"
-      ]
-    },
-    "Friuli-Venezia Giulia": {
-      "Collio-Colli Orientali": [
-        "Collio",
-        "Collio Goriziano",
-        "Colli Orientali del Friuli",
-        "Colli Orientali del Friuli Picolit",
-        "Ramandolo"
-      ],
-      "Other Friuli": [
-        "Friuli Isonzo",
-        "Friuli Grave",
-        "Friuli Aquileia",
-        "Friuli Latisana",
-        "Friuli Annia",
-        "Carso",
-        "Friuli Venezia Giulia IGT"
-      ]
-    },
-    "Trentino-Alto Adige": {
-      "Alto Adige": [
-        "Alto Adige DOC",
-        "Alto Adige Santa Maddalena",
-        "Alto Adige Lago di Caldaro",
-        "Alto Adige Terlano",
-        "Alto Adige Valle Isarco",
-        "Alto Adige Valle Venosta",
-        "Alto Adige Meranese",
-        "Valdadige Terra dei Forti"
-      ],
-      "Trentino": [
-        "Trentino DOC",
-        "Trento DOC",
-        "Teroldego Rotaliano",
-        "Marzemino d Isera",
-        "Nosiola",
-        "Trentino Superiore",
-        "Valdadige"
-      ]
-    },
-    "Lombardy": {
-      "Franciacorta": [
-        "Franciacorta DOCG",
-        "Franciacorta Brut",
-        "Franciacorta Saten",
-        "Franciacorta Rose",
-        "Franciacorta Blanc de Blancs",
-        "Curtefranca",
-        "Sebino"
-      ],
-      "Valtellina": [
-        "Valtellina Superiore",
-        "Valtellina Superiore Sassella",
-        "Valtellina Superiore Grumello",
-        "Valtellina Superiore Inferno",
-        "Valtellina Superiore Valgella",
-        "Valtellina Superiore Maroggia",
-        "Sforzato di Valtellina",
-        "Valtellina Rosso"
-      ],
-      "Oltrepo Pavese": [
-        "Oltrepo Pavese",
-        "Oltrepo Pavese Metodo Classico",
-        "Buttafuoco dell Oltrepo Pavese",
-        "Sangue di Giuda dell Oltrepo Pavese"
-      ],
-      "Other Lombardy": [
-        "Lugana",
-        "Garda",
-        "Garda Classico",
-        "Riviera del Garda Classico",
-        "Botticino",
-        "Capriano del Colle",
-        "Lambrusco Mantovano",
-        "Valcalepio",
-        "San Colombano al Lambro",
-        "Scanzo",
-        "Moscato di Scanzo"
-      ]
-    },
-    "Emilia-Romagna": {
-      "Emilia": [
-        "Lambrusco di Sorbara",
-        "Lambrusco Salamino di Santa Croce",
-        "Lambrusco Grasparossa di Castelvetro",
-        "Lambrusco Reggiano",
-        "Colli Bolognesi",
-        "Colli Bolognesi Classico Pignoletto",
-        "Colli di Parma",
-        "Colli Piacentini"
-      ],
-      "Romagna": [
-        "Sangiovese di Romagna",
-        "Albana di Romagna",
-        "Pagadebit di Romagna",
-        "Trebbiano di Romagna",
-        "Cagnina di Romagna",
-        "Colli di Faenza",
-        "Colli d Imola",
-        "Colli di Rimini",
-        "Colli Romagna Centrale"
-      ]
-    },
-    "Marche": {
-      "Marche": [
-        "Verdicchio dei Castelli di Jesi",
-        "Verdicchio dei Castelli di Jesi Classico",
-        "Verdicchio dei Castelli di Jesi Superiore",
-        "Verdicchio di Matelica",
-        "Rosso Conero",
-        "Rosso Conero Riserva",
-        "Rosso Piceno",
-        "Rosso Piceno Superiore",
-        "Lacrima di Morro d Alba",
-        "Offida",
-        "Colli Pesaresi",
-        "Vernaccia di Serrapetrona",
-        "Terre di Offida"
-      ]
-    },
-    "Umbria": {
-      "Umbria": [
-        "Sagrantino di Montefalco",
-        "Montefalco Sagrantino Passito",
-        "Montefalco Rosso",
-        "Montefalco Bianco",
-        "Orvieto",
-        "Orvieto Classico",
-        "Torgiano",
-        "Torgiano Riserva",
-        "Colli Martani",
-        "Colli Perugini",
-        "Colli del Trasimeno",
-        "Colli Amerini",
-        "Lago di Corbara"
-      ]
-    },
-    "Abruzzo-Molise": {
-      "Abruzzo": [
-        "Montepulciano d Abruzzo",
-        "Montepulciano d Abruzzo Colline Teramane",
-        "Cerasuolo d Abruzzo",
-        "Trebbiano d Abruzzo",
-        "Pecorino",
-        "Terre Tollesi",
-        "Villamagna",
-        "Controguerra",
-        "Ortona",
-        "Colline Teatine"
-      ],
-      "Molise": [
-        "Molise DOC",
-        "Biferno",
-        "Pentro di Isernia",
-        "Tintilia del Molise"
-      ]
-    },
-    "Campania": {
-      "Campania": [
-        "Taurasi",
-        "Taurasi Riserva",
-        "Aglianico del Taburno",
-        "Greco di Tufo",
-        "Fiano di Avellino",
-        "Lacryma Christi del Vesuvio",
-        "Falanghina del Sannio",
-        "Sannio",
-        "Solopaca",
-        "Campi Flegrei",
-        "Ischia",
-        "Cilento",
-        "Costa d Amalfi",
-        "Casavecchia di Pontelatone",
-        "Pallagrello",
-        "Aversa",
-        "Galluccio"
-      ]
+      "Veneto": ["Amarone","Valpolicella","Soave","Prosecco","Bardolino"]
     },
     "Sicily": {
-      "Sicily": [
-        "Etna Rosso",
-        "Etna Bianco",
-        "Etna Rosato",
-        "Nero d Avola",
-        "Cerasuolo di Vittoria",
-        "Cerasuolo di Vittoria Classico",
-        "Marsala",
-        "Marsala Superiore",
-        "Marsala Vergine",
-        "Marsala Superiore Riserva",
-        "Sicilia DOC",
-        "Menfi",
-        "Sciacca",
-        "Alcamo",
-        "Faro",
-        "Mamertino",
-        "Noto",
-        "Vittoria",
-        "Contea di Sclafani",
-        "Contessa Entellina",
-        "Delia Nivolelli",
-        "Eloro",
-        "Monreale",
-        "Riesi",
-        "Salaparuta",
-        "Sambuca di Sicilia",
-        "Santa Margherita di Belice"
-      ],
-      "Pantelleria-Lipari": [
-        "Moscato di Pantelleria",
-        "Passito di Pantelleria",
-        "Moscato Passito di Pantelleria",
-        "Malvasia delle Lipari",
-        "Malvasia delle Lipari Passito"
-      ]
+      "Sicily": ["Etna","Nero dAvola","Marsala","Cerasuolo di Vittoria"]
     },
-    "Sardinia": {
-      "Sardinia": [
-        "Cannonau di Sardegna",
-        "Cannonau di Sardegna Classico",
-        "Vermentino di Sardegna",
-        "Vermentino di Gallura",
-        "Vermentino di Gallura Superiore",
-        "Carignano del Sulcis",
-        "Nuragus di Cagliari",
-        "Moscato di Sardegna",
-        "Moscato di Cagliari",
-        "Malvasia di Bosa",
-        "Malvasia di Cagliari",
-        "Vernaccia di Oristano",
-        "Monica di Sardegna",
-        "Giro di Cagliari",
-        "Nasco di Cagliari",
-        "Bovale",
-        "Alghero",
-        "Arborea",
-        "Campidano di Terralba",
-        "Mandrolisai"
-      ]
-    },
-    "Puglia": {
-      "Salento": [
-        "Primitivo di Manduria",
-        "Primitivo di Manduria Dolce Naturale",
-        "Salice Salentino",
-        "Salice Salentino Riserva",
-        "Negroamaro",
-        "Copertino",
-        "Brindisi",
-        "Squinzano",
-        "Aleatico di Puglia",
-        "Leverano",
-        "Nardo",
-        "Alezio"
-      ],
-      "Other Puglia": [
-        "Castel del Monte",
-        "Castel del Monte Nero di Troia Riserva",
-        "Gioia del Colle",
-        "Locorotondo",
-        "Martina Franca",
-        "Gravina",
-        "Ostuni",
-        "San Severo",
-        "Orta Nova",
-        "Rosso Canosa"
-      ]
-    },
-    "Calabria": {
-      "Calabria": [
-        "Ciro",
-        "Ciro Rosso Classico",
-        "Ciro Bianco",
-        "Greco di Bianco",
-        "Greco di Bianco Passito",
-        "Savuto",
-        "Lamezia",
-        "Scavigna",
-        "Melissa",
-        "Verbicaro",
-        "Bivongi",
-        "Donnici",
-        "Sant Andrea Apostolo dello Ionio",
-        "Terre di Cosenza"
-      ]
-    },
-    "Basilicata": {
-      "Basilicata": [
-        "Aglianico del Vulture",
-        "Aglianico del Vulture Superiore",
-        "Matera",
-        "Grottino di Roccanova",
-        "Terre dell Alta Val d Agri"
-      ]
-    },
-    "Lazio": {
-      "Lazio": [
-        "Frascati",
-        "Frascati Superiore",
-        "Frascati Superiore Riserva",
-        "Est Est Est di Montefiascone",
-        "Cesanese del Piglio",
-        "Cesanese di Affile",
-        "Cesanese di Olevano Romano",
-        "Marino",
-        "Velletri",
-        "Castelli Romani",
-        "Aleatico di Gradoli",
-        "Cori",
-        "Aprilia",
-        "Bianco Capena",
-        "Cerveteri",
-        "Circeo",
-        "Colli Albani",
-        "Colli Lanuvini",
-        "Genazzano",
-        "Montecompatri Colonna",
-        "Zagarolo",
-        "Tarquinia",
-        "Vignanello"
-      ]
-    },
-    "Liguria": {
-      "Liguria": [
-        "Cinque Terre",
-        "Cinque Terre Sciacchetrà",
-        "Riviera Ligure di Ponente",
-        "Colli di Luni",
-        "Rossese di Dolceacqua",
-        "Ormeasco di Pornassio",
-        "Colline di Levanto",
-        "Golfo del Tigullio-Portofino"
-      ]
+    "Campania": {
+      "Campania": ["Taurasi","Greco di Tufo","Fiano di Avellino"]
     }
   },
   "Spain": {
     "Rioja": {
-      "Rioja": [
-        "Rioja DOCa",
-        "Rioja Alta",
-        "Rioja Alavesa",
-        "Rioja Oriental"
-      ]
+      "Rioja": ["Rioja Alavesa","Rioja Alta","Rioja Oriental"]
     },
     "Ribera del Duero": {
-      "Ribera del Duero": [
-        "Ribera del Duero DO"
-      ]
+      "Ribera del Duero": ["Ribera del Duero DO"]
     },
     "Priorat": {
-      "Priorat-Montsant": [
-        "Priorat DOCa",
-        "Montsant",
-        "Priorat Vi de Vila",
-        "Priorat Vi de Paratge"
-      ]
+      "Priorat": ["Priorat DOCa","Montsant"]
     },
     "Galicia": {
-      "Galicia": [
-        "Rias Baixas",
-        "Rias Baixas Val do Salnes",
-        "Rias Baixas O Rosal",
-        "Rias Baixas Condado do Tea",
-        "Rias Baixas Soutomaior",
-        "Rias Baixas Ribeira do Ulla",
-        "Ribeiro",
-        "Valdeorras",
-        "Ribeira Sacra",
-        "Ribeira Sacra Amandi",
-        "Ribeira Sacra Chantada",
-        "Monterrei",
-        "Monterrei Val de Monterrei"
-      ]
-    },
-    "Catalonia": {
-      "Penedes-Cava": [
-        "Cava",
-        "Corpinnat",
-        "Penedes",
-        "Alt Penedes",
-        "Penedes Maritim"
-      ],
-      "Other Catalonia": [
-        "Conca de Barbera",
-        "Costers del Segre",
-        "Emporda",
-        "Pla de Bages",
-        "Alella",
-        "Terra Alta",
-        "Catalunya DOC",
-        "Tarragona"
-      ]
-    },
-    "Castile-Leon": {
-      "Castile-Leon": [
-        "Rueda",
-        "Toro",
-        "Bierzo",
-        "Cigales",
-        "Arlanza",
-        "Arribes",
-        "Tierra del Vino de Zamora",
-        "Sierra de Salamanca",
-        "Tierra de Leon"
-      ]
-    },
-    "La Mancha-Castile": {
-      "La Mancha": [
-        "La Mancha DO",
-        "Valdepenas",
-        "Manchuela",
-        "Almansa",
-        "Ucles",
-        "Ribera del Jucar"
-      ],
-      "Madrid-Extremadura": [
-        "Vinos de Madrid",
-        "Ribera del Guadiana",
-        "Montanchez",
-        "Cañamero",
-        "Ribera Alta del Guadiana",
-        "Tierra de Barros"
-      ]
-    },
-    "Basque-Navarre": {
-      "Basque Country": [
-        "Getariako Txakolina",
-        "Bizkaiko Txakolina",
-        "Arabako Txakolina"
-      ],
-      "Navarre": [
-        "Navarra DO",
-        "Pago de Arinzano",
-        "Pago Señorio de Arinez"
-      ]
-    },
-    "Aragon": {
-      "Aragon": [
-        "Campo de Borja",
-        "Carinena",
-        "Calatayud",
-        "Somontano"
-      ]
+      "Galicia": ["Rias Baixas","Ribeiro","Valdeorras"]
     },
     "Andalusia": {
-      "Sherry": [
-        "Jerez-Xeres-Sherry",
-        "Manzanilla",
-        "Manzanilla de Sanlucar",
-        "Sherry Fino",
-        "Sherry Amontillado",
-        "Sherry Oloroso",
-        "Sherry Palo Cortado",
-        "Sherry Cream",
-        "Sherry Pedro Ximenez",
-        "Sherry Moscatel",
-        "Sherry En Rama"
-      ],
-      "Other Andalusia": [
-        "Montilla-Moriles",
-        "Malaga",
-        "Sierras de Malaga",
-        "Condado de Huelva",
-        "Granada"
-      ]
-    },
-    "Valencia": {
-      "Valencia": [
-        "Valencia DO",
-        "Utiel-Requena",
-        "Alicante",
-        "Alicante Fondillon",
-        "Cava Valenciano"
-      ]
-    },
-    "Canary Islands": {
-      "Canary Islands": [
-        "Tenerife",
-        "Tacoronte-Acentejo",
-        "Valle de la Orotava",
-        "Ycoden-Daute-Isora",
-        "Valle de Güimar",
-        "Abona",
-        "El Hierro",
-        "Lanzarote",
-        "Gran Canaria",
-        "La Palma",
-        "La Gomera"
-      ]
-    },
-    "Murcia": {
-      "Murcia": [
-        "Jumilla",
-        "Yecla",
-        "Bullas"
-      ]
-    },
-    "Balearic Islands": {
-      "Balearics": [
-        "Binissalem",
-        "Pla i Llevant",
-        "Vi de la Terra Formentera",
-        "Ibiza"
-      ]
+      "Andalusia": ["Jerez Sherry","Manzanilla","Montilla-Moriles"]
     }
   },
   "Germany": {
-    "Mosel": {
-      "Middle Mosel": [
-        "Bernkastel",
-        "Bernkastel Doctor",
-        "Graach",
-        "Wehlen",
-        "Wehlen Sonnenuhr",
-        "Zeltingen",
-        "Urzig",
-        "Erden",
-        "Trittenheim",
-        "Neumagen",
-        "Piesport",
-        "Piesport Goldtröpfchen",
-        "Brauneberg",
-        "Brauneberg Juffer",
-        "Dhron"
-      ],
-      "Saar": [
-        "Scharzhofberg",
-        "Wiltingen",
-        "Kanzem",
-        "Ockfen",
-        "Serrig",
-        "Ayl",
-        "Bockstein",
-        "Wawern"
-      ],
-      "Ruwer": [
-        "Kasel",
-        "Mertesdorf",
-        "Waldrach",
-        "Eitelsbach",
-        "Maximin Grünhaus",
-        "Karthauserhofberg"
-      ],
-      "Upper-Lower Mosel": [
-        "Zell",
-        "Merl",
-        "Bullay",
-        "Bremm",
-        "Senheim"
-      ]
-    },
-    "Rheingau": {
-      "Rheingau": [
-        "Hochheim",
-        "Johannisberg",
-        "Geisenheim",
-        "Rudesheim",
-        "Hattenheim",
-        "Steinberg",
-        "Erbach",
-        "Kiedrich",
-        "Rauenthal",
-        "Winkel",
-        "Schloss Vollrads",
-        "Oestrich",
-        "Hallgarten",
-        "Assmannshausen",
-        "Lorch"
-      ]
-    },
-    "Rheinhessen": {
-      "Rheinhessen": [
-        "Nierstein",
-        "Nierstein Pettenthal",
-        "Nierstein Hipping",
-        "Nierstein Oelberg",
-        "Oppenheim",
-        "Nackenheim",
-        "Nackenheim Rothenberg",
-        "Bingen",
-        "Ingelheim",
-        "Westhofen",
-        "Bechtheim",
-        "Alsheim",
-        "Guntersblum",
-        "Florsheim-Dalsheim"
-      ]
-    },
-    "Pfalz": {
-      "Mittelhaardt": [
-        "Forst",
-        "Deidesheim",
-        "Ruppertsberg",
-        "Wachenheim",
-        "Bad Durkheim",
-        "Ungstein",
-        "Kallstadt",
-        "Freinsheim"
-      ],
-      "South Pfalz": [
-        "Burrweiler",
-        "Schweigen",
-        "Leinsweiler",
-        "Siebeldingen",
-        "Birkweiler",
-        "Ilbesheim"
-      ]
-    },
-    "Nahe": {
-      "Nahe": [
-        "Schlossböckelheim",
-        "Niederhausen",
-        "Norheim",
-        "Traisen",
-        "Bad Kreuznach",
-        "Roxheim",
-        "Dorsheim",
-        "Burg Layen",
-        "Winzenheim"
-      ]
-    },
-    "Franken": {
-      "Franken": [
-        "Würzburg",
-        "Würzburger Stein",
-        "Randersacker",
-        "Iphofen",
-        "Iphofen Julius-Echter-Berg",
-        "Escherndorf",
-        "Escherndorf Lump",
-        "Volkach",
-        "Homburg",
-        "Stettener"
-      ]
-    },
-    "Baden": {
-      "Baden": [
-        "Kaiserstuhl",
-        "Ihringen",
-        "Achkarren",
-        "Bischoffingen",
-        "Breisach",
-        "Tuniberg",
-        "Breisgau",
-        "Markgräflerland",
-        "Bodensee",
-        "Ortenau",
-        "Tauberfranken",
-        "Kraichgau",
-        "Badische Bergstrasse",
-        "Staufenberg"
-      ]
-    },
-    "Württemberg": {
-      "Württemberg": [
-        "Württemberg",
-        "Remstaler Terrassen",
-        "Remstal",
-        "Stuttgart",
-        "Heilbronn",
-        "Stromberg-Heuchelberg",
-        "Kocher-Jagst-Tauber",
-        "Oberer Neckar",
-        "Württembergisch Unterland"
-      ]
-    },
-    "Mittelrhein": {
-      "Mittelrhein": [
-        "Bacharach",
-        "Boppard",
-        "Oberwesel",
-        "Konigswinter",
-        "Sieben Jungfrauen"
-      ]
-    },
-    "Ahr": {
-      "Ahr": [
-        "Ahrweiler",
-        "Bad Neuenahr",
-        "Walporzheim",
-        "Marienthal",
-        "Dernau",
-        "Mayschoß",
-        "Altenahr"
-      ]
-    },
-    "Saale-Unstrut": {
-      "Saale-Unstrut": [
-        "Naumburg",
-        "Freyburg",
-        "Weissenfels",
-        "Karsdorf",
-        "Bad Kösen"
-      ]
-    },
-    "Sachsen": {
-      "Sachsen": [
-        "Meissen",
-        "Meissener Domherr",
-        "Dresden",
-        "Radebeul",
-        "Pillnitz",
-        "Diesbar-Seusslitz",
-        "Seusslitz"
-      ]
-    },
-    "Hessische Bergstrasse": {
-      "Hessische Bergstrasse": [
-        "Bensheim",
-        "Heppenheim",
-        "Schönberg",
-        "Zell"
-      ]
-    }
+    "Mosel": {"Mosel": ["Mosel","Saar","Ruwer"]},
+    "Rheingau": {"Rheingau": ["Rheingau"]},
+    "Rheinhessen": {"Rheinhessen": ["Rheinhessen"]},
+    "Pfalz": {"Pfalz": ["Pfalz"]},
+    "Other": {"Other": ["Baden","Wurttemberg","Franken","Nahe"]}
   },
   "Portugal": {
-    "Douro-Port": {
-      "Douro Table Wine": [
-        "Douro DOC",
-        "Douro Baixo Corgo",
-        "Douro Cima Corgo",
-        "Douro Superior"
-      ],
-      "Port Wine": [
-        "Vintage Port",
-        "Single Quinta Vintage Port",
-        "LBV Port",
-        "Tawny Port",
-        "Tawny 10 Year",
-        "Tawny 20 Year",
-        "Tawny 30 Year",
-        "Tawny 40 Year",
-        "Colheita Port",
-        "Crusted Port",
-        "White Port",
-        "Ruby Port",
-        "Ruby Reserve",
-        "Rose Port"
-      ]
-    },
-    "Alentejo": {
-      "Alentejo": [
-        "Alentejo DOC",
-        "Alentejo Borba",
-        "Alentejo Evora",
-        "Alentejo Granja-Amareleja",
-        "Alentejo Moura",
-        "Alentejo Portalegre",
-        "Alentejo Redondo",
-        "Alentejo Reguengos",
-        "Alentejo Vidigueira",
-        "Vinho Regional Alentejano"
-      ]
-    },
-    "Vinho Verde": {
-      "Vinho Verde": [
-        "Vinho Verde DOC",
-        "Vinho Verde Espumante",
-        "Moncao e Melgaco",
-        "Lima",
-        "Braga",
-        "Baiao",
-        "Sousa",
-        "Amarante",
-        "Ave",
-        "Cavado",
-        "Basto",
-        "Paiva"
-      ]
-    },
-    "Dao": {
-      "Dao": [
-        "Dao DOC",
-        "Serra da Estrela",
-        "Terras de Silgueiros",
-        "Castendo",
-        "Santar",
-        "Tondela",
-        "Silgueiros",
-        "Penalva do Castelo",
-        "Besteiros"
-      ]
-    },
-    "Bairrada": {
-      "Bairrada": [
-        "Bairrada DOC",
-        "Bairrada Espumante",
-        "Sangalhos"
-      ]
-    },
-    "Lisboa": {
-      "Lisboa": [
-        "Lisboa DOC",
-        "Bucelas",
-        "Colares",
-        "Carcavelos",
-        "Torres Vedras",
-        "Arruda",
-        "Alenquer",
-        "Obidos",
-        "Encostas d Aire"
-      ],
-      "Setubal Peninsula": [
-        "Setubal DOC",
-        "Palmela",
-        "Moscatel de Setubal",
-        "Moscatel Roxo de Setubal",
-        "Costa Azul"
-      ]
-    },
-    "Tejo": {
-      "Tejo": [
-        "Tejo DOC",
-        "Almeirim",
-        "Cartaxo",
-        "Chamusca",
-        "Coruche",
-        "Santarem",
-        "Tomar"
-      ]
-    },
-    "Algarve": {
-      "Algarve": [
-        "Lagos",
-        "Portimao",
-        "Lagoa",
-        "Tavira",
-        "Silves"
-      ]
-    },
-    "Madeira": {
-      "Madeira": [
-        "Madeira DOC",
-        "Madeira Sercial",
-        "Madeira Verdelho",
-        "Madeira Bual",
-        "Madeira Malmsey",
-        "Madeira Tinta Negra",
-        "Madeira Rainwater",
-        "Madeira 10 Year",
-        "Madeira 15 Year",
-        "Madeira Colheita",
-        "Madeira Frasqueira"
-      ]
-    },
-    "Azores": {
-      "Azores": [
-        "Pico",
-        "Biscoitos",
-        "Graciosa",
-        "Vinho do Pico",
-        "Lajido"
-      ]
-    },
-    "Tras-os-Montes": {
-      "Tras-os-Montes": [
-        "Tras-os-Montes DOC",
-        "Chaves",
-        "Valpacos",
-        "Planalto Mirandês"
-      ]
-    }
+    "Douro": {"Douro": ["Douro DOC","Port"]},
+    "Alentejo": {"Alentejo": ["Alentejo DOC"]},
+    "Vinho Verde": {"Vinho Verde": ["Vinho Verde DOC"]},
+    "Dao": {"Dao": ["Dao DOC"]},
+    "Madeira": {"Madeira": ["Madeira DOC"]}
   },
   "USA": {
     "California": {
-      "Napa Valley": [
-        "Napa Valley AVA",
-        "Rutherford",
-        "Oakville",
-        "Stags Leap District",
-        "Yountville",
-        "Saint Helena",
-        "Calistoga",
-        "Howell Mountain",
-        "Mount Veeder",
-        "Spring Mountain",
-        "Diamond Mountain",
-        "Chiles Valley",
-        "Atlas Peak",
-        "Coombsville",
-        "Los Carneros",
-        "Wild Horse Valley",
-        "Oak Knoll",
-        "Wooden Valley"
-      ],
-      "Sonoma": [
-        "Sonoma Valley",
-        "Sonoma Coast",
-        "Russian River Valley",
-        "Alexander Valley",
-        "Dry Creek Valley",
-        "Knights Valley",
-        "Chalk Hill",
-        "Green Valley of Russian River Valley",
-        "Bennett Valley",
-        "Carneros",
-        "Fort Ross-Seaview",
-        "Petaluma Gap",
-        "Fountaingrove District",
-        "Moon Mountain District",
-        "Pine Mountain-Cloverdale Peak",
-        "Rockpile",
-        "Sonoma Mountain"
-      ],
-      "Central Coast": [
-        "Paso Robles",
-        "Paso Robles Willow Creek",
-        "Paso Robles Highlands",
-        "Santa Barbara County",
-        "Sta Rita Hills",
-        "Santa Maria Valley",
-        "Santa Ynez Valley",
-        "Happy Canyon of Santa Barbara",
-        "Ballard Canyon",
-        "Los Olivos District",
-        "Edna Valley",
-        "Arroyo Grande",
-        "Monterey",
-        "Carmel Valley",
-        "Santa Lucia Highlands",
-        "Chalone",
-        "Livermore Valley",
-        "Mount Harlan",
-        "San Francisco Bay",
-        "Santa Cruz Mountains",
-        "Ben Lomond Mountain"
-      ],
-      "Sierra Foothills": [
-        "Amador County",
-        "El Dorado",
-        "Calaveras County",
-        "Shenandoah Valley California",
-        "Fair Play",
-        "Fiddletown",
-        "Sierra Foothills AVA"
-      ],
-      "North Coast": [
-        "Mendocino",
-        "Anderson Valley",
-        "Redwood Valley",
-        "Ukiah Valley",
-        "Mendocino Ridge",
-        "Potter Valley",
-        "Cole Ranch",
-        "Lake County",
-        "Clear Lake",
-        "Red Hills Lake County",
-        "High Valley",
-        "Guenoc Valley",
-        "Benmore Valley"
-      ],
-      "Central Valley": [
-        "Lodi",
-        "Mokelumne River",
-        "Clarksburg",
-        "Dunnigan Hills",
-        "Madera",
-        "Merced",
-        "San Joaquin Valley",
-        "Diablo Grande",
-        "Sloughhouse",
-        "Jahant"
-      ]
+      "Napa Valley": ["Napa Valley AVA","Stags Leap District","Oakville","Rutherford","St Helena","Calistoga"],
+      "Sonoma": ["Sonoma County","Russian River Valley","Alexander Valley","Dry Creek Valley"],
+      "Central Coast": ["Paso Robles","Santa Barbara","Santa Rita Hills"],
+      "Other California": ["Mendocino","Sierra Foothills","Lodi"]
     },
-    "Oregon": {
-      "Willamette Valley": [
-        "Willamette Valley AVA",
-        "Dundee Hills",
-        "Chehalem Mountains",
-        "Ribbon Ridge",
-        "Yamhill-Carlton",
-        "McMinnville",
-        "Eola-Amity Hills",
-        "Van Duzer Corridor",
-        "Tualatin Hills",
-        "Lower Long Tom",
-        "Upper Willamette Valley"
-      ],
-      "Southern Oregon": [
-        "Umpqua Valley",
-        "Applegate Valley",
-        "Rogue Valley",
-        "Illinois Valley",
-        "Elkton Oregon",
-        "Red Hill Douglas County",
-        "Southern Oregon AVA"
-      ],
-      "Columbia Gorge-Other": [
-        "Columbia Gorge AVA",
-        "Hood River",
-        "The Dalles",
-        "Rocks District of Milton-Freewater"
-      ]
-    },
-    "Washington": {
-      "Columbia Valley": [
-        "Columbia Valley AVA",
-        "Walla Walla Valley",
-        "Red Mountain",
-        "Yakima Valley",
-        "Rattlesnake Hills",
-        "Snipes Mountain",
-        "Horse Heaven Hills",
-        "Wahluke Slope",
-        "Ancient Lakes",
-        "Royal Slope",
-        "Lake Chelan",
-        "Naches Heights",
-        "Candy Mountain",
-        "Goose Gap",
-        "White Bluffs",
-        "Evergreen"
-      ],
-      "Other Washington": [
-        "Puget Sound",
-        "Columbia Gorge WA",
-        "Okanogan Highlands",
-        "Lewis-Clark Valley",
-        "San Juan Islands"
-      ]
-    },
-    "New York": {
-      "Finger Lakes": [
-        "Finger Lakes AVA",
-        "Cayuga Lake",
-        "Seneca Lake",
-        "Keuka Lake",
-        "Canandaigua Lake",
-        "Conesus Lake"
-      ],
-      "Long Island": [
-        "Long Island AVA",
-        "North Fork of Long Island",
-        "The Hamptons Long Island"
-      ],
-      "Hudson Valley": [
-        "Hudson River Region AVA",
-        "Shawangunk Wine Trail"
-      ],
-      "Other New York": [
-        "Niagara Escarpment",
-        "Lake Erie New York",
-        "Champlain Valley of New York"
-      ]
-    },
-    "Virginia": {
-      "Virginia": [
-        "Virginia AVA",
-        "Monticello AVA",
-        "Shenandoah Valley Virginia",
-        "Eastern Shore Virginia",
-        "Northern Neck George Washington Birthplace",
-        "North Fork of Roanoke",
-        "Rocky Knob",
-        "Middleburg Virginia",
-        "Rappahannock County"
-      ]
-    },
-    "Texas": {
-      "Texas": [
-        "Texas Hill Country",
-        "Texas High Plains",
-        "Escondido Valley",
-        "Bell Mountain",
-        "Fredericksburg in the Texas Hill Country",
-        "Mesilla Valley Texas",
-        "Davis Mountains",
-        "Texoma"
-      ]
-    },
-    "Other USA": {
-      "Pacific Northwest": [
-        "Idaho AVA",
-        "Snake River Valley Idaho"
-      ],
-      "Mountain States": [
-        "Colorado Grand Valley",
-        "Colorado West Elks",
-        "Colorado Rocky Mountain",
-        "Arizona Sonoita",
-        "Arizona Willcox",
-        "New Mexico"
-      ],
-      "Midwest-East": [
-        "Michigan Lake Michigan Shore",
-        "Leelanau Peninsula",
-        "Old Mission Peninsula",
-        "Missouri Ozark Highlands",
-        "Missouri Augusta",
-        "Maryland Catoctin",
-        "Pennsylvania",
-        "Ohio Isle St George"
-      ]
-    }
+    "Oregon": {"Oregon": ["Willamette Valley","Dundee Hills"]},
+    "Washington": {"Washington": ["Columbia Valley","Walla Walla","Yakima Valley"]}
   },
   "Australia": {
-    "South Australia": {
-      "Barossa": [
-        "Barossa Valley",
-        "Eden Valley",
-        "High Eden"
-      ],
-      "McLaren Vale-Fleurieu": [
-        "McLaren Vale",
-        "Fleurieu Peninsula",
-        "Currency Creek",
-        "Langhorne Creek",
-        "Kangaroo Island"
-      ],
-      "Clare Valley": [
-        "Clare Valley",
-        "Watervale",
-        "Polish Hill River",
-        "Skillogalee",
-        "Auburn",
-        "Sevenhill"
-      ],
-      "Limestone Coast": [
-        "Coonawarra",
-        "Wrattonbully",
-        "Padthaway",
-        "Mount Benson",
-        "Robe",
-        "Mount Gambier",
-        "Bordertown",
-        "Cape Jaffa",
-        "Wattle Range"
-      ],
-      "Adelaide Hills": [
-        "Adelaide Hills",
-        "Piccadilly Valley",
-        "Lenswood",
-        "Kuitpo",
-        "Macclesfield",
-        "Balhannah"
-      ],
-      "Other South Australia": [
-        "Riverland",
-        "Southern Flinders Ranges",
-        "Far North SA",
-        "Adelaide Plains"
-      ]
-    },
-    "Victoria": {
-      "Yarra Valley": [
-        "Yarra Valley",
-        "Upper Yarra Valley",
-        "Lower Yarra Valley",
-        "Warburton",
-        "Dixon Creek",
-        "Gruyere",
-        "Healesville"
-      ],
-      "Mornington Peninsula": [
-        "Mornington Peninsula",
-        "Red Hill",
-        "Main Ridge",
-        "Merricks",
-        "Merricks North",
-        "Tuerong",
-        "Moorooduc",
-        "Balnarring"
-      ],
-      "Heathcote-Bendigo": [
-        "Heathcote",
-        "Colbinabbin",
-        "Redesdale",
-        "Bendigo",
-        "Heathcote-Loddon",
-        "Loddon Valley"
-      ],
-      "Grampians-Pyrenees": [
-        "Grampians",
-        "Great Western",
-        "Pyrenees",
-        "Moonambel",
-        "Avoca",
-        "Ballarat"
-      ],
-      "Northeast Victoria": [
-        "Rutherglen",
-        "Glenrowan",
-        "King Valley",
-        "Alpine Valleys",
-        "Beechworth",
-        "Upper Murray",
-        "Mansfield",
-        "Whitlands",
-        "Wangaratta",
-        "Milawa"
-      ],
-      "Other Victoria": [
-        "Macedon Ranges",
-        "Sunbury",
-        "Geelong",
-        "Bellarine Peninsula",
-        "Henty",
-        "Murray Darling Victoria",
-        "Swan Hill Victoria",
-        "Gippsland",
-        "South Gippsland",
-        "Strathbogie Ranges",
-        "Upper Goulburn"
-      ]
-    },
-    "New South Wales": {
-      "Hunter Valley": [
-        "Hunter Valley",
-        "Lower Hunter",
-        "Upper Hunter",
-        "Broke Fordwich",
-        "Pokolbin",
-        "Lovedale",
-        "Belford",
-        "Singleton",
-        "Denman"
-      ],
-      "Southern NSW": [
-        "Mudgee",
-        "Orange",
-        "Cowra",
-        "Hilltops",
-        "Young",
-        "Canberra District",
-        "Tumbarumba",
-        "Gundagai"
-      ],
-      "Other NSW": [
-        "Shoalhaven Coast",
-        "Southern Highlands",
-        "Riverina",
-        "Murray Darling NSW",
-        "Swan Hill NSW",
-        "Hastings River",
-        "New England"
-      ]
-    },
-    "Western Australia": {
-      "Margaret River": [
-        "Margaret River",
-        "Wilyabrup",
-        "Yallingup",
-        "Karridale",
-        "Wallcliffe",
-        "Metricup",
-        "Cowaramup",
-        "Rosa Brook"
-      ],
-      "Great Southern": [
-        "Great Southern",
-        "Albany",
-        "Denmark",
-        "Frankland River",
-        "Mount Barker",
-        "Porongurup"
-      ],
-      "Swan Valley-Perth": [
-        "Swan Valley",
-        "Perth Hills",
-        "Avon Valley"
-      ],
-      "Other WA": [
-        "Blackwood Valley",
-        "Pemberton",
-        "Manjimup",
-        "Geographe",
-        "Peel",
-        "Gingin",
-        "Esperance"
-      ]
-    },
-    "Queensland": {
-      "Queensland": [
-        "Granite Belt",
-        "South Burnett",
-        "Queensland Zone",
-        "Scenic Rim"
-      ]
-    },
-    "Tasmania": {
-      "Tasmania": [
-        "Coal River Valley",
-        "Huon Valley",
-        "Tamar Valley",
-        "Derwent Valley",
-        "East Coast Tasmania",
-        "Pipers River",
-        "Launceston",
-        "Freycinet",
-        "Northern Tasmania",
-        "Southern Tasmania"
-      ]
-    }
+    "South Australia": {"South Australia": ["Barossa Valley","Eden Valley","Clare Valley","McLaren Vale","Coonawarra","Adelaide Hills"]},
+    "Victoria": {"Victoria": ["Yarra Valley","Heathcote","Mornington Peninsula"]},
+    "Western Australia": {"Western Australia": ["Margaret River","Great Southern"]},
+    "New South Wales": {"New South Wales": ["Hunter Valley","Orange","Mudgee"]}
   },
   "New Zealand": {
-    "Marlborough": {
-      "Marlborough": [
-        "Marlborough",
-        "Wairau Valley",
-        "Awatere Valley",
-        "Southern Valleys"
-      ]
-    },
-    "Central Otago": {
-      "Central Otago": [
-        "Bannockburn",
-        "Cromwell Basin",
-        "Gibbston",
-        "Lowburn",
-        "Pisa",
-        "Bendigo",
-        "Wanaka",
-        "Alexandra",
-        "Earnscleugh",
-        "Maniototo",
-        "Clutha"
-      ]
-    },
-    "Hawkes Bay": {
-      "Hawkes Bay": [
-        "Hawkes Bay",
-        "Gimblett Gravels",
-        "Bridge Pa Triangle",
-        "Havelock North",
-        "Napier",
-        "Maraekakaho",
-        "Ngatarawa",
-        "Roys Hill",
-        "Dartmoor",
-        "Mangatahi"
-      ]
-    },
-    "Martinborough-Wellington": {
-      "Martinborough": [
-        "Martinborough",
-        "Gladstone",
-        "Masterton",
-        "Greytown",
-        "Featherston",
-        "Ata Rangi"
-      ],
-      "Wellington": [
-        "Wellington Region"
-      ]
-    },
-    "Nelson-Tasman": {
-      "Nelson": [
-        "Nelson",
-        "Waimea Plains",
-        "Upper Moutere",
-        "Moutere Hills",
-        "Brightwater",
-        "Hope",
-        "Redwood Valley"
-      ]
-    },
-    "Waipara-Canterbury": {
-      "North Canterbury": [
-        "Waipara Valley",
-        "Waipara",
-        "Omihi",
-        "Cheviot",
-        "Waikari"
-      ],
-      "Canterbury": [
-        "Canterbury",
-        "Christchurch Plains",
-        "Banks Peninsula"
-      ]
-    },
-    "Gisborne": {
-      "Gisborne": [
-        "Gisborne",
-        "Poverty Bay",
-        "Patutahi",
-        "Ormond",
-        "Manutuke"
-      ]
-    },
-    "Auckland": {
-      "Auckland": [
-        "Waiheke Island",
-        "Matakana",
-        "Kumeu",
-        "Henderson",
-        "West Auckland",
-        "Gulf Islands",
-        "Clevedon"
-      ]
-    },
-    "Other NZ": {
-      "Other": [
-        "Northland",
-        "Waikato",
-        "Bay of Plenty",
-        "Southland",
-        "Waitaki Valley",
-        "North Otago"
-      ]
-    }
+    "Marlborough": {"Marlborough": ["Marlborough"]},
+    "Central Otago": {"Central Otago": ["Central Otago"]},
+    "Hawkes Bay": {"Hawkes Bay": ["Hawkes Bay"]}
   },
   "Argentina": {
-    "Mendoza": {
-      "Lujan de Cuyo": [
-        "Lujan de Cuyo",
-        "Agrelo",
-        "Perdriel",
-        "Vistalba",
-        "Las Compuertas",
-        "Chacras de Coria",
-        "Drummond",
-        "Carrodilla",
-        "Mayor Drummond",
-        "Ugarteche"
-      ],
-      "Uco Valley": [
-        "Uco Valley",
-        "Tupungato",
-        "Tunuyan",
-        "San Carlos",
-        "Altamira",
-        "La Consulta",
-        "Eugenio Bustos",
-        "Vista Flores",
-        "Los Chacayes",
-        "Pareditas",
-        "Manzano Historico",
-        "Gualtallary",
-        "Los Arboles"
-      ],
-      "Maipu": [
-        "Maipu",
-        "General Gutierrez",
-        "Barrancas",
-        "Lumlunta",
-        "Cruz de Piedra",
-        "Russell"
-      ],
-      "Other Mendoza": [
-        "San Martin",
-        "Junin",
-        "Las Heras",
-        "Lavalle",
-        "San Rafael",
-        "General Alvear",
-        "Valle de San Rafael"
-      ]
-    },
-    "Salta": {
-      "Calchaqui Valleys": [
-        "Cafayate",
-        "Molinos",
-        "Cachi",
-        "San Carlos",
-        "Payogasta",
-        "Seclantas",
-        "Angastaco",
-        "Animana",
-        "El Arenal"
-      ],
-      "Other Salta": [
-        "Rosario de la Frontera",
-        "Campo Quijano",
-        "Lerma Valley",
-        "Oran"
-      ]
-    },
-    "La Rioja": {
-      "La Rioja": [
-        "Famatina",
-        "Chilecito",
-        "Vinchina",
-        "General Ángel Vicente Peñaloza",
-        "Nonogasta",
-        "Guandacol"
-      ]
-    },
-    "San Juan": {
-      "San Juan": [
-        "Tulum Valley",
-        "Pedernal Valley",
-        "Calingasta",
-        "Iglesia",
-        "Ullum",
-        "Zonda",
-        "Jachal",
-        "Caucete"
-      ]
-    },
-    "Patagonia": {
-      "Rio Negro-Neuquen": [
-        "Alto Valle del Rio Negro",
-        "Valle Medio",
-        "Valle Inferior",
-        "San Patricio del Chanar",
-        "Anelo",
-        "Confluencia",
-        "General Roca",
-        "Mainque",
-        "Villa Regina"
-      ]
-    },
-    "Other Argentina": {
-      "Other": [
-        "Catamarca",
-        "Tucuman",
-        "Jujuy",
-        "Entre Rios",
-        "Buenos Aires Province",
-        "Cordoba",
-        "La Pampa",
-        "Chubut",
-        "Santa Cruz"
-      ]
-    }
+    "Mendoza": {"Mendoza": ["Lujan de Cuyo","Maipo","Uco Valley"]},
+    "Salta": {"Salta": ["Cafayate"]}
   },
   "Chile": {
-    "Atacama": {
-      "Atacama": [
-        "Copiapo Valley",
-        "Huasco Valley"
-      ]
-    },
-    "Coquimbo": {
-      "Coquimbo": [
-        "Elqui Valley",
-        "Limari Valley",
-        "Choapa Valley"
-      ]
-    },
-    "Aconcagua": {
-      "Aconcagua Valley": [
-        "Aconcagua Valley",
-        "Panquehue",
-        "Catemu",
-        "Putaendo"
-      ],
-      "Casablanca-San Antonio": [
-        "Casablanca Valley",
-        "San Antonio Valley",
-        "Leyda Valley",
-        "Lo Abarca",
-        "Rosario Valley"
-      ]
-    },
-    "Central Valley": {
-      "Maipo Valley": [
-        "Maipo Valley",
-        "Alto Maipo",
-        "Isla de Maipo",
-        "Buin",
-        "Pirque",
-        "Paine"
-      ],
-      "Rapel Valley": [
-        "Rapel Valley",
-        "Cachapoal Valley",
-        "Colchagua Valley",
-        "Peumo",
-        "Marchigue",
-        "Palmilla",
-        "Apalta",
-        "Los Lingues",
-        "Chimbarongo",
-        "Nancagua"
-      ],
-      "Curico Valley": [
-        "Curicó Valley",
-        "Teno Valley",
-        "Lontue Valley",
-        "Sagrada Familia",
-        "Rauco",
-        "Romeral"
-      ],
-      "Maule Valley": [
-        "Maule Valley",
-        "Claro Valley",
-        "Loncomilla Valley",
-        "Tutuven Valley",
-        "Cauquenes",
-        "San Javier",
-        "Linares",
-        "Parral",
-        "Retiro",
-        "Pencahue"
-      ]
-    },
-    "Southern Chile": {
-      "Bio Bio-Itata": [
-        "Bio Bio Valley",
-        "Itata Valley",
-        "Malleco Valley"
-      ],
-      "Other South": [
-        "Osorno",
-        "Los Lagos",
-        "Aysen",
-        "Patagonia Chile"
-      ]
-    }
+    "Central Valley": {"Central Valley": ["Maipo","Rapel","Colchagua","Cachapoal","Curico","Maule"]},
+    "Other": {"Other": ["Casablanca","San Antonio","Elqui"]}
   },
   "South Africa": {
-    "Coastal Region": {
-      "Stellenbosch": [
-        "Stellenbosch",
-        "Bottelary",
-        "Devon Valley",
-        "Jonkershoek Valley",
-        "Papegaaiberg",
-        "Simonsberg-Stellenbosch",
-        "Polkadraai Hills",
-        "Banghoek",
-        "Stellenbosch Kloof",
-        "Helderberg"
-      ],
-      "Franschhoek": [
-        "Franschhoek Valley",
-        "Berg en Dal"
-      ],
-      "Paarl": [
-        "Paarl",
-        "Agter-Paarl",
-        "Voor-Paardeberg",
-        "Wellington",
-        "Paarl Mountain",
-        "Simonsberg-Paarl"
-      ],
-      "Swartland": [
-        "Swartland",
-        "Riebeekberg",
-        "Paardeberg",
-        "Malmesbury",
-        "St Helena Bay",
-        "Tulbagh"
-      ],
-      "Cape Town": [
-        "Constantia",
-        "Hout Bay",
-        "Cape Point",
-        "Durbanville",
-        "Philadelphia",
-        "Tygerberg"
-      ]
-    },
-    "Cape South Coast": {
-      "Elgin-Walker Bay": [
-        "Elgin",
-        "Walker Bay",
-        "Hemel-en-Aarde Valley",
-        "Hemel-en-Aarde Ridge",
-        "Upper Hemel-en-Aarde Valley",
-        "Stanford Foothills",
-        "Bot River",
-        "Grabouw",
-        "Hermanus"
-      ],
-      "Other Cape South Coast": [
-        "Overberg",
-        "Cape Agulhas",
-        "Elim",
-        "Napier",
-        "Plettenberg Bay",
-        "Swellendam"
-      ]
-    },
-    "Breede River Valley": {
-      "Breede River Valley": [
-        "Robertson",
-        "Bonnievale",
-        "McGregor",
-        "Worcester",
-        "Hex River Valley",
-        "Nuy",
-        "Breedekloof",
-        "Slanghoek",
-        "Goudini"
-      ]
-    },
-    "Olifants River": {
-      "Olifants River": [
-        "Citrusdal Valley",
-        "Citrusdal Mountain",
-        "Lutzville Valley",
-        "Koekenaap",
-        "Vredendal"
-      ]
-    },
-    "Klein Karoo": {
-      "Klein Karoo": [
-        "Calitzdorp",
-        "Oudtshoorn",
-        "Tradouw Valley",
-        "Montagu",
-        "Barrydale",
-        "Ladysmith",
-        "Tradouw Highlands"
-      ]
-    },
-    "Other South Africa": {
-      "Other": [
-        "Orange River",
-        "Douglas",
-        "Hartswater",
-        "Sutherland-Karoo",
-        "Ceres Plateau",
-        "Prince Albert Valley",
-        "Cederberg"
-      ]
-    }
+    "Western Cape": {"Western Cape": ["Stellenbosch","Franschhoek","Paarl","Swartland","Constantia","Elgin","Walker Bay"]}
   },
   "Austria": {
-    "Niederösterreich": {
-      "Wachau": [
-        "Wachau",
-        "Spitz",
-        "Weissenkirchen",
-        "Dürnstein",
-        "Loiben",
-        "Rossatz",
-        "Aggsbach",
-        "Schwallenbach",
-        "Mühldorf",
-        "Arnsdorf",
-        "Mautern"
-      ],
-      "Kremstal": [
-        "Kremstal",
-        "Krems",
-        "Rohrendorf",
-        "Stratzing",
-        "Senftenberg",
-        "Hollenburg",
-        "Oberloiben",
-        "Stein an der Donau"
-      ],
-      "Kamptal": [
-        "Kamptal",
-        "Langenlois",
-        "Zöbing",
-        "Gobelsburg",
-        "Strass",
-        "Schönberg",
-        "Kammern",
-        "Etsdorf"
-      ],
-      "Traisental": [
-        "Traisental",
-        "Traismauer",
-        "Herzogenburg",
-        "Statzendorf",
-        "Getzersdorf"
-      ],
-      "Wagram": [
-        "Wagram",
-        "Großriedenthal",
-        "Kirchberg am Wagram",
-        "Feuersbrunn",
-        "Königsbrunn",
-        "Absdorf"
-      ],
-      "Weinviertel": [
-        "Weinviertel",
-        "Retz",
-        "Poysdorf",
-        "Matzen",
-        "Zistersdorf",
-        "Ebenthal",
-        "Kreuttal",
-        "Pulkau"
-      ],
-      "Thermenregion": [
-        "Thermenregion",
-        "Gumpoldskirchen",
-        "Bad Vöslau",
-        "Tattendorf",
-        "Pfaffstätten",
-        "Traiskirchen"
-      ],
-      "Carnuntum": [
-        "Carnuntum",
-        "Petronell",
-        "Prellenkirchen",
-        "Göttlesbrunn",
-        "Arbesthal"
-      ]
-    },
-    "Burgenland": {
-      "Neusiedlersee": [
-        "Neusiedlersee",
-        "Gols",
-        "Andau",
-        "Halbturn",
-        "Podersdorf",
-        "Rust",
-        "Mörbisch",
-        "Frauenkirchen",
-        "Apetlon",
-        "Illmitz",
-        "Oslip"
-      ],
-      "Leithaberg": [
-        "Leithaberg DAC",
-        "Purbach",
-        "Breitenbrunn",
-        "Donnerskirchen",
-        "Oggau",
-        "Schützen am Gebirge",
-        "Jois",
-        "Winden am See"
-      ],
-      "Mittelburgenland": [
-        "Mittelburgenland DAC",
-        "Deutschkreutz",
-        "Neckenmarkt",
-        "Horitschon",
-        "Raiding",
-        "Lutzmannsburg"
-      ],
-      "Südburgenland": [
-        "Südburgenland",
-        "Eisenberg DAC",
-        "Rechnitz",
-        "Deutsch Schützen",
-        "Heiligenbrunn",
-        "Güssing",
-        "Csaterberg"
-      ]
-    },
-    "Steiermark": {
-      "Südsteiermark": [
-        "Südsteiermark DAC",
-        "Spielfeld",
-        "Gamlitz",
-        "Ehrenhausen",
-        "Leibnitz",
-        "Kitzeck",
-        "Sulztal",
-        "Eckberg",
-        "Grassnitzberg",
-        "Kranachberg",
-        "Zieregg"
-      ],
-      "Weststeiermark": [
-        "Weststeiermark",
-        "Stainz",
-        "Schilcher",
-        "Deutschlandsberg",
-        "Kitzeck im Sausal"
-      ],
-      "Vulkanland": [
-        "Vulkanland Steiermark DAC",
-        "Straden",
-        "Klöch",
-        "Kapfenstein",
-        "Tieschen",
-        "Riegersburg",
-        "Fehring"
-      ]
-    },
-    "Wien": {
-      "Wien": [
-        "Wien",
-        "Grinzing",
-        "Sievering",
-        "Neustift am Walde",
-        "Stammersdorf",
-        "Floridsdorf",
-        "Jedlersdorf",
-        "Nussberg",
-        "Bisamberg",
-        "Mauer"
-      ]
-    }
-  },
-  "Hungary": {
-    "Tokaj": {
-      "Tokaj": [
-        "Tokaji Aszu",
-        "Tokaji Eszencia",
-        "Tokaji Furmint",
-        "Tokaji Hárslevelű",
-        "Tokaji Szamorodni",
-        "Tokaji Forditas",
-        "Tokaji Maslás",
-        "Tokaj Dry Furmint",
-        "Mad",
-        "Tallya",
-        "Tokaj town",
-        "Bodrogkeresztur",
-        "Olaszliszka",
-        "Tarcal",
-        "Tolcsva",
-        "Erdőbénye",
-        "Sárospatak",
-        "Sátoraljaújhely"
-      ],
-      "Other Tokaj": [
-        "Kabar",
-        "Zéta",
-        "Kövérszőlő",
-        "Muscat Blanc"
-      ]
-    },
-    "Other Hungary": {
-      "Eger": [
-        "Eger",
-        "Egri Bikavér",
-        "Egri Csillag",
-        "Egri Leányka"
-      ],
-      "Villány": [
-        "Villány",
-        "Siklós"
-      ],
-      "Szekszárd": [
-        "Szekszárd",
-        "Szekszárdi Bikavér",
-        "Szekszárdi Kadarka"
-      ],
-      "Other Regions": [
-        "Badacsony",
-        "Balaton Felvidék",
-        "Balatonfüred-Csopak",
-        "Somló",
-        "Sopron",
-        "Matra",
-        "Kunság",
-        "Hajós-Baja",
-        "Pécs",
-        "Tolna",
-        "Neszmély",
-        "Ászár-Neszmély",
-        "Etyek-Buda",
-        "Pannonhalma"
-      ]
-    }
-  },
-  "Greece": {
-    "Peloponnese": {
-      "Nemea-Mantinia": [
-        "Nemea",
-        "Mantinia"
-      ],
-      "Other Peloponnese": [
-        "Patras",
-        "Muscat of Patras",
-        "Mavrodaphne of Patras",
-        "Muscat Rio of Patras",
-        "Aigialia",
-        "Slopes of Megara"
-      ]
-    },
-    "Macedonia": {
-      "Naoussa-Amyndeon": [
-        "Naoussa",
-        "Amyndeon",
-        "Florina"
-      ],
-      "Other Macedonia": [
-        "Goumenissa",
-        "Drama",
-        "Kavala",
-        "Slopes of Meliton",
-        "Avdira",
-        "Maronia",
-        "Epanomi",
-        "Thessaloniki"
-      ]
-    },
-    "Aegean Islands": {
-      "Santorini-Cyclades": [
-        "Santorini",
-        "Santorini Vinsanto",
-        "Nykteri",
-        "Paros"
-      ],
-      "Other Islands": [
-        "Samos",
-        "Muscat of Samos",
-        "Muscat of Samos Grand Cru",
-        "Lemnos",
-        "Muscat of Lemnos",
-        "Rhodes",
-        "Muscat of Rhodes",
-        "Cephalonia",
-        "Muscat of Cephalonia",
-        "Robola of Cephalonia",
-        "Mavrodaphne of Cephalonia",
-        "Lefkada"
-      ]
-    },
-    "Central Greece": {
-      "Central Greece": [
-        "Rapsani",
-        "Rapsani Reserve",
-        "Anchialos",
-        "Karditsa",
-        "Magnesia",
-        "Attica",
-        "Mesogia"
-      ]
-    },
-    "Crete": {
-      "Crete": [
-        "Archanes",
-        "Dafnes",
-        "Peza",
-        "Sitia",
-        "Crete IGP",
-        "Heraklion",
-        "Rethymnon",
-        "Chania",
-        "Lasithi"
-      ]
-    },
-    "Epirus-Thessaly": {
-      "Epirus-Thessaly": [
-        "Zitsa",
-        "Metsovo",
-        "Ioannina",
-        "Tyrnavos"
-      ]
-    }
-  },
-  "Lebanon": {
-    "Bekaa Valley": {
-      "Bekaa Valley": [
-        "Bekaa Valley",
-        "West Bekaa",
-        "Zahle",
-        "Baalbek",
-        "Kefraya",
-        "Musar",
-        "Ksara",
-        "Marsyas Valley",
-        "Deir el Ahmar",
-        "Hermel"
-      ]
-    }
-  },
-  "Israel": {
-    "Galilee": {
-      "Upper Galilee": [
-        "Upper Galilee",
-        "Safed",
-        "Meron",
-        "Kerem Ben Zimra",
-        "Amiad"
-      ],
-      "Lower Galilee": [
-        "Lower Galilee",
-        "Nazareth",
-        "Jezreel Valley"
-      ],
-      "Golan Heights": [
-        "Golan Heights",
-        "Mount Hermon",
-        "Quatzrin",
-        "Odem"
-      ]
-    },
-    "Other Israel": {
-      "Other": [
-        "Judean Hills",
-        "Jerusalem Mountains",
-        "Samson",
-        "Shomron",
-        "Negev",
-        "Arad",
-        "Ramat Arad"
-      ]
-    }
-  },
-  "Georgia": {
-    "Kakheti": {
-      "Kakheti": [
-        "Kakheti",
-        "Telavi",
-        "Tsinandali",
-        "Gurjaani",
-        "Kvareli",
-        "Mukuzani",
-        "Napareuli",
-        "Akhasheni",
-        "Manavi",
-        "Tibaani",
-        "Kondoli",
-        "Vazisubani",
-        "Kardanakhi",
-        "Khashmi",
-        "Rkaul"
-      ]
-    },
-    "Other Georgia": {
-      "Other": [
-        "Kartli",
-        "Imereti",
-        "Racha-Lechkhumi",
-        "Kvemo Svaneti"
-      ]
-    }
-  },
-  "Switzerland": {
-    "Valais": {
-      "Valais": [
-        "Valais",
-        "Heida",
-        "Chamoson",
-        "Fully",
-        "Leytron",
-        "Nendaz",
-        "Sion",
-        "Sierre",
-        "Salquenen",
-        "Leuk",
-        "Visp",
-        "Visperterminen"
-      ]
-    },
-    "Vaud": {
-      "Vaud": [
-        "Vaud",
-        "Lavaux",
-        "La Côte",
-        "Chablais",
-        "Dézaley",
-        "Saint-Saphorin",
-        "Epesses",
-        "Lutry",
-        "Morges",
-        "Nyon",
-        "Aigle",
-        "Yvorne",
-        "Ollon",
-        "Bex"
-      ]
-    },
-    "Geneva-Neuchatel": {
-      "Geneva": [
-        "Geneva",
-        "Satigny",
-        "Russin",
-        "Lully",
-        "Peissy"
-      ],
-      "Neuchatel-Three Lakes": [
-        "Neuchatel",
-        "Twann",
-        "Ligerz",
-        "Biel",
-        "Morat",
-        "Murten",
-        "Vully"
-      ]
-    },
-    "German Switzerland": {
-      "German Switzerland": [
-        "Aargau",
-        "Thurgau",
-        "Zurich",
-        "Schaffhausen",
-        "Graubunden",
-        "Zurich Weinland",
-        "Klettgau"
-      ],
-      "Italian Switzerland": [
-        "Ticino",
-        "Lugano",
-        "Bellinzona",
-        "Locarno",
-        "Mendrisio"
-      ]
-    }
+    "Wachau": {"Wachau": ["Wachau","Kremstal","Kamptal"]},
+    "Burgenland": {"Burgenland": ["Neusiedlersee","Mittelburgenland"]},
+    "Other": {"Other": ["Steiermark","Weinviertel"]}
   },
   "Other": {
-    "Other": {
-      "Other": [
-        "Other"
-      ]
-    }
+    "Other": {"Other": ["Other"]}
   }
 };
 
@@ -3326,281 +439,33 @@ function fillSelect(id, options, placeholder) {
   }
 }
 
-function toggleManual() {
-  var mf = ge("manualFields");
-  var btn = ge("manualToggleBtn");
-  if (mf.style.display === "none" || mf.style.display === "") {
-    mf.style.display = "block";
-    btn.textContent = "✕ Hide manual";
-  } else {
-    mf.style.display = "none";
-    btn.textContent = "✏️ Enter manually";
-    // Clear manual fields when hiding
-    ge("fCountryManual").value = "";
-    ge("fRegionManual").value = "";
-    ge("fSubregionManual").value = "";
-    ge("fAppellationManual").value = "";
-  }
-}
-
-function fuzzyMatch(select, value) {
-  if (!value) return false;
-  var v = value.toLowerCase().replace(/[^a-z0-9]/g, "");
-  var opts = select.options;
-  // 1. Exact case-insensitive match
-  for (var i = 0; i < opts.length; i++) {
-    if (opts[i].value.toLowerCase() === value.toLowerCase()) {
-      select.value = opts[i].value; return true;
-    }
-  }
-  // 2. Normalized match (remove non-alphanumeric)
-  for (var i = 0; i < opts.length; i++) {
-    var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (ov === v) { select.value = opts[i].value; return true; }
-  }
-  // 3. Contains match (longer contains shorter, min 4 chars)
-  if (v.length >= 4) {
-    for (var i = 0; i < opts.length; i++) {
-      var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
-      if (ov.length >= 4 && (ov.includes(v) || v.includes(ov))) {
-        select.value = opts[i].value; return true;
-      }
-    }
-  }
-  return false;
-}
-
-function findInAllRegions(countryVal, searchTerms) {
-  // Search ALL regions/subregions/appellations for any of the search terms
-  // Returns {region, subregion, appellation} or null
-  // Priority: appellation match > subregion match > region match
-  var countryData = REGIONS[countryVal] || {};
-  var terms = searchTerms.map(function(t) {
-    return t ? t.toLowerCase().replace(/[^a-z0-9]/g, "") : "";
-  }).filter(function(t) { return t.length > 2; });
-  if (!terms.length) return null;
-
-  var appResult = null, subResult = null, regResult = null;
-
-  Object.keys(countryData).forEach(function(regKey) {
-    var subData = countryData[regKey];
-    Object.keys(subData).forEach(function(subKey) {
-      var apps = subData[subKey];
-      // Check appellation match first (highest priority)
-      for (var i = 0; i < apps.length; i++) {
-        var aNorm = apps[i].toLowerCase().replace(/[^a-z0-9]/g, "");
-        var appHit = terms.some(function(t) {
-          return aNorm === t || (t.length > 4 && (aNorm.includes(t) || t.includes(aNorm)));
-        });
-        if (appHit && !appResult) {
-          appResult = {region: regKey, subregion: subKey, appellation: apps[i]};
-        }
-      }
-      // Check subregion match (medium priority)
-      if (!subResult) {
-        var subNorm = subKey.toLowerCase().replace(/[^a-z0-9]/g, "");
-        var subHit = terms.some(function(t) {
-          return subNorm === t || (t.length > 4 && (subNorm.includes(t) || t.includes(subNorm)));
-        });
-        if (subHit) subResult = {region: regKey, subregion: subKey, appellation: ""};
-      }
-    });
-    // Check region match (lowest priority)
-    if (!regResult) {
-      var regNorm = regKey.toLowerCase().replace(/[^a-z0-9]/g, "");
-      var regionHit = terms.some(function(t) {
-        return regNorm === t || (t.length > 4 && (regNorm.includes(t) || t.includes(regNorm)));
-      });
-      if (regionHit) regResult = {region: regKey, subregion: "", appellation: ""};
-    }
-  });
-
-  return appResult || subResult || regResult || null;
-}
-
 function setDropdowns(country, region, subregion, appellation) {
-  // Step 1: Set country
   var cSel = document.getElementById("fCountry");
-  fuzzyMatch(cSel, country);
+  cSel.value = country || "";
   onCountryChange();
-
-  var countryVal = cSel.value;
-
-  // Step 2: Try direct region match
-  var regionMatched = false;
   if (region) {
-    regionMatched = fuzzyMatch(document.getElementById("fRegion"), region);
+    document.getElementById("fRegion").value = region;
     onRegionChange();
   }
-
-  // Step 2b: If region didn't match, search ALL regions using region+subregion+appellation
-  if (!regionMatched) {
-    var found = findInAllRegions(countryVal, [region, subregion, appellation]);
-    if (found) {
-      document.getElementById("fRegion").value = found.region;
-      onRegionChange();
-      if (found.subregion) {
-        document.getElementById("fSubregion").value = found.subregion;
-        onSubregionChange();
-      } else {
-        onSubregionChange();
-      }
-      // Try to set appellation:
-      // If found.appellation is same as subregion name, skip it (it's noise, not a real appellation hit)
-      // and use the original appellation param instead
-      var foundAppIsSubregion = found.appellation &&
-        found.appellation.toLowerCase().replace(/[^a-z0-9]/g,"") ===
-        found.subregion.toLowerCase().replace(/[^a-z0-9]/g,"");
-
-      if (found.appellation && !foundAppIsSubregion) {
-        fuzzyMatch(document.getElementById("fAppellation"), found.appellation);
-      }
-      // Always try the original appellation param
-      if (!document.getElementById("fAppellation").value && appellation) {
-        fuzzyMatch(document.getElementById("fAppellation"), appellation);
-      }
-      return;
-    }
-  }
-
-  // Step 3: Try to set subregion directly
-  var subMatched = false;
   if (subregion) {
-    subMatched = fuzzyMatch(document.getElementById("fSubregion"), subregion);
+    document.getElementById("fSubregion").value = subregion;
+    onSubregionChange();
   }
-
-  // Step 4: If subregion didn't match, search all subregions for appellation
-  if (!subMatched && appellation) {
-    var regionVal = document.getElementById("fRegion").value;
-    var subData = (REGIONS[countryVal] || {})[regionVal] || {};
-    var appNorm = appellation.toLowerCase().replace(/[^a-z0-9]/g, "");
-
-    Object.keys(subData).forEach(function(subKey) {
-      if (subMatched) return;
-      var apps = subData[subKey];
-      for (var i = 0; i < apps.length; i++) {
-        var aNorm = apps[i].toLowerCase().replace(/[^a-z0-9]/g, "");
-        if (aNorm === appNorm || aNorm.includes(appNorm) || appNorm.includes(aNorm)) {
-          document.getElementById("fSubregion").value = subKey;
-          subMatched = true;
-          break;
-        }
-      }
-    });
-  }
-
-  // Step 5: Populate appellation dropdown
-  onSubregionChange();
-
-  // Step 6: Set appellation
   if (appellation) {
-    fuzzyMatch(document.getElementById("fAppellation"), appellation);
+    document.getElementById("fAppellation").value = appellation;
   }
-
-  // Step 7: Fallback - try subregion value as appellation
-  if (!document.getElementById("fAppellation").value && subregion && !subMatched) {
-    fuzzyMatch(document.getElementById("fAppellation"), subregion);
-  }
-}
-
-// ── IndexedDB Storage ────────────────────────────────────────
-var DB_NAME = 'WineJournal', DB_VERSION = 1, DB_STORE = 'wines';
-var _dbPromise = null;
-
-function openDB() {
-  if (_dbPromise) return _dbPromise;
-  _dbPromise = new Promise(function(resolve, reject) {
-    var req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = function(e) {
-      var db = e.target.result;
-      if (!db.objectStoreNames.contains(DB_STORE)) {
-        var store = db.createObjectStore(DB_STORE, {keyPath: 'id'});
-        store.createIndex('created_at', 'created_at', {unique: false});
-      }
-    };
-    req.onsuccess = function(e) { resolve(e.target.result); };
-    req.onerror = function(e) { reject(e.target.error); };
-  });
-  return _dbPromise;
-}
-
-function dbGetAll() {
-  return openDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var tx = db.transaction(DB_STORE, 'readonly');
-      var req = tx.objectStore(DB_STORE).getAll();
-      req.onsuccess = function() {
-        var results = req.result.slice().sort(function(a, b) {
-          return b.created_at.localeCompare(a.created_at);
-        });
-        resolve(results);
-      };
-      req.onerror = function() { reject(req.error); };
-    });
-  });
-}
-
-function dbSearch(q) {
-  return dbGetAll().then(function(all) {
-    var ql = q.toLowerCase();
-    return all.filter(function(w) {
-      return ['name','producer','grape','country','major_region','appellation'].some(function(k) {
-        return w[k] && w[k].toLowerCase().indexOf(ql) >= 0;
-      });
-    });
-  });
-}
-
-function dbPut(wine) {
-  return openDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var tx = db.transaction(DB_STORE, 'readwrite');
-      var req = tx.objectStore(DB_STORE).put(wine);
-      req.onsuccess = function() { resolve(wine); };
-      req.onerror = function() { reject(req.error); };
-    });
-  });
-}
-
-function dbDelete(id) {
-  return openDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var tx = db.transaction(DB_STORE, 'readwrite');
-      var req = tx.objectStore(DB_STORE).delete(id);
-      req.onsuccess = function() { resolve(); };
-      req.onerror = function() { reject(req.error); };
-    });
-  });
 }
 
 async function loadWines(q) {
   try {
-    var results = q ? await dbSearch(q) : await dbGetAll();
-    wines = results;
-    hideDbError();
+    var url = q ? ("/api/wines?q=" + encodeURIComponent(q)) : "/api/wines";
+    var r = await fetch(url);
+    var d = await r.json();
+    wines = Array.isArray(d) ? d : [];
   } catch(e) {
-    console.error('IndexedDB error:', e);
-    showDbError('Storage error: ' + e.message);
     wines = [];
   }
   render();
-}
-
-function showDbError(msg) {
-  var el = document.getElementById("dbErrorBanner");
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "dbErrorBanner";
-    el.style.cssText = "background:#c0392b;color:#fff;font-size:.8rem;padding:.5rem 1rem;text-align:center;position:sticky;top:0;z-index:999;";
-    document.body.prepend(el);
-  }
-  el.textContent = "⚠️ " + msg;
-  el.style.display = "block";
-}
-
-function hideDbError() {
-  var el = document.getElementById("dbErrorBanner");
-  if (el) el.style.display = "none";
 }
 
 function onSearch() {
@@ -3616,14 +481,6 @@ function filterTab(tab) {
   var ids = {all:"tabAll", Red:"tabRed", White:"tabWhite", Sparkling:"tabSparkling", other:"tabOther"};
   document.getElementById(ids[tab]).classList.add("active");
   render();
-}
-
-function toggleMenu() {
-  var panel = document.getElementById("menuPanel");
-  panel.style.display = panel.style.display === "none" ? "block" : "none";
-  var isGrid = viewMode === "grid";
-  document.getElementById("viewModeLabel").textContent = isGrid ? "Switch to List View" : "Switch to Grid View";
-  document.getElementById("viewModeIcon").textContent = isGrid ? "⊞" : "☰";
 }
 
 function toggleView() {
@@ -3647,7 +504,7 @@ function render() {
   var container = document.getElementById("wineContainer");
   var empty = document.getElementById("emptyMsg");
   var n = wines.length;
-  document.getElementById("countLabel").textContent = n === 0 ? "Votre journal de cave personnel" : (n + " bottle" + (n === 1 ? "" : "s") + " in your cellar");
+  document.getElementById("countLabel").textContent = n === 0 ? "Your personal cellar diary" : (n + " bottle" + (n === 1 ? "" : "s") + " in your cellar");
 
   if (list.length === 0) {
     container.innerHTML = "";
@@ -3664,7 +521,7 @@ function render() {
       var thumb = w.image_data ? ("<img class='row-thumb' src='" + w.image_data + "' loading='lazy'>") : "<div class='row-thumb-ph'>🍷</div>";
       var meta = [w.producer, [w.major_region, w.appellation].filter(Boolean).join(" · ")].filter(Boolean).join(" — ");
       var badge = w.style ? ("<span class='badge badge-" + esc(w.style) + "'>" + esc(w.style) + "</span>") : "";
-      html += "<div class='wine-row'>" + thumb + "<div class='row-info' onclick='openEdit(\"" + w.id + "\")' style='flex:1;min-width:0'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + w.id + "\")' title='Pronunciation'>🔊</button><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
+      html += "<div class='wine-row' onclick='openEdit(\"" + w.id + "\")'>" + thumb + "<div class='row-info'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
     }
     html += "</div>";
   } else {
@@ -3672,7 +529,7 @@ function render() {
     for (var i = 0; i < list.length; i++) {
       var w = list[i];
       var img = w.image_data ? ("<img class='card-img' src='" + w.image_data + "' loading='lazy'>") : "<div class='card-img-ph'>🍷</div>";
-      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div style='display:flex;justify-content:space-between;align-items:flex-start'><div class='card-name' style='flex:1'>" + esc(w.name) + "</div><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + w.id + "\")' title='Pronunciation'>🔊</button></div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
+      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div class='card-name'>" + esc(w.name) + "</div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
     }
     html += "</div>";
   }
@@ -3705,14 +562,11 @@ function openEdit(id) {
   document.getElementById("fPrice").value = w.price || "";
   document.getElementById("fDate").value = w.date || new Date().toISOString().split("T")[0];
   document.getElementById("fComment").value = w.comment || "";
-  var wineryEl = document.getElementById("fWinery");
-  wineryEl.value = w.winery || "";
-  wineryEl.style.height = "auto";
-  wineryEl.style.height = wineryEl.scrollHeight + "px";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
   var img = document.getElementById("previewImg");
   if (currentImageData) { img.src = currentImageData; img.style.display = "block"; } else { img.style.display = "none"; }
+  document.getElementById("uploadHint").textContent = currentImageData ? "Tap to change photo" : "Tap to add photo";
   var ab = document.getElementById("analyzeBtn");
   ab.style.display = currentImageData ? "block" : "none"; ab.disabled = false;
   setStatus("", "");
@@ -3723,13 +577,13 @@ function openEdit(id) {
 function closeSheet() {
   document.getElementById("overlay").classList.remove("open");
   document.body.style.overflow = "";
-  // fileInput removed
+  document.getElementById("fileInput").value = "";
 }
 
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
 
 function clearForm() {
-  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fWinery","fPrice"];
+  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fPrice"];
   for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = "";
   document.getElementById("fStyle").value = "";
   document.getElementById("fDate").value = new Date().toISOString().split("T")[0];
@@ -3738,46 +592,25 @@ function clearForm() {
   fillSelect("fAppellation", [], "— Select Appellation —");
   document.getElementById("fCountry").value = "";
   setScore(0);
-  // Reset photo section (new dual-button layout)
-  currentImageData = null;
-  document.getElementById("photoPreviewWrap").style.display = "none";
-  document.getElementById("previewImg").src = "";
-  document.getElementById("fileInputCamera").value = "";
-  document.getElementById("fileInputAlbum").value = "";
+  document.getElementById("previewImg").style.display = "none";
+  document.getElementById("uploadHint").textContent = "Tap to photograph the label";
   document.getElementById("analyzeBtn").style.display = "none";
   document.getElementById("analyzeBtn").disabled = true;
-  // Reset manual location fields
-  var mf = document.getElementById("manualFields");
-  if (mf) mf.style.display = "none";
-  var mtb = document.getElementById("manualToggleBtn");
-  if (mtb) mtb.textContent = "✏️ Enter manually";
-  var mfids = ["fCountryManual","fRegionManual","fSubregionManual","fAppellationManual"];
-  for (var i = 0; i < mfids.length; i++) { var el = document.getElementById(mfids[i]); if (el) el.value = ""; }
   setStatus("", "");
 }
 
-function handleFile(e, source) {
+function handleFile(e) {
   var file = e.target.files[0]; if (!file) return;
   var reader = new FileReader();
   reader.onload = function(ev) {
     currentImageData = ev.target.result;
-    var wrap = document.getElementById("photoPreviewWrap");
     var img = document.getElementById("previewImg");
-    img.src = currentImageData;
-    wrap.style.display = "block";
+    img.src = currentImageData; img.style.display = "block";
+    document.getElementById("uploadHint").textContent = "Tap to change photo";
     document.getElementById("analyzeBtn").style.display = "block";
     document.getElementById("analyzeBtn").disabled = false;
   };
   reader.readAsDataURL(file);
-}
-
-function clearPhoto() {
-  currentImageData = null;
-  document.getElementById("photoPreviewWrap").style.display = "none";
-  document.getElementById("previewImg").src = "";
-  document.getElementById("fileInputCamera").value = "";
-  document.getElementById("fileInputAlbum").value = "";
-  document.getElementById("analyzeBtn").disabled = true;
 }
 
 function setStatus(msg, type) {
@@ -3787,71 +620,32 @@ function setStatus(msg, type) {
 }
 
 async function analyzeLabel() {
-  if (!currentImageData) return;
-  setStatus("Analysing label…", "loading");
+  var fi = document.getElementById("fileInput");
+  if (!fi.files[0] && !currentImageData) return;
+  setStatus("Reading label…", "loading");
   document.getElementById("analyzeBtn").disabled = true;
   try {
-    // Step 1: Read the label
-    var res = await fetch(currentImageData);
-    var blob = await res.blob();
-    var body = new FormData();
-    body.append("image", blob, "wine.jpg");
+    var body;
+    if (fi.files[0]) {
+      body = new FormData(); body.append("image", fi.files[0]);
+    } else {
+      var res = await fetch(currentImageData);
+      var blob = await res.blob();
+      body = new FormData(); body.append("image", blob, "wine.jpg");
+    }
     var r = await fetch("/api/analyze", {method:"POST", body:body});
     var data = await r.json();
     if (!r.ok || data.error) {
       setStatus("Could not read label: " + (data.error || "Unknown"), "error");
-      document.getElementById("analyzeBtn").disabled = false;
-      return;
+    } else {
+      if (data.name) document.getElementById("fName").value = data.name;
+      if (data.producer) document.getElementById("fProducer").value = data.producer;
+      if (data.grape) document.getElementById("fGrape").value = data.grape;
+      if (data.vintage) document.getElementById("fVintage").value = data.vintage;
+      if (data.style) document.getElementById("fStyle").value = data.style;
+      if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
+      setStatus("Label read! Review and adjust if needed.", "success");
     }
-    // Fill label fields
-    if (data.name) document.getElementById("fName").value = data.name;
-    if (data.producer) document.getElementById("fProducer").value = data.producer;
-    if (data.grape) document.getElementById("fGrape").value = data.grape;
-    if (data.vintage) document.getElementById("fVintage").value = data.vintage;
-    if (data.style) document.getElementById("fStyle").value = data.style;
-    if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
-    setStatus("Label read! Generating notes…", "loading");
-
-    // Build wine description for AI calls
-    var wineDesc = [
-      data.vintage || "", data.producer || "", data.name || "",
-      data.grape ? "(" + data.grape + ")" : "",
-      data.style ? data.style + " wine" : "",
-      [data.appellation, data.major_region, data.country].filter(Boolean).join(", ")
-    ].filter(Boolean).join(" ");
-
-    // Step 2: WSET note + winery intro in parallel
-    var locationParts = [data.appellation, data.subregion, data.major_region, data.country].filter(Boolean);
-    var location = locationParts.join(", ");
-    var wsetPrompt = "You are a WSET Level 3/4 examiner. Write a structured WSET-style tasting note for this wine: " + wineDesc + ". Format using these sections - APPEARANCE: clarity, intensity, colour. NOSE: condition, intensity, then aroma characteristics including fruit, floral, spice, oak. PALATE: sweetness, acidity, tannin if red, alcohol, body, flavour intensity and characteristics, finish. CONCLUSIONS: quality level, drinking window and reasoning. Use precise WSET terminology. Keep it concise and professional.";
-    var wineryPrompt = "Write a concise winery introduction for " + (data.producer || data.name) + " in " + location + ". Maximum 80 words. Cover: founding/history, wine style philosophy, key appellations or wines produced. Be factual and informative. No marketing language.";
-
-    var [wsetResp, wineryResp] = await Promise.all([
-      fetch("/api/analyze", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({prompt: wsetPrompt, wset_mode: true})
-      }),
-      fetch("/api/analyze", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({prompt: wineryPrompt, wset_mode: true})
-      })
-    ]);
-
-    var wsetData = await wsetResp.json();
-    var wineryData = await wineryResp.json();
-
-    if (wsetData.tasting_note) {
-      document.getElementById("fComment").value = wsetData.tasting_note;
-    }
-    if (wineryData.tasting_note) {
-      var wEl = document.getElementById("fWinery");
-      wEl.value = wineryData.tasting_note;
-      wEl.style.height = "auto";
-      wEl.style.height = wEl.scrollHeight + "px";
-    }
-    setStatus("Done! Label read, WSET note and winery info generated.", "success");
   } catch(e) { setStatus("Error: " + e.message, "error"); }
   document.getElementById("analyzeBtn").disabled = false;
 }
@@ -3859,27 +653,19 @@ async function analyzeLabel() {
 async function saveWine() {
   var name = document.getElementById("fName").value.trim();
   if (!name) { alert("Wine name is required."); return; }
-  // Use manual location if filled
-  var mf = document.getElementById("manualFields");
-  var manualOn = mf && (mf.style.display === "block");
-  var countryVal = (manualOn && document.getElementById("fCountryManual").value.trim()) ? document.getElementById("fCountryManual").value.trim() : document.getElementById("fCountry").value;
-  var regionVal = (manualOn && document.getElementById("fRegionManual").value.trim()) ? document.getElementById("fRegionManual").value.trim() : document.getElementById("fRegion").value;
-  var subregionVal = (manualOn && document.getElementById("fSubregionManual").value.trim()) ? document.getElementById("fSubregionManual").value.trim() : document.getElementById("fSubregion").value;
-  var appellationVal = (manualOn && document.getElementById("fAppellationManual").value.trim()) ? document.getElementById("fAppellationManual").value.trim() : document.getElementById("fAppellation").value;
   var wine = {
     name: name,
     producer: document.getElementById("fProducer").value.trim(),
     grape: document.getElementById("fGrape").value.trim(),
     style: document.getElementById("fStyle").value,
     vintage: document.getElementById("fVintage").value.trim(),
-    country: countryVal,
-    major_region: regionVal,
-    subregion: subregionVal,
-    appellation: appellationVal,
+    country: document.getElementById("fCountry").value,
+    major_region: document.getElementById("fRegion").value,
+    subregion: document.getElementById("fSubregion").value,
+    appellation: document.getElementById("fAppellation").value,
     price: parseFloat(document.getElementById("fPrice").value) || null,
     date: document.getElementById("fDate").value,
     comment: document.getElementById("fComment").value.trim(),
-    winery: document.getElementById("fWinery").value.trim(),
     score: currentScore,
     image_data: currentImageData
   };
@@ -3887,359 +673,30 @@ async function saveWine() {
   btn.disabled = true; btn.textContent = "Saving…";
   try {
     if (editingId) {
-      wine.id = editingId;
-      var existing = wines.find(function(w) { return w.id === editingId; });
-      wine.created_at = existing ? existing.created_at : new Date().toISOString();
-      await dbPut(wine);
-      for (var i = 0; i < wines.length; i++) {
-        if (wines[i].id === editingId) { wines[i] = wine; break; }
-      }
+      var r = await fetch("/api/wines/" + editingId, {method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(wine)});
+      if (!r.ok) throw new Error((await r.json()).error || "Update failed");
+      for (var i = 0; i < wines.length; i++) { if (wines[i].id === editingId) { wines[i] = Object.assign({}, wines[i], wine); break; } }
     } else {
-      wine.id = 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-      wine.created_at = new Date().toISOString();
-      await dbPut(wine);
-      wines.unshift(wine);
+      var r = await fetch("/api/wines", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(wine)});
+      if (!r.ok) throw new Error((await r.json()).error || "Save failed");
+      wines.unshift(await r.json());
     }
     render(); closeSheet();
-  } catch(e) { alert("Error saving wine: " + e.message); }
+  } catch(e) { alert("Error: " + e.message); }
   btn.disabled = false;
   btn.textContent = editingId ? "Save Changes" : "Save to Cellar";
 }
 
-async function importCSV(input) {
-  var file = input.files[0];
-  if (!file) return;
-  input.value = ""; // reset so same file can be re-selected
-  toggleMenu();
-
-  var statusEl = document.getElementById("importStatus");
-  statusEl.style.display = "block";
-  statusEl.style.background = "rgba(74,158,255,.1)";
-  statusEl.style.color = "var(--acc)";
-  statusEl.textContent = "Reading file…";
-
-  var text = await new Promise(function(resolve, reject) {
-    var reader = new FileReader();
-    reader.onload = function(e) { resolve(e.target.result); };
-    reader.onerror = reject;
-    reader.readAsText(file, "UTF-8");
-  });
-
-  // Remove BOM if present
-  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
-  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-  if (lines.length < 2) {
-    statusEl.style.background = "rgba(255,90,90,.1)";
-    statusEl.style.color = "var(--red)";
-    statusEl.textContent = "File appears empty or invalid.";
-    return;
-  }
-
-  // Parse header
-  var headers = parseCSVRow(lines[0]);
-  var imported = 0, skipped = 0;
-
-  for (var i = 1; i < lines.length; i++) {
-    var vals = parseCSVRow(lines[i]);
-    if (!vals.length) continue;
-    var wine = {};
-    headers.forEach(function(h, j) { wine[h] = vals[j] || ""; });
-
-    if (!wine.name) { skipped++; continue; }
-
-    // Generate new ID if missing, preserve created_at
-    wine.id = wine.id || ("imp_" + Date.now() + "_" + i);
-    wine.created_at = wine.created_at || new Date().toISOString();
-    wine.price = wine.price ? parseFloat(wine.price) || null : null;
-    wine.score = wine.score ? parseInt(wine.score) || 0 : 0;
-
-    try {
-      await dbPut(wine);
-      imported++;
-    } catch(e) { skipped++; }
-  }
-
-  await loadWines();
-  statusEl.style.background = imported > 0 ? "rgba(78,203,163,.1)" : "rgba(255,90,90,.1)";
-  statusEl.style.color = imported > 0 ? "var(--green)" : "var(--red)";
-  statusEl.textContent = imported > 0
-    ? "✅ Imported " + imported + " wine" + (imported > 1 ? "s" : "") + (skipped > 0 ? " (" + skipped + " skipped)" : "") + "!"
-    : "❌ No wines imported. Check the file format.";
-
-  // Hide status after 4 seconds
-  setTimeout(function() { statusEl.style.display = "none"; }, 4000);
-}
-
-function parseCSVRow(row) {
-  var result = [], cur = "", inQuote = false;
-  for (var i = 0; i < row.length; i++) {
-    var ch = row[i];
-    if (ch === '"') {
-      if (inQuote && row[i+1] === '"') { cur += '"'; i++; }
-      else { inQuote = !inQuote; }
-    } else if (ch === "," && !inQuote) {
-      result.push(cur.trim()); cur = "";
-    } else { cur += ch; }
-  }
-  result.push(cur.trim());
-  return result;
-}
-
-
 async function deleteWine() {
   if (!editingId || !confirm("Remove this wine?")) return;
-  try {
-    await dbDelete(editingId);
-    wines = wines.filter(function(w) { return w.id !== editingId; });
-    render(); closeSheet();
-  } catch(e) { alert("Error deleting wine: " + e.message); }
+  await fetch("/api/wines/" + editingId, {method:"DELETE"});
+  wines = wines.filter(function(w) { return w.id !== editingId; });
+  render(); closeSheet();
 }
 
-async function exportCSV() {
-  try {
-    var all = await dbGetAll();
-    var fields = ["name","producer","grape","vintage","style","country","major_region","subregion","appellation","price","score","date","comment","winery","created_at"];
-    var rows = [fields.join(",")];
-    all.forEach(function(w) {
-      rows.push(fields.map(function(f) {
-        var v = w[f] != null ? String(w[f]) : "";
-        return (v.indexOf(",") >= 0 || v.indexOf('"') >= 0 || v.indexOf("\n") >= 0) ? '"' + v.replace(/"/g, '""') + '"' : v;
-      }).join(","));
-    });
-    var blob = new Blob(["\uFEFF" + rows.join("\n")], {type: "text/csv;charset=utf-8"});
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "wine_journal_" + new Date().toISOString().slice(0,10) + ".csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  } catch(e) { alert("Export failed: " + e.message); }
-}
+function exportCSV() { window.location.href = "/api/export"; }
 
 window.onload = init;
-
-async function generateWsetNote() {
-  var name = document.getElementById("fName").value.trim();
-  var producer = document.getElementById("fProducer").value.trim();
-  var grape = document.getElementById("fGrape").value.trim();
-  var vintage = document.getElementById("fVintage").value.trim();
-  var country = document.getElementById("fCountry").value;
-  var region = document.getElementById("fRegion").value;
-  var subregion = document.getElementById("fSubregion").value;
-  var appellation = document.getElementById("fAppellation").value;
-  var style = document.getElementById("fStyle").value;
-
-  // Build location string
-  var locationParts = [appellation, subregion, region, country].filter(function(x){ return x; });
-  var location = locationParts.join(", ");
-
-  if (!name && !grape && !location) {
-    alert("Please fill in at least the wine name, grape, or location first.");
-    return;
-  }
-
-  var btn = document.getElementById("wsetBtn");
-  var statusEl = document.getElementById("wsetStatus");
-  btn.disabled = true;
-  statusEl.style.display = "block";
-
-  var wineDesc = [
-    vintage ? vintage + " vintage" : "",
-    producer ? "by " + producer : "",
-    name || "",
-    grape ? "(" + grape + ")" : "",
-    style ? style + " wine" : "",
-    location ? "from " + location : ""
-  ].filter(function(x){ return x; }).join(" ");
-
-  var prompt = "You are a WSET Level 3/4 examiner. Write a structured WSET-style tasting note for this wine: " + wineDesc + ". Format using these sections - APPEARANCE: clarity, intensity, colour. NOSE: condition, intensity, then aroma characteristics including fruit, floral, spice, oak. PALATE: sweetness, acidity, tannin if red, alcohol, body, flavour intensity and characteristics, finish. CONCLUSIONS: quality level, drinking window and reasoning. Use precise WSET terminology specific to the grape variety, region, and vintage. Keep it concise and professional.";
-
-  try {
-    var resp = await fetch("/api/analyze", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({prompt: prompt, wset_mode: true})
-    });
-    var data = await resp.json();
-    if (data.tasting_note) {
-      document.getElementById("fComment").value = data.tasting_note;
-    } else if (data.error) {
-      alert("Error: " + data.error);
-    }
-  } catch(err) {
-    alert("Failed to generate tasting note: " + err.message);
-  }
-
-  btn.disabled = false;
-  statusEl.style.display = "none";
-}
-
-
-async function checkPrice() {
-  var name = document.getElementById("fName").value.trim();
-  var producer = document.getElementById("fProducer").value.trim();
-  var vintage = document.getElementById("fVintage").value.trim();
-  var grape = document.getElementById("fGrape").value.trim();
-  var country = document.getElementById("fCountry").value;
-  var region = document.getElementById("fRegion").value;
-  var appellation = document.getElementById("fAppellation").value;
-
-  if (!name && !producer) {
-    alert("Please fill in at least the wine name or producer first.");
-    return;
-  }
-
-  var btn = document.getElementById("priceBtn");
-  var resultEl = document.getElementById("priceResult");
-  btn.disabled = true;
-  btn.textContent = "Searching…";
-  resultEl.style.display = "block";
-  resultEl.textContent = "Looking up retail price…";
-
-  var wineParts = [vintage, producer, name, grape ? "("+grape+")" : "", appellation, region, country].filter(function(x){ return x; });
-  var wineDesc = wineParts.join(" ");
-
-  try {
-    var resp = await fetch("/api/price-check", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ wine: wineDesc })
-    });
-    var data = await resp.json();
-    if (data.result) {
-      var text = data.result;
-      // Extract pipe-separated fields
-      var parts = text.split("|");
-      var priceRange = "";
-      var typical = "";
-      parts.forEach(function(p) {
-        p = p.trim();
-        if (/PRICE_RANGE/i.test(p)) priceRange = p.replace(/PRICE_RANGE:\s*/i,"").trim();
-        if (/TYPICAL_PRICE/i.test(p)) typical = p.replace(/TYPICAL_PRICE:\s*/i,"").trim();
-      });
-      // Fallback: try newline format
-      if (!priceRange) priceRange = (text.match(/PRICE_RANGE:\s*(.+)/i) || [])[1] || "";
-      if (!typical) typical = (text.match(/TYPICAL_PRICE:\s*(.+)/i) || [])[1] || "";
-
-      var html = "";
-      if (priceRange && typical && priceRange !== typical) {
-        html = "<strong>" + priceRange + "</strong> &nbsp;·&nbsp; Typical: " + typical;
-      } else if (priceRange) {
-        html = "<strong>" + priceRange + "</strong>";
-      } else if (typical) {
-        html = "<strong>Typical: " + typical + "</strong>";
-      } else {
-        html = text.split("|")[0].trim();
-      }
-      resultEl.innerHTML = html;
-
-      // Auto-fill price if empty
-      var fillFrom = typical || priceRange;
-      if (fillFrom && !document.getElementById("fPrice").value) {
-        var numMatch = fillFrom.match(/\d[\d,]*/);
-        if (numMatch) document.getElementById("fPrice").value = numMatch[0].replace(",","");
-      }
-    } else if (data.error) {
-      resultEl.textContent = "Error: " + data.error;
-    }
-  } catch(err) {
-    resultEl.textContent = "Failed to check price: " + err.message;
-  }
-  btn.disabled = false;
-  btn.textContent = "🔍 Check Price";
-}
-
-
-// ── Pronunciation ─────────────────────────────────────────────
-var pronunCache = {};
-
-function showPronun(wineId) {
-  var w = wines.find(function(x) { return x.id === wineId; });
-  if (!w) return;
-
-  var popup = document.getElementById('pronunPopup');
-  document.getElementById('pronunWineName').textContent = w.name;
-  var origin = [w.producer, w.appellation, w.country].filter(Boolean).join(' · ');
-  document.getElementById('pronunOrigin').textContent = origin;
-  document.getElementById('pronunContent').innerHTML = '<div class="pronun-loading">Looking up pronunciation…</div>';
-  popup.classList.add('open');
-
-  // Use cache if available
-  if (pronunCache[wineId]) {
-    renderPronun(pronunCache[wineId]);
-    return;
-  }
-
-  // Build context for AI
-  var wineDesc = [w.name, w.producer, w.vintage, w.appellation, w.country].filter(Boolean).join(', ');
-
-  fetch('/api/pronounce', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ wine: wineDesc })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (data.result) {
-      pronunCache[wineId] = data.result;
-      renderPronun(data.result);
-    } else {
-      document.getElementById('pronunContent').innerHTML =
-        '<div class="pronun-loading">Could not get pronunciation.</div>';
-    }
-  })
-  .catch(function(e) {
-    document.getElementById('pronunContent').innerHTML =
-      '<div class="pronun-loading">Error: ' + e.message + '</div>';
-  });
-}
-
-function renderPronun(data) {
-  var html = '';
-  if (data.phonetic) {
-    html += '<div class="pronun-phonetic">' + esc(data.phonetic) + '</div>';
-  }
-  if (data.syllables) {
-    html += '<div class="pronun-syllables">' + esc(data.syllables) + '</div>';
-  }
-  if (data.guide) {
-    html += '<div class="pronun-guide">' + esc(data.guide) + '</div>';
-  }
-  if (data.tip) {
-    html += '<div class="pronun-tip">💡 ' + esc(data.tip) + '</div>';
-  }
-  document.getElementById('pronunContent').innerHTML = html;
-}
-
-function closePronun() {
-  document.getElementById('pronunPopup').classList.remove('open');
-}
-
-// Close popup on background tap
-document.addEventListener('click', function(e) {
-  var popup = document.getElementById('pronunPopup');
-  if (popup && popup.classList.contains('open') && !popup.contains(e.target)) {
-    closePronun();
-  }
-});
-
-// Close menu on outside tap
-document.addEventListener('click', function(e) {
-  var panel = document.getElementById('menuPanel');
-  var btn = document.getElementById('menuBtn');
-  if (panel && panel.style.display !== 'none' && !panel.contains(e.target) && !btn.contains(e.target)) {
-    panel.style.display = 'none';
-  }
-});
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(r) { console.log('SW registered'); })
-      .catch(function(e) { console.log('SW failed:', e); });
-  });
-}
 </script>
 </body>
 </html>
