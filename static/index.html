@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Wine Journal">
+  <meta name="apple-mobile-web-app-title" content="Cave à Vin">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Wine Journal">
-<title>Wine Journal</title>
+<meta name="apple-mobile-web-app-title" content="Cave à Vin">
+<title>Cave à Vin</title>
 <style>
 :root {
   --bg:#0A1628; --surface:#112240; --card:#1A3358; --border:#1E3D6B;
@@ -103,6 +103,19 @@ input[type="date"]{color-scheme:dark;}
 .save-btn{width:100%;padding:.85rem;background:var(--accent);border:none;color:white;font-size:.95rem;font-weight:600;cursor:pointer;border-radius:10px;margin-top:.6rem;font-family:inherit;}
 .save-btn:disabled{opacity:.5;}
 .cancel-btn{width:100%;padding:.7rem;margin-top:.5rem;background:none;border:1px solid var(--border);color:var(--dim);font-size:.9rem;cursor:pointer;border-radius:10px;font-family:inherit;}
+
+.pronun-btn{background:none;border:none;color:var(--acc);font-size:.85rem;cursor:pointer;padding:.1rem .3rem;opacity:.7;flex-shrink:0;line-height:1;}
+.pronun-btn:active{opacity:1;}
+#pronunPopup{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);border-radius:16px 16px 0 0;padding:1.2rem 1.4rem 2.5rem;z-index:2000;box-shadow:0 -8px 32px rgba(0,0,0,.5);}
+#pronunPopup.open{display:block;}
+.pronun-close{float:right;background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
+.pronun-wine-name{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.1rem;padding-right:1.5rem;}
+.pronun-origin{font-size:.72rem;color:var(--dim);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em;}
+.pronun-phonetic{font-size:1.5rem;font-weight:600;color:var(--acc);letter-spacing:.04em;margin-bottom:.4rem;}
+.pronun-syllables{font-size:.8rem;color:var(--dim);margin-bottom:.7rem;}
+.pronun-guide{font-size:.82rem;color:var(--white);line-height:1.6;margin-bottom:.6rem;}
+.pronun-tip{font-size:.75rem;color:var(--yellow);font-style:italic;margin-top:.3rem;}
+.pronun-loading{font-size:.85rem;color:var(--dim);text-align:center;padding:1.2rem 0;}
 </style>
 </head>
 <body>
@@ -110,8 +123,8 @@ input[type="date"]{color-scheme:dark;}
 <div class="header">
   <div class="header-top">
     <div>
-      <h1>🍷 Wine Journal</h1>
-      <div class="header-sub" id="countLabel">Your personal cellar diary</div>
+      <h1>🍷 Cave à Vin</h1>
+      <div class="header-sub" id="countLabel">Votre journal de cave personnel</div>
     </div>
     <div class="header-actions">
       <button class="icon-btn" onclick="exportCSV()" title="Export">📊</button>
@@ -168,7 +181,7 @@ input[type="date"]{color-scheme:dark;}
         <span style="font-size:1.5rem">🖼️</span>From Album
       </label>
     </div>
-    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Read Label with AI</button>
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeLabel()" disabled>✦ Analyze</button>
     <div class="status-msg" id="statusMsg"></div>
     <div class="sep"></div>
 
@@ -275,12 +288,33 @@ input[type="date"]{color-scheme:dark;}
     </div>
     <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
       <span>Tasting Notes</span>
-      <button type="button" id="wsetBtn" onclick="generateWsetNote()" style="font-size:.68rem;padding:.25rem .6rem;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(41,121,212,.2));border:1px solid rgba(74,158,255,.4);color:var(--acc);border-radius:5px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem">✦ Generate WSET Note</button>
+      <button type="button" id="wsetBtn" onclick="generateWsetNote()" style="font-size:.68rem;padding:.25rem .6rem;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(41,121,212,.2));border:1px solid rgba(74,158,255,.4);color:var(--acc);border-radius:5px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem">✦ WSET Note</button>
     </div>
     <div id="wsetStatus" style="display:none;font-size:.75rem;color:var(--acc);padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;margin-bottom:.5rem;text-align:center">Generating WSET tasting note…</div>
     <div class="field"><textarea id="fComment" placeholder="Write your tasting notes, or use ✦ Generate WSET Note above…" style="min-height:120px"></textarea></div>
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;align-items:center">
+        <span>Winery Introduction</span>
+        <span id="wineryStatus" style="display:none;font-size:.68rem;color:var(--acc)">Generating…</span>
+      </label>
+      <textarea id="fWinery" placeholder="Brief winery introduction (auto-filled by Analyze, or write your own)…" style="min-height:80px"></textarea>
+    </div>
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
+  </div>
+</div>
+
+<!-- Pronunciation Popup -->
+<div id="pronunPopup">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem">
+    <div>
+      <div class="pronun-wine-name" id="pronunWineName"></div>
+      <div class="pronun-origin" id="pronunOrigin"></div>
+    </div>
+    <button class="pronun-close" onclick="closePronun()">✕</button>
+  </div>
+  <div id="pronunContent">
+    <div class="pronun-loading">Looking up pronunciation…</div>
   </div>
 </div>
 
@@ -3280,39 +3314,82 @@ function fuzzyMatch(select, value) {
   if (!value) return false;
   var v = value.toLowerCase().replace(/[^a-z0-9]/g, "");
   var opts = select.options;
-  // Exact match first
+  // 1. Exact case-insensitive match
   for (var i = 0; i < opts.length; i++) {
     if (opts[i].value.toLowerCase() === value.toLowerCase()) {
       select.value = opts[i].value; return true;
     }
   }
-  // Normalized match
+  // 2. Normalized match (remove non-alphanumeric)
   for (var i = 0; i < opts.length; i++) {
     var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
     if (ov === v) { select.value = opts[i].value; return true; }
   }
-  // Contains match
-  for (var i = 0; i < opts.length; i++) {
-    var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (ov.includes(v) || v.includes(ov)) { select.value = opts[i].value; return true; }
+  // 3. Contains match (longer contains shorter, min 4 chars)
+  if (v.length >= 4) {
+    for (var i = 0; i < opts.length; i++) {
+      var ov = opts[i].value.toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (ov.length >= 4 && (ov.includes(v) || v.includes(ov))) {
+        select.value = opts[i].value; return true;
+      }
+    }
   }
   return false;
 }
 
 function setDropdowns(country, region, subregion, appellation) {
+  // Step 1: Set country
   var cSel = document.getElementById("fCountry");
   fuzzyMatch(cSel, country);
   onCountryChange();
+
+  // Step 2: Set major region
   if (region) {
     fuzzyMatch(document.getElementById("fRegion"), region);
     onRegionChange();
   }
+
+  // Step 3: Try to set subregion
+  // If AI-returned subregion doesn't match, try to find which subregion
+  // contains the appellation — and auto-select that subregion
+  var subMatched = false;
   if (subregion) {
-    fuzzyMatch(document.getElementById("fSubregion"), subregion);
-    onSubregionChange();
+    subMatched = fuzzyMatch(document.getElementById("fSubregion"), subregion);
   }
+
+  // Step 4: If subregion didn't match but we have an appellation,
+  // search ALL subregions for one that contains the appellation
+  if (!subMatched && appellation) {
+    var countryVal = document.getElementById("fCountry").value;
+    var regionVal = document.getElementById("fRegion").value;
+    var subData = (REGIONS[countryVal] || {})[regionVal] || {};
+    var appNorm = appellation.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+    Object.keys(subData).forEach(function(subKey) {
+      if (subMatched) return;
+      var apps = subData[subKey];
+      for (var i = 0; i < apps.length; i++) {
+        var aNorm = apps[i].toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (aNorm === appNorm || aNorm.includes(appNorm) || appNorm.includes(aNorm)) {
+          document.getElementById("fSubregion").value = subKey;
+          subMatched = true;
+          break;
+        }
+      }
+    });
+  }
+
+  // Step 5: Populate appellation dropdown based on selected subregion
+  onSubregionChange();
+
+  // Step 6: Set appellation
   if (appellation) {
     fuzzyMatch(document.getElementById("fAppellation"), appellation);
+  }
+
+  // Step 7: If appellation still empty but subregion had the value, try subregion value
+  if (!document.getElementById("fAppellation").value && subregion && !subMatched) {
+    fuzzyMatch(document.getElementById("fAppellation"), subregion);
   }
 }
 
@@ -3452,7 +3529,7 @@ function render() {
   var container = document.getElementById("wineContainer");
   var empty = document.getElementById("emptyMsg");
   var n = wines.length;
-  document.getElementById("countLabel").textContent = n === 0 ? "Your personal cellar diary" : (n + " bottle" + (n === 1 ? "" : "s") + " in your cellar");
+  document.getElementById("countLabel").textContent = n === 0 ? "Votre journal de cave personnel" : (n + " bottle" + (n === 1 ? "" : "s") + " in your cellar");
 
   if (list.length === 0) {
     container.innerHTML = "";
@@ -3469,7 +3546,7 @@ function render() {
       var thumb = w.image_data ? ("<img class='row-thumb' src='" + w.image_data + "' loading='lazy'>") : "<div class='row-thumb-ph'>🍷</div>";
       var meta = [w.producer, [w.major_region, w.appellation].filter(Boolean).join(" · ")].filter(Boolean).join(" — ");
       var badge = w.style ? ("<span class='badge badge-" + esc(w.style) + "'>" + esc(w.style) + "</span>") : "";
-      html += "<div class='wine-row' onclick='openEdit(\"" + w.id + "\")'>" + thumb + "<div class='row-info'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
+      html += "<div class='wine-row'>" + thumb + "<div class='row-info' onclick='openEdit(\"" + w.id + "\")' style='flex:1;min-width:0'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + w.id + "\")' title='Pronunciation'>🔊</button><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
     }
     html += "</div>";
   } else {
@@ -3477,7 +3554,7 @@ function render() {
     for (var i = 0; i < list.length; i++) {
       var w = list[i];
       var img = w.image_data ? ("<img class='card-img' src='" + w.image_data + "' loading='lazy'>") : "<div class='card-img-ph'>🍷</div>";
-      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div class='card-name'>" + esc(w.name) + "</div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
+      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div style='display:flex;justify-content:space-between;align-items:flex-start'><div class='card-name' style='flex:1'>" + esc(w.name) + "</div><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + w.id + "\")' title='Pronunciation'>🔊</button></div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
     }
     html += "</div>";
   }
@@ -3510,6 +3587,7 @@ function openEdit(id) {
   document.getElementById("fPrice").value = w.price || "";
   document.getElementById("fDate").value = w.date || new Date().toISOString().split("T")[0];
   document.getElementById("fComment").value = w.comment || "";
+  document.getElementById("fWinery").value = w.winery || "";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
   var img = document.getElementById("previewImg");
@@ -3530,7 +3608,7 @@ function closeSheet() {
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
 
 function clearForm() {
-  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fPrice"];
+  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fWinery","fPrice"];
   for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = "";
   document.getElementById("fStyle").value = "";
   document.getElementById("fDate").value = new Date().toISOString().split("T")[0];
@@ -3589,9 +3667,10 @@ function setStatus(msg, type) {
 
 async function analyzeLabel() {
   if (!currentImageData) return;
-  setStatus("Reading label…", "loading");
+  setStatus("Analysing label…", "loading");
   document.getElementById("analyzeBtn").disabled = true;
   try {
+    // Step 1: Read the label
     var res = await fetch(currentImageData);
     var blob = await res.blob();
     var body = new FormData();
@@ -3600,15 +3679,55 @@ async function analyzeLabel() {
     var data = await r.json();
     if (!r.ok || data.error) {
       setStatus("Could not read label: " + (data.error || "Unknown"), "error");
-    } else {
-      if (data.name) document.getElementById("fName").value = data.name;
-      if (data.producer) document.getElementById("fProducer").value = data.producer;
-      if (data.grape) document.getElementById("fGrape").value = data.grape;
-      if (data.vintage) document.getElementById("fVintage").value = data.vintage;
-      if (data.style) document.getElementById("fStyle").value = data.style;
-      if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
-      setStatus("Label read! Review and adjust if needed.", "success");
+      document.getElementById("analyzeBtn").disabled = false;
+      return;
     }
+    // Fill label fields
+    if (data.name) document.getElementById("fName").value = data.name;
+    if (data.producer) document.getElementById("fProducer").value = data.producer;
+    if (data.grape) document.getElementById("fGrape").value = data.grape;
+    if (data.vintage) document.getElementById("fVintage").value = data.vintage;
+    if (data.style) document.getElementById("fStyle").value = data.style;
+    if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
+    setStatus("Label read! Generating notes…", "loading");
+
+    // Build wine description for AI calls
+    var wineDesc = [
+      data.vintage || "", data.producer || "", data.name || "",
+      data.grape ? "(" + data.grape + ")" : "",
+      data.style ? data.style + " wine" : "",
+      [data.appellation, data.major_region, data.country].filter(Boolean).join(", ")
+    ].filter(Boolean).join(" ");
+
+    // Step 2: WSET note + winery intro in parallel
+    var locationParts = [data.appellation, data.subregion, data.major_region, data.country].filter(Boolean);
+    var location = locationParts.join(", ");
+    var wsetPrompt = "You are a WSET Level 3/4 examiner. Write a structured WSET-style tasting note for this wine: " + wineDesc + ". Format using these sections - APPEARANCE: clarity, intensity, colour. NOSE: condition, intensity, then aroma characteristics including fruit, floral, spice, oak. PALATE: sweetness, acidity, tannin if red, alcohol, body, flavour intensity and characteristics, finish. CONCLUSIONS: quality level, drinking window and reasoning. Use precise WSET terminology. Keep it concise and professional.";
+    var wineryPrompt = "Write a concise winery introduction for " + (data.producer || data.name) + " in " + location + ". Maximum 80 words. Cover: founding/history, wine style philosophy, key appellations or wines produced. Be factual and informative. No marketing language.";
+
+    var [wsetResp, wineryResp] = await Promise.all([
+      fetch("/api/analyze", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: wsetPrompt, wset_mode: true})
+      }),
+      fetch("/api/analyze", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: wineryPrompt, wset_mode: true})
+      })
+    ]);
+
+    var wsetData = await wsetResp.json();
+    var wineryData = await wineryResp.json();
+
+    if (wsetData.tasting_note) {
+      document.getElementById("fComment").value = wsetData.tasting_note;
+    }
+    if (wineryData.tasting_note) {
+      document.getElementById("fWinery").value = wineryData.tasting_note;
+    }
+    setStatus("Done! Label read, WSET note and winery info generated.", "success");
   } catch(e) { setStatus("Error: " + e.message, "error"); }
   document.getElementById("analyzeBtn").disabled = false;
 }
@@ -3636,6 +3755,7 @@ async function saveWine() {
     price: parseFloat(document.getElementById("fPrice").value) || null,
     date: document.getElementById("fDate").value,
     comment: document.getElementById("fComment").value.trim(),
+    winery: document.getElementById("fWinery").value.trim(),
     score: currentScore,
     image_data: currentImageData
   };
@@ -3674,7 +3794,7 @@ async function deleteWine() {
 async function exportCSV() {
   try {
     var all = await dbGetAll();
-    var fields = ["name","producer","grape","vintage","style","country","major_region","subregion","appellation","price","score","date","comment","created_at"];
+    var fields = ["name","producer","grape","vintage","style","country","major_region","subregion","appellation","price","score","date","comment","winery","created_at"];
     var rows = [fields.join(",")];
     all.forEach(function(w) {
       rows.push(fields.map(function(f) {
@@ -3825,6 +3945,79 @@ async function checkPrice() {
   btn.textContent = "🔍 Check Price";
 }
 
+
+// ── Pronunciation ─────────────────────────────────────────────
+var pronunCache = {};
+
+function showPronun(wineId) {
+  var w = wines.find(function(x) { return x.id === wineId; });
+  if (!w) return;
+
+  var popup = document.getElementById('pronunPopup');
+  document.getElementById('pronunWineName').textContent = w.name;
+  var origin = [w.producer, w.appellation, w.country].filter(Boolean).join(' · ');
+  document.getElementById('pronunOrigin').textContent = origin;
+  document.getElementById('pronunContent').innerHTML = '<div class="pronun-loading">Looking up pronunciation…</div>';
+  popup.classList.add('open');
+
+  // Use cache if available
+  if (pronunCache[wineId]) {
+    renderPronun(pronunCache[wineId]);
+    return;
+  }
+
+  // Build context for AI
+  var wineDesc = [w.name, w.producer, w.vintage, w.appellation, w.country].filter(Boolean).join(', ');
+
+  fetch('/api/pronounce', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ wine: wineDesc })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.result) {
+      pronunCache[wineId] = data.result;
+      renderPronun(data.result);
+    } else {
+      document.getElementById('pronunContent').innerHTML =
+        '<div class="pronun-loading">Could not get pronunciation.</div>';
+    }
+  })
+  .catch(function(e) {
+    document.getElementById('pronunContent').innerHTML =
+      '<div class="pronun-loading">Error: ' + e.message + '</div>';
+  });
+}
+
+function renderPronun(data) {
+  var html = '';
+  if (data.phonetic) {
+    html += '<div class="pronun-phonetic">' + esc(data.phonetic) + '</div>';
+  }
+  if (data.syllables) {
+    html += '<div class="pronun-syllables">' + esc(data.syllables) + '</div>';
+  }
+  if (data.guide) {
+    html += '<div class="pronun-guide">' + esc(data.guide) + '</div>';
+  }
+  if (data.tip) {
+    html += '<div class="pronun-tip">💡 ' + esc(data.tip) + '</div>';
+  }
+  document.getElementById('pronunContent').innerHTML = html;
+}
+
+function closePronun() {
+  document.getElementById('pronunPopup').classList.remove('open');
+}
+
+// Close popup on background tap
+document.addEventListener('click', function(e) {
+  var popup = document.getElementById('pronunPopup');
+  if (popup && popup.classList.contains('open') && !popup.contains(e.target)) {
+    closePronun();
+  }
+});
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
