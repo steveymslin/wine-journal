@@ -67,9 +67,9 @@ def analyze_label():
                 '{"name":"wine name","producer":"producer or domaine",'
                 '"grape":"grape variety or blend","vintage":"year or empty",'
                 '"country":"country e.g. France",'
-                '"major_region":"major wine region e.g. Bordeaux, Burgundy, Champagne, Tuscany",'
-                '"subregion":"sub-region e.g. Medoc, Cote de Nuits",'
-                '"appellation":"specific appellation e.g. Pauillac, Gevrey-Chambertin",'
+                '"major_region":"top-level wine region in English e.g. Bordeaux, Burgundy, Champagne, Tuscany, Southwest France, Rioja, Rhone Valley",'
+                '"subregion":"sub-region within major region e.g. Medoc, Cote de Nuits, Pyrenees. Use empty string if unclear.",'
+                '"appellation":"the specific AOC/appellation name on the label e.g. Pauillac, Saint-Estephe, Gevrey-Chambertin, Jurancon Sec, Barolo. Usually the most prominent geographic name shown on the label.",'
                 '"style":"one of: Red, White, Sparkling, Fortified, Rose"}\n'
                 'Use empty string for any field not visible.'
             )}
@@ -80,6 +80,44 @@ def analyze_label():
     if start >= 0 and end > start:
         return jsonify(json.loads(text[start:end]))
     return jsonify({'error': 'Could not parse label', 'raw': text}), 500
+
+
+@app.route('/api/pronounce', methods=['POST'])
+def pronounce():
+    if not ANTHROPIC_API_KEY:
+        return jsonify({'error': 'ANTHROPIC_API_KEY not configured'}), 400
+
+    data = request.get_json()
+    wine_desc = data.get('wine', '')
+    if not wine_desc:
+        return jsonify({'error': 'No wine provided'}), 400
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    prompt = (
+        f"You are a wine pronunciation expert. For this wine: {wine_desc}\n\n"
+        "Provide the pronunciation guide. Return ONLY valid JSON, no markdown:\n"
+        '{"phonetic":"phonetic spelling using simple English sounds e.g. zhev-RAY shahm-behr-TAN",'
+        '"syllables":"syllable breakdown with stress in CAPS e.g. zhev-RAY · shahm-behr-TAN",'
+        '"guide":"2-3 sentences: language of origin, how to say each key word, any tricky sounds",'
+        '"tip":"one short practical tip for ordering this wine confidently in a restaurant"}'
+        "\nKeep it practical and concise. Use simple phonetics an English speaker can read."
+    )
+
+    try:
+        msg = client.messages.create(
+            model='claude-sonnet-4-5',
+            max_tokens=400,
+            messages=[{'role': 'user', 'content': prompt}]
+        )
+        text = msg.content[0].text.strip()
+        start, end = text.find('{'), text.rfind('}') + 1
+        if start >= 0 and end > start:
+            import json
+            return jsonify({'result': json.loads(text[start:end])})
+        return jsonify({'error': 'Could not parse response'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/price-check', methods=['POST'])
 def price_check():
