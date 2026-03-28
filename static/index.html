@@ -123,7 +123,7 @@ input[type="date"]{color-scheme:dark;}
       <div class="header-sub" id="countLabel">Your personal cellar diary</div>
     </div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="exportCSV()" title="Export">📊</button>
+      <button class="icon-btn" onclick="exportExcel()" title="Export to Excel">📊</button>
       <button class="icon-btn" id="viewBtn" onclick="toggleView()">☰</button>
     </div>
   </div>
@@ -269,9 +269,10 @@ input[type="date"]{color-scheme:dark;}
 var REGIONS = {
   "France": {
     "Bordeaux": {
-      "Left Bank": ["Pauillac","Saint-Estephe","Saint-Julien","Margaux","Listrac","Moulis"],
-      "Right Bank": ["Pomerol","Saint-Emilion","Fronsac"],
-      "Other Bordeaux": ["Graves","Sauternes","Pessac-Leognan","Entre-Deux-Mers"]
+      "Medoc": ["Pauillac","Saint-Estephe","Saint-Julien","Margaux","Listrac-Medoc","Moulis-en-Medoc","Haut-Medoc","Medoc AOC"],
+      "Libournais": ["Pomerol","Saint-Emilion","Fronsac","Lalande-de-Pomerol","Castillon"],
+      "Graves": ["Graves","Pessac-Leognan","Sauternes","Barsac"],
+      "Entre-Deux-Mers": ["Entre-Deux-Mers","Cadillac","Loupiac"]
     },
     "Burgundy": {
       "Cote de Nuits": ["Gevrey-Chambertin","Morey-Saint-Denis","Chambolle-Musigny","Vougeot","Vosne-Romanee","Nuits-Saint-Georges"],
@@ -822,7 +823,36 @@ async function deleteWine() {
   render(); closeSheet();
 }
 
-function exportCSV() { window.location.href = "/api/export"; }
+function exportExcel() {
+  if (wines.length === 0) { alert("No wines to export."); return; }
+  var fields = ["name","producer","grape","vintage","style","country","major_region","subregion","appellation","price","score","date","comment","winery"];
+  var headers = ["Wine Name","Producer","Grape","Vintage","Style","Country","Region","Sub-Region","Appellation","Price (USD)","Score","Date Consumed","Tasting Notes","Winery Introduction"];
+  var xml = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>';
+  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+  xml += '<Styles><Style ss:ID="hdr"><Font ss:Bold="1"/><Interior ss:Color="#1A3358" ss:Pattern="Solid"/><Font ss:Color="#FFFFFF" ss:Bold="1"/></Style></Styles>';
+  xml += '<Worksheet ss:Name="Wine Journal"><Table>';
+  xml += '<Row ss:StyleID="hdr">';
+  for (var h = 0; h < headers.length; h++) xml += '<Cell><Data ss:Type="String">' + headers[h] + '</Data></Cell>';
+  xml += '</Row>';
+  for (var i = 0; i < wines.length; i++) {
+    var w = wines[i];
+    xml += '<Row>';
+    for (var f = 0; f < fields.length; f++) {
+      var v = w[fields[f]] != null ? String(w[fields[f]]) : '';
+      var type = (fields[f] === 'price' || fields[f] === 'score') && v ? 'Number' : 'String';
+      xml += '<Cell><Data ss:Type="' + type + '">' + v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</Data></Cell>';
+    }
+    xml += '</Row>';
+  }
+  xml += '</Table></Worksheet></Workbook>';
+  var blob = new Blob([xml], {type:'application/vnd.ms-excel'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'wine_journal_' + new Date().toISOString().slice(0,10) + '.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 // ── Pronunciation ─────────────────────────────────────────────
 var pronunCache = {};
