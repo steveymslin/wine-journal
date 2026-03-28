@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Wine Journal">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Wine Journal">
 <title>Wine Journal</title>
@@ -3312,16 +3316,104 @@ function setDropdowns(country, region, subregion, appellation) {
   }
 }
 
+// ── IndexedDB Storage ────────────────────────────────────────
+var DB_NAME = 'WineJournal', DB_VERSION = 1, DB_STORE = 'wines';
+var _dbPromise = null;
+
+function openDB() {
+  if (_dbPromise) return _dbPromise;
+  _dbPromise = new Promise(function(resolve, reject) {
+    var req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = function(e) {
+      var db = e.target.result;
+      if (!db.objectStoreNames.contains(DB_STORE)) {
+        var store = db.createObjectStore(DB_STORE, {keyPath: 'id'});
+        store.createIndex('created_at', 'created_at', {unique: false});
+      }
+    };
+    req.onsuccess = function(e) { resolve(e.target.result); };
+    req.onerror = function(e) { reject(e.target.error); };
+  });
+  return _dbPromise;
+}
+
+function dbGetAll() {
+  return openDB().then(function(db) {
+    return new Promise(function(resolve, reject) {
+      var tx = db.transaction(DB_STORE, 'readonly');
+      var req = tx.objectStore(DB_STORE).getAll();
+      req.onsuccess = function() {
+        var results = req.result.slice().sort(function(a, b) {
+          return b.created_at.localeCompare(a.created_at);
+        });
+        resolve(results);
+      };
+      req.onerror = function() { reject(req.error); };
+    });
+  });
+}
+
+function dbSearch(q) {
+  return dbGetAll().then(function(all) {
+    var ql = q.toLowerCase();
+    return all.filter(function(w) {
+      return ['name','producer','grape','country','major_region','appellation'].some(function(k) {
+        return w[k] && w[k].toLowerCase().indexOf(ql) >= 0;
+      });
+    });
+  });
+}
+
+function dbPut(wine) {
+  return openDB().then(function(db) {
+    return new Promise(function(resolve, reject) {
+      var tx = db.transaction(DB_STORE, 'readwrite');
+      var req = tx.objectStore(DB_STORE).put(wine);
+      req.onsuccess = function() { resolve(wine); };
+      req.onerror = function() { reject(req.error); };
+    });
+  });
+}
+
+function dbDelete(id) {
+  return openDB().then(function(db) {
+    return new Promise(function(resolve, reject) {
+      var tx = db.transaction(DB_STORE, 'readwrite');
+      var req = tx.objectStore(DB_STORE).delete(id);
+      req.onsuccess = function() { resolve(); };
+      req.onerror = function() { reject(req.error); };
+    });
+  });
+}
+
 async function loadWines(q) {
   try {
-    var url = q ? ("/api/wines?q=" + encodeURIComponent(q)) : "/api/wines";
-    var r = await fetch(url);
-    var d = await r.json();
-    wines = Array.isArray(d) ? d : [];
+    var results = q ? await dbSearch(q) : await dbGetAll();
+    wines = results;
+    hideDbError();
   } catch(e) {
+    console.error('IndexedDB error:', e);
+    showDbError('Storage error: ' + e.message);
     wines = [];
   }
   render();
+}
+
+function showDbError(msg) {
+  var el = document.getElementById("dbErrorBanner");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "dbErrorBanner";
+    el.style.cssText = "background:#c0392b;color:#fff;font-size:.8rem;padding:.5rem 1rem;text-align:center;position:sticky;top:0;z-index:999;";
+    document.body.prepend(el);
+  }
+  el.textContent = "⚠️ " + msg;
+  el.style.display = "block";
+}
+
+function hideDbError() {
+  var el = document.getElementById("dbErrorBanner");
+  if (el) el.style.display = "none";
 }
 
 function onSearch() {
@@ -3551,28 +3643,54 @@ async function saveWine() {
   btn.disabled = true; btn.textContent = "Saving…";
   try {
     if (editingId) {
-      var r = await fetch("/api/wines/" + editingId, {method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(wine)});
-      if (!r.ok) throw new Error((await r.json()).error || "Update failed");
-      for (var i = 0; i < wines.length; i++) { if (wines[i].id === editingId) { wines[i] = Object.assign({}, wines[i], wine); break; } }
+      wine.id = editingId;
+      var existing = wines.find(function(w) { return w.id === editingId; });
+      wine.created_at = existing ? existing.created_at : new Date().toISOString();
+      await dbPut(wine);
+      for (var i = 0; i < wines.length; i++) {
+        if (wines[i].id === editingId) { wines[i] = wine; break; }
+      }
     } else {
-      var r = await fetch("/api/wines", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(wine)});
-      if (!r.ok) throw new Error((await r.json()).error || "Save failed");
-      wines.unshift(await r.json());
+      wine.id = 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+      wine.created_at = new Date().toISOString();
+      await dbPut(wine);
+      wines.unshift(wine);
     }
     render(); closeSheet();
-  } catch(e) { alert("Error: " + e.message); }
+  } catch(e) { alert("Error saving wine: " + e.message); }
   btn.disabled = false;
   btn.textContent = editingId ? "Save Changes" : "Save to Cellar";
 }
 
 async function deleteWine() {
   if (!editingId || !confirm("Remove this wine?")) return;
-  await fetch("/api/wines/" + editingId, {method:"DELETE"});
-  wines = wines.filter(function(w) { return w.id !== editingId; });
-  render(); closeSheet();
+  try {
+    await dbDelete(editingId);
+    wines = wines.filter(function(w) { return w.id !== editingId; });
+    render(); closeSheet();
+  } catch(e) { alert("Error deleting wine: " + e.message); }
 }
 
-function exportCSV() { window.location.href = "/api/export"; }
+async function exportCSV() {
+  try {
+    var all = await dbGetAll();
+    var fields = ["name","producer","grape","vintage","style","country","major_region","subregion","appellation","price","score","date","comment","created_at"];
+    var rows = [fields.join(",")];
+    all.forEach(function(w) {
+      rows.push(fields.map(function(f) {
+        var v = w[f] != null ? String(w[f]) : "";
+        return (v.indexOf(",") >= 0 || v.indexOf('"') >= 0 || v.indexOf("\n") >= 0) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }).join(","));
+    });
+    var blob = new Blob(["\uFEFF" + rows.join("\n")], {type: "text/csv;charset=utf-8"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "wine_journal_" + new Date().toISOString().slice(0,10) + ".csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch(e) { alert("Export failed: " + e.message); }
+}
 
 window.onload = init;
 
@@ -3707,6 +3825,14 @@ async function checkPrice() {
   btn.textContent = "🔍 Check Price";
 }
 
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(r) { console.log('SW registered'); })
+      .catch(function(e) { console.log('SW failed:', e); });
+  });
+}
 </script>
 </body>
 </html>
