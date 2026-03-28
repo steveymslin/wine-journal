@@ -116,6 +116,10 @@ input[type="date"]{color-scheme:dark;}
 .pronun-guide{font-size:.82rem;color:var(--white);line-height:1.6;margin-bottom:.6rem;}
 .pronun-tip{font-size:.75rem;color:var(--yellow);font-style:italic;margin-top:.3rem;}
 .pronun-loading{font-size:.85rem;color:var(--dim);text-align:center;padding:1.2rem 0;}
+
+#fComment::-webkit-scrollbar { width: 4px; }
+#fComment::-webkit-scrollbar-track { background: transparent; }
+#fComment::-webkit-scrollbar-thumb { background: rgba(255,255,255,.35); border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -320,13 +324,13 @@ input[type="date"]{color-scheme:dark;}
       <button type="button" id="wsetBtn" onclick="generateWsetNote()" style="font-size:.68rem;padding:.25rem .6rem;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(41,121,212,.2));border:1px solid rgba(74,158,255,.4);color:var(--acc);border-radius:5px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.3rem">✦ WSET Note</button>
     </div>
     <div id="wsetStatus" style="display:none;font-size:.75rem;color:var(--acc);padding:.4rem .6rem;background:rgba(74,158,255,.07);border-radius:6px;margin-bottom:.5rem;text-align:center">Generating WSET tasting note…</div>
-    <div class="field"><textarea id="fComment" placeholder="Write your tasting notes, or use ✦ Generate WSET Note above…" style="min-height:120px"></textarea></div>
+    <div class="field"><textarea id="fComment" placeholder="Write your tasting notes, or use ✦ Generate WSET Note above…" style="min-height:120px;scrollbar-color:rgba(255,255,255,.4) transparent;scrollbar-width:thin"></textarea></div>
     <div class="field">
       <label style="display:flex;justify-content:space-between;align-items:center">
         <span>Winery Introduction</span>
         <span id="wineryStatus" style="display:none;font-size:.68rem;color:var(--acc)">Generating…</span>
       </label>
-      <textarea id="fWinery" placeholder="Brief winery introduction (auto-filled by Analyze, or write your own)…" style="min-height:80px"></textarea>
+      <textarea id="fWinery" placeholder="Brief winery introduction (auto-filled by Analyze, or write your own)…" style="min-height:80px;overflow:hidden;resize:none" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
     </div>
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
@@ -3366,30 +3370,107 @@ function fuzzyMatch(select, value) {
   return false;
 }
 
+function findInAllRegions(countryVal, searchTerms) {
+  // Search ALL regions/subregions/appellations for any of the search terms
+  // Returns {region, subregion, appellation} or null
+  // Priority: appellation match > subregion match > region match
+  var countryData = REGIONS[countryVal] || {};
+  var terms = searchTerms.map(function(t) {
+    return t ? t.toLowerCase().replace(/[^a-z0-9]/g, "") : "";
+  }).filter(function(t) { return t.length > 2; });
+  if (!terms.length) return null;
+
+  var appResult = null, subResult = null, regResult = null;
+
+  Object.keys(countryData).forEach(function(regKey) {
+    var subData = countryData[regKey];
+    Object.keys(subData).forEach(function(subKey) {
+      var apps = subData[subKey];
+      // Check appellation match first (highest priority)
+      for (var i = 0; i < apps.length; i++) {
+        var aNorm = apps[i].toLowerCase().replace(/[^a-z0-9]/g, "");
+        var appHit = terms.some(function(t) {
+          return aNorm === t || (t.length > 4 && (aNorm.includes(t) || t.includes(aNorm)));
+        });
+        if (appHit && !appResult) {
+          appResult = {region: regKey, subregion: subKey, appellation: apps[i]};
+        }
+      }
+      // Check subregion match (medium priority)
+      if (!subResult) {
+        var subNorm = subKey.toLowerCase().replace(/[^a-z0-9]/g, "");
+        var subHit = terms.some(function(t) {
+          return subNorm === t || (t.length > 4 && (subNorm.includes(t) || t.includes(subNorm)));
+        });
+        if (subHit) subResult = {region: regKey, subregion: subKey, appellation: ""};
+      }
+    });
+    // Check region match (lowest priority)
+    if (!regResult) {
+      var regNorm = regKey.toLowerCase().replace(/[^a-z0-9]/g, "");
+      var regionHit = terms.some(function(t) {
+        return regNorm === t || (t.length > 4 && (regNorm.includes(t) || t.includes(regNorm)));
+      });
+      if (regionHit) regResult = {region: regKey, subregion: "", appellation: ""};
+    }
+  });
+
+  return appResult || subResult || regResult || null;
+}
+
 function setDropdowns(country, region, subregion, appellation) {
   // Step 1: Set country
   var cSel = document.getElementById("fCountry");
   fuzzyMatch(cSel, country);
   onCountryChange();
 
-  // Step 2: Set major region
+  var countryVal = cSel.value;
+
+  // Step 2: Try direct region match
+  var regionMatched = false;
   if (region) {
-    fuzzyMatch(document.getElementById("fRegion"), region);
+    regionMatched = fuzzyMatch(document.getElementById("fRegion"), region);
     onRegionChange();
   }
 
-  // Step 3: Try to set subregion
-  // If AI-returned subregion doesn't match, try to find which subregion
-  // contains the appellation — and auto-select that subregion
+  // Step 2b: If region didn't match, search ALL regions using region+subregion+appellation
+  if (!regionMatched) {
+    var found = findInAllRegions(countryVal, [region, subregion, appellation]);
+    if (found) {
+      document.getElementById("fRegion").value = found.region;
+      onRegionChange();
+      if (found.subregion) {
+        document.getElementById("fSubregion").value = found.subregion;
+        onSubregionChange();
+      } else {
+        onSubregionChange();
+      }
+      // Try to set appellation:
+      // If found.appellation is same as subregion name, skip it (it's noise, not a real appellation hit)
+      // and use the original appellation param instead
+      var foundAppIsSubregion = found.appellation &&
+        found.appellation.toLowerCase().replace(/[^a-z0-9]/g,"") ===
+        found.subregion.toLowerCase().replace(/[^a-z0-9]/g,"");
+
+      if (found.appellation && !foundAppIsSubregion) {
+        fuzzyMatch(document.getElementById("fAppellation"), found.appellation);
+      }
+      // Always try the original appellation param
+      if (!document.getElementById("fAppellation").value && appellation) {
+        fuzzyMatch(document.getElementById("fAppellation"), appellation);
+      }
+      return;
+    }
+  }
+
+  // Step 3: Try to set subregion directly
   var subMatched = false;
   if (subregion) {
     subMatched = fuzzyMatch(document.getElementById("fSubregion"), subregion);
   }
 
-  // Step 4: If subregion didn't match but we have an appellation,
-  // search ALL subregions for one that contains the appellation
+  // Step 4: If subregion didn't match, search all subregions for appellation
   if (!subMatched && appellation) {
-    var countryVal = document.getElementById("fCountry").value;
     var regionVal = document.getElementById("fRegion").value;
     var subData = (REGIONS[countryVal] || {})[regionVal] || {};
     var appNorm = appellation.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -3408,7 +3489,7 @@ function setDropdowns(country, region, subregion, appellation) {
     });
   }
 
-  // Step 5: Populate appellation dropdown based on selected subregion
+  // Step 5: Populate appellation dropdown
   onSubregionChange();
 
   // Step 6: Set appellation
@@ -3416,7 +3497,7 @@ function setDropdowns(country, region, subregion, appellation) {
     fuzzyMatch(document.getElementById("fAppellation"), appellation);
   }
 
-  // Step 7: If appellation still empty but subregion had the value, try subregion value
+  // Step 7: Fallback - try subregion value as appellation
   if (!document.getElementById("fAppellation").value && subregion && !subMatched) {
     fuzzyMatch(document.getElementById("fAppellation"), subregion);
   }
@@ -3537,6 +3618,14 @@ function filterTab(tab) {
   render();
 }
 
+function toggleMenu() {
+  var panel = document.getElementById("menuPanel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+  var isGrid = viewMode === "grid";
+  document.getElementById("viewModeLabel").textContent = isGrid ? "Switch to List View" : "Switch to Grid View";
+  document.getElementById("viewModeIcon").textContent = isGrid ? "⊞" : "☰";
+}
+
 function toggleView() {
   viewMode = (viewMode === "list") ? "grid" : "list";
   document.getElementById("viewBtn").textContent = (viewMode === "list") ? "☰" : "⊞";
@@ -3616,7 +3705,10 @@ function openEdit(id) {
   document.getElementById("fPrice").value = w.price || "";
   document.getElementById("fDate").value = w.date || new Date().toISOString().split("T")[0];
   document.getElementById("fComment").value = w.comment || "";
-  document.getElementById("fWinery").value = w.winery || "";
+  var wineryEl = document.getElementById("fWinery");
+  wineryEl.value = w.winery || "";
+  wineryEl.style.height = "auto";
+  wineryEl.style.height = wineryEl.scrollHeight + "px";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
   var img = document.getElementById("previewImg");
@@ -3754,7 +3846,10 @@ async function analyzeLabel() {
       document.getElementById("fComment").value = wsetData.tasting_note;
     }
     if (wineryData.tasting_note) {
-      document.getElementById("fWinery").value = wineryData.tasting_note;
+      var wEl = document.getElementById("fWinery");
+      wEl.value = wineryData.tasting_note;
+      wEl.style.height = "auto";
+      wEl.style.height = wEl.scrollHeight + "px";
     }
     setStatus("Done! Label read, WSET note and winery info generated.", "success");
   } catch(e) { setStatus("Error: " + e.message, "error"); }
@@ -3810,6 +3905,87 @@ async function saveWine() {
   btn.disabled = false;
   btn.textContent = editingId ? "Save Changes" : "Save to Cellar";
 }
+
+async function importCSV(input) {
+  var file = input.files[0];
+  if (!file) return;
+  input.value = ""; // reset so same file can be re-selected
+  toggleMenu();
+
+  var statusEl = document.getElementById("importStatus");
+  statusEl.style.display = "block";
+  statusEl.style.background = "rgba(74,158,255,.1)";
+  statusEl.style.color = "var(--acc)";
+  statusEl.textContent = "Reading file…";
+
+  var text = await new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(e) { resolve(e.target.result); };
+    reader.onerror = reject;
+    reader.readAsText(file, "UTF-8");
+  });
+
+  // Remove BOM if present
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+  if (lines.length < 2) {
+    statusEl.style.background = "rgba(255,90,90,.1)";
+    statusEl.style.color = "var(--red)";
+    statusEl.textContent = "File appears empty or invalid.";
+    return;
+  }
+
+  // Parse header
+  var headers = parseCSVRow(lines[0]);
+  var imported = 0, skipped = 0;
+
+  for (var i = 1; i < lines.length; i++) {
+    var vals = parseCSVRow(lines[i]);
+    if (!vals.length) continue;
+    var wine = {};
+    headers.forEach(function(h, j) { wine[h] = vals[j] || ""; });
+
+    if (!wine.name) { skipped++; continue; }
+
+    // Generate new ID if missing, preserve created_at
+    wine.id = wine.id || ("imp_" + Date.now() + "_" + i);
+    wine.created_at = wine.created_at || new Date().toISOString();
+    wine.price = wine.price ? parseFloat(wine.price) || null : null;
+    wine.score = wine.score ? parseInt(wine.score) || 0 : 0;
+
+    try {
+      await dbPut(wine);
+      imported++;
+    } catch(e) { skipped++; }
+  }
+
+  await loadWines();
+  statusEl.style.background = imported > 0 ? "rgba(78,203,163,.1)" : "rgba(255,90,90,.1)";
+  statusEl.style.color = imported > 0 ? "var(--green)" : "var(--red)";
+  statusEl.textContent = imported > 0
+    ? "✅ Imported " + imported + " wine" + (imported > 1 ? "s" : "") + (skipped > 0 ? " (" + skipped + " skipped)" : "") + "!"
+    : "❌ No wines imported. Check the file format.";
+
+  // Hide status after 4 seconds
+  setTimeout(function() { statusEl.style.display = "none"; }, 4000);
+}
+
+function parseCSVRow(row) {
+  var result = [], cur = "", inQuote = false;
+  for (var i = 0; i < row.length; i++) {
+    var ch = row[i];
+    if (ch === '"') {
+      if (inQuote && row[i+1] === '"') { cur += '"'; i++; }
+      else { inQuote = !inQuote; }
+    } else if (ch === "," && !inQuote) {
+      result.push(cur.trim()); cur = "";
+    } else { cur += ch; }
+  }
+  result.push(cur.trim());
+  return result;
+}
+
 
 async function deleteWine() {
   if (!editingId || !confirm("Remove this wine?")) return;
@@ -4045,6 +4221,15 @@ document.addEventListener('click', function(e) {
   var popup = document.getElementById('pronunPopup');
   if (popup && popup.classList.contains('open') && !popup.contains(e.target)) {
     closePronun();
+  }
+});
+
+// Close menu on outside tap
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('menuPanel');
+  var btn = document.getElementById('menuBtn');
+  if (panel && panel.style.display !== 'none' && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.style.display = 'none';
   }
 });
 
