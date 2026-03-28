@@ -99,6 +99,19 @@ input[type="date"]{color-scheme:dark;}
 .save-btn{width:100%;padding:.85rem;background:var(--accent);border:none;color:white;font-size:.95rem;font-weight:600;cursor:pointer;border-radius:10px;margin-top:.6rem;font-family:inherit;}
 .save-btn:disabled{opacity:.5;}
 .cancel-btn{width:100%;padding:.7rem;margin-top:.5rem;background:none;border:1px solid var(--border);color:var(--dim);font-size:.9rem;cursor:pointer;border-radius:10px;font-family:inherit;}
+
+.pronun-btn{background:none;border:none;color:var(--accent);font-size:.85rem;cursor:pointer;padding:.1rem .3rem;opacity:.7;flex-shrink:0;line-height:1;}
+.pronun-btn:active{opacity:1;}
+#pronunPopup{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);border-radius:16px 16px 0 0;padding:1.2rem 1.4rem 2.5rem;z-index:2000;box-shadow:0 -8px 32px rgba(0,0,0,.5);}
+#pronunPopup.open{display:block;}
+.pronun-close{float:right;background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
+.pronun-wine-name{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.1rem;padding-right:1.5rem;}
+.pronun-origin{font-size:.72rem;color:var(--dim);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em;}
+.pronun-phonetic{font-size:1.5rem;font-weight:600;color:var(--accent);letter-spacing:.04em;margin-bottom:.4rem;}
+.pronun-syllables{font-size:.8rem;color:var(--dim);margin-bottom:.7rem;}
+.pronun-guide{font-size:.82rem;color:var(--white);line-height:1.6;margin-bottom:.6rem;}
+.pronun-tip{font-size:.75rem;color:var(--yellow);font-style:italic;margin-top:.3rem;}
+.pronun-loading{font-size:.85rem;color:var(--dim);text-align:center;padding:1.2rem 0;}
 </style>
 </head>
 <body>
@@ -220,8 +233,27 @@ input[type="date"]{color-scheme:dark;}
     </div>
     <div class="section-label">Tasting Notes</div>
     <div class="field"><textarea id="fComment" placeholder="Aroma, taste, finish, food pairing…"></textarea></div>
+    <div class="section-label">
+      <span>Winery Introduction</span>
+      <span id="wineryStatus" style="display:none;font-size:.68rem;color:var(--accent)">Generating…</span>
+    </div>
+    <div class="field"><textarea id="fWinery" placeholder="Brief winery introduction (auto-filled by Analyze, or write your own)…" style="min-height:80px;overflow:hidden;resize:none" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea></div>
     <button class="save-btn" id="saveBtn" onclick="saveWine()">Save to Cellar</button>
     <button class="cancel-btn" onclick="closeSheet()">Cancel</button>
+  </div>
+</div>
+
+<!-- Pronunciation Popup -->
+<div id="pronunPopup">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <div class="pronun-wine-name" id="pronunWineName"></div>
+      <div class="pronun-origin" id="pronunOrigin"></div>
+    </div>
+    <button class="pronun-close" onclick="closePronun()">✕</button>
+  </div>
+  <div id="pronunContent">
+    <div class="pronun-loading">Looking up pronunciation…</div>
   </div>
 </div>
 
@@ -439,20 +471,68 @@ function fillSelect(id, options, placeholder) {
   }
 }
 
+function selectBestMatch(selId, value) {
+  if (!value) return false;
+  var sel = document.getElementById(selId);
+  // Try exact match first
+  for (var i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value === value) { sel.value = value; return true; }
+  }
+  // Try case-insensitive match
+  var lower = value.toLowerCase();
+  for (var i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value.toLowerCase() === lower) { sel.value = sel.options[i].value; return true; }
+  }
+  // Try partial match (value contained in option or vice versa)
+  for (var i = 0; i < sel.options.length; i++) {
+    var optLower = sel.options[i].value.toLowerCase();
+    if (optLower && (optLower.indexOf(lower) >= 0 || lower.indexOf(optLower) >= 0)) { sel.value = sel.options[i].value; return true; }
+  }
+  return false;
+}
+
+function findSubregionByAppellation(country, region, appellation) {
+  var subData = (REGIONS[country] || {})[region] || {};
+  var keys = Object.keys(subData);
+  for (var i = 0; i < keys.length; i++) {
+    var apps = subData[keys[i]];
+    for (var j = 0; j < apps.length; j++) {
+      if (apps[j].toLowerCase() === appellation.toLowerCase()) return keys[i];
+    }
+  }
+  // Partial match
+  for (var i = 0; i < keys.length; i++) {
+    var apps = subData[keys[i]];
+    for (var j = 0; j < apps.length; j++) {
+      if (apps[j].toLowerCase().indexOf(appellation.toLowerCase()) >= 0 || appellation.toLowerCase().indexOf(apps[j].toLowerCase()) >= 0) return keys[i];
+    }
+  }
+  return "";
+}
+
 function setDropdowns(country, region, subregion, appellation) {
   var cSel = document.getElementById("fCountry");
   cSel.value = country || "";
   onCountryChange();
   if (region) {
-    document.getElementById("fRegion").value = region;
+    selectBestMatch("fRegion", region);
     onRegionChange();
   }
   if (subregion) {
-    document.getElementById("fSubregion").value = subregion;
+    var matched = selectBestMatch("fSubregion", subregion);
+    if (!matched && appellation && country && document.getElementById("fRegion").value) {
+      // AI sub-region didn't match; find by appellation lookup
+      var found = findSubregionByAppellation(country, document.getElementById("fRegion").value, appellation);
+      if (found) selectBestMatch("fSubregion", found);
+    }
     onSubregionChange();
+  } else if (appellation && country && document.getElementById("fRegion").value) {
+    // No sub-region provided; try to infer from appellation
+    var found = findSubregionByAppellation(country, document.getElementById("fRegion").value, appellation);
+    if (found) { selectBestMatch("fSubregion", found); onSubregionChange(); }
   }
   if (appellation) {
-    document.getElementById("fAppellation").value = appellation;
+    selectBestMatch("fAppellation", appellation);
   }
 }
 
@@ -521,7 +601,7 @@ function render() {
       var thumb = w.image_data ? ("<img class='row-thumb' src='" + w.image_data + "' loading='lazy'>") : "<div class='row-thumb-ph'>🍷</div>";
       var meta = [w.producer, [w.major_region, w.appellation].filter(Boolean).join(" · ")].filter(Boolean).join(" — ");
       var badge = w.style ? ("<span class='badge badge-" + esc(w.style) + "'>" + esc(w.style) + "</span>") : "";
-      html += "<div class='wine-row' onclick='openEdit(\"" + w.id + "\")'>" + thumb + "<div class='row-info'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
+      html += "<div class='wine-row'>" + thumb + "<div class='row-info' onclick='openEdit(\"" + w.id + "\")' style='flex:1;min-width:0;cursor:pointer'><div class='row-name'>" + esc(w.name) + "</div><div class='row-meta'>" + esc(meta) + "</div>" + badge + "</div><div class='row-right'><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + esc(w.name) + "\",\"" + esc([w.producer, w.appellation, w.country].filter(Boolean).join(" · ")) + "\")' title='Pronounce name'>🔊</button><div class='row-vintage'>" + esc(w.vintage || "") + "</div>" + (w.score > 0 ? "<div class='row-score'>★ " + w.score + "/10</div>" : "") + (w.price ? "<div class='row-price'>$" + w.price + "</div>" : "") + "</div></div>";
     }
     html += "</div>";
   } else {
@@ -529,7 +609,7 @@ function render() {
     for (var i = 0; i < list.length; i++) {
       var w = list[i];
       var img = w.image_data ? ("<img class='card-img' src='" + w.image_data + "' loading='lazy'>") : "<div class='card-img-ph'>🍷</div>";
-      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div class='card-name'>" + esc(w.name) + "</div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
+      html += "<div class='wine-card' onclick='openEdit(\"" + w.id + "\")'>" + img + "<div class='card-body'><div style='display:flex;justify-content:space-between;align-items:flex-start'><div class='card-name' style='flex:1'>" + esc(w.name) + "</div><button class='pronun-btn' onclick='event.stopPropagation();showPronun(\"" + esc(w.name) + "\",\"" + esc([w.producer, w.appellation, w.country].filter(Boolean).join(" · ")) + "\")' title='Pronounce name'>🔊</button></div><div class='card-meta'>" + esc([w.producer, w.vintage].filter(Boolean).join(" · ")) + "</div><div class='card-meta'>" + esc([w.appellation, w.country].filter(Boolean).join(", ")) + "</div>" + (w.score > 0 ? "<div class='card-score'>★ " + w.score + "/10</div>" : "") + "</div></div>";
     }
     html += "</div>";
   }
@@ -562,6 +642,10 @@ function openEdit(id) {
   document.getElementById("fPrice").value = w.price || "";
   document.getElementById("fDate").value = w.date || new Date().toISOString().split("T")[0];
   document.getElementById("fComment").value = w.comment || "";
+  var wineryEl = document.getElementById("fWinery");
+  wineryEl.value = w.winery || "";
+  wineryEl.style.height = "auto";
+  wineryEl.style.height = wineryEl.scrollHeight + "px";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
   var img = document.getElementById("previewImg");
@@ -583,8 +667,9 @@ function closeSheet() {
 function bgClick(e) { if (e.target === e.currentTarget) closeSheet(); }
 
 function clearForm() {
-  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fPrice"];
+  var fields = ["fName","fProducer","fGrape","fVintage","fComment","fWinery","fPrice"];
   for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = "";
+  document.getElementById("fWinery").style.height = "80px";
   document.getElementById("fStyle").value = "";
   document.getElementById("fDate").value = new Date().toISOString().split("T")[0];
   fillSelect("fRegion", [], "— Select Region —");
@@ -637,15 +722,38 @@ async function analyzeLabel() {
     var data = await r.json();
     if (!r.ok || data.error) {
       setStatus("Could not read label: " + (data.error || "Unknown"), "error");
-    } else {
-      if (data.name) document.getElementById("fName").value = data.name;
-      if (data.producer) document.getElementById("fProducer").value = data.producer;
-      if (data.grape) document.getElementById("fGrape").value = data.grape;
-      if (data.vintage) document.getElementById("fVintage").value = data.vintage;
-      if (data.style) document.getElementById("fStyle").value = data.style;
-      if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
-      setStatus("Label read! Review and adjust if needed.", "success");
+      document.getElementById("analyzeBtn").disabled = false;
+      return;
     }
+    if (data.name) document.getElementById("fName").value = data.name;
+    if (data.producer) document.getElementById("fProducer").value = data.producer;
+    if (data.grape) document.getElementById("fGrape").value = data.grape;
+    if (data.vintage) document.getElementById("fVintage").value = data.vintage;
+    if (data.style) document.getElementById("fStyle").value = data.style;
+    if (data.country) setDropdowns(data.country, data.major_region || "", data.subregion || "", data.appellation || "");
+    setStatus("Label read! Generating winery intro…", "loading");
+    document.getElementById("wineryStatus").style.display = "inline";
+
+    var locationParts = [data.appellation, data.subregion, data.major_region, data.country].filter(Boolean);
+    var location = locationParts.join(", ");
+    var wineryPrompt = "Write a concise winery introduction for " + (data.producer || data.name) + " in " + location + ". Maximum 80 words. Cover: founding/history, wine style philosophy, key appellations or wines produced. Be factual and informative. No marketing language.";
+
+    try {
+      var wineryResp = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: wineryPrompt, wset_mode: true})
+      });
+      var wineryData = await wineryResp.json();
+      if (wineryData.tasting_note) {
+        var wEl = document.getElementById("fWinery");
+        wEl.value = wineryData.tasting_note;
+        wEl.style.height = "auto";
+        wEl.style.height = wEl.scrollHeight + "px";
+      }
+    } catch(e2) { /* winery intro is optional, don't fail */ }
+    document.getElementById("wineryStatus").style.display = "none";
+    setStatus("Done! Label read and winery info generated.", "success");
   } catch(e) { setStatus("Error: " + e.message, "error"); }
   document.getElementById("analyzeBtn").disabled = false;
 }
@@ -666,6 +774,7 @@ async function saveWine() {
     price: parseFloat(document.getElementById("fPrice").value) || null,
     date: document.getElementById("fDate").value,
     comment: document.getElementById("fComment").value.trim(),
+    winery: document.getElementById("fWinery").value.trim(),
     score: currentScore,
     image_data: currentImageData
   };
@@ -695,6 +804,62 @@ async function deleteWine() {
 }
 
 function exportCSV() { window.location.href = "/api/export"; }
+
+// ── Pronunciation ─────────────────────────────────────────────
+var pronunCache = {};
+
+function showPronun(text, origin) {
+  var popup = document.getElementById('pronunPopup');
+  document.getElementById('pronunWineName').textContent = text;
+  document.getElementById('pronunOrigin').textContent = origin || '';
+  document.getElementById('pronunContent').innerHTML = '<div class="pronun-loading">Looking up pronunciation…</div>';
+  popup.classList.add('open');
+
+  if (pronunCache[text]) {
+    renderPronun(pronunCache[text]);
+    return;
+  }
+
+  fetch('/api/pronounce', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ wine: text })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.result) {
+      pronunCache[text] = data.result;
+      renderPronun(data.result);
+    } else {
+      document.getElementById('pronunContent').innerHTML =
+        '<div class="pronun-loading">Could not get pronunciation.</div>';
+    }
+  })
+  .catch(function(e) {
+    document.getElementById('pronunContent').innerHTML =
+      '<div class="pronun-loading">Error: ' + e.message + '</div>';
+  });
+}
+
+function renderPronun(data) {
+  var html = '';
+  if (data.phonetic) html += '<div class="pronun-phonetic">' + esc(data.phonetic) + '</div>';
+  if (data.syllables) html += '<div class="pronun-syllables">' + esc(data.syllables) + '</div>';
+  if (data.guide) html += '<div class="pronun-guide">' + esc(data.guide) + '</div>';
+  if (data.tip) html += '<div class="pronun-tip">💡 ' + esc(data.tip) + '</div>';
+  document.getElementById('pronunContent').innerHTML = html;
+}
+
+function closePronun() {
+  document.getElementById('pronunPopup').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  var popup = document.getElementById('pronunPopup');
+  if (popup && popup.classList.contains('open') && !popup.contains(e.target) && !e.target.closest('.pronun-btn')) {
+    closePronun();
+  }
+});
 
 window.onload = init;
 </script>
