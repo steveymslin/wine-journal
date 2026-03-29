@@ -1,7 +1,7 @@
 // Wine Journal Service Worker
 // Caches the app shell so it loads offline
 
-const CACHE_NAME = 'wine-journal-v2';
+const CACHE_NAME = 'wine-journal-v3';
 const OFFLINE_URLS = [
   '/',
   '/manifest.json',
