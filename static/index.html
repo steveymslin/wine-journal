@@ -105,18 +105,20 @@ input[type="date"]{color-scheme:dark;}
 .save-btn:disabled{opacity:.5;}
 .cancel-btn{width:100%;padding:.7rem;margin-top:.5rem;background:none;border:1px solid var(--border);color:var(--dim);font-size:.9rem;cursor:pointer;border-radius:10px;font-family:inherit;}
 
-.pronun-btn{background:none;border:none;color:var(–acc);font-size:.85rem;cursor:pointer;padding:.1rem .3rem;opacity:.7;flex-shrink:0;line-height:1;}
+.pronun-btn{background:none;border:none;color:var(--acc);font-size:.85rem;cursor:pointer;padding:.1rem .3rem;opacity:.7;flex-shrink:0;line-height:1;}
 .pronun-btn:active{opacity:1;}
-#pronunPopup{display:none;position:fixed;bottom:0;left:0;right:0;background:var(–surface);border-top:2px solid var(–border);border-radius:16px 16px 0 0;padding:1.2rem 1.4rem 2.5rem;z-index:2000;box-shadow:0 -8px 32px rgba(0,0,0,.5);}
+#pronunBackdrop{display:none;position:fixed;inset:0;background:rgba(5,10,20,.72);backdrop-filter:blur(4px);z-index:1999;}
+#pronunBackdrop.open{display:block;}
+#pronunPopup{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);border-radius:16px 16px 0 0;padding:1.2rem 1.4rem 2.5rem;z-index:2000;box-shadow:0 -8px 32px rgba(0,0,0,.5);}
 #pronunPopup.open{display:block;}
-.pronun-close{float:right;background:none;border:none;color:var(–dim);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
-.pronun-wine-name{font-size:1.05rem;font-weight:700;color:var(–white);margin-bottom:.1rem;padding-right:1.5rem;}
-.pronun-origin{font-size:.72rem;color:var(–dim);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em;}
-.pronun-phonetic{font-size:1.5rem;font-weight:600;color:var(–acc);letter-spacing:.04em;margin-bottom:.4rem;}
-.pronun-syllables{font-size:.8rem;color:var(–dim);margin-bottom:.7rem;}
-.pronun-guide{font-size:.82rem;color:var(–white);line-height:1.6;margin-bottom:.6rem;}
-.pronun-tip{font-size:.75rem;color:var(–yellow);font-style:italic;margin-top:.3rem;}
-.pronun-loading{font-size:.85rem;color:var(–dim);text-align:center;padding:1.2rem 0;}
+.pronun-close{float:right;background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
+.pronun-wine-name{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.1rem;padding-right:1.5rem;}
+.pronun-origin{font-size:.72rem;color:var(--dim);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em;}
+.pronun-phonetic{font-size:1.5rem;font-weight:600;color:var(--acc);letter-spacing:.04em;margin-bottom:.4rem;}
+.pronun-syllables{font-size:.8rem;color:var(--dim);margin-bottom:.7rem;}
+.pronun-guide{font-size:.82rem;color:var(--white);line-height:1.6;margin-bottom:.6rem;}
+.pronun-tip{font-size:.75rem;color:var(--yellow);font-style:italic;margin-top:.3rem;}
+.pronun-loading{font-size:.85rem;color:var(--dim);text-align:center;padding:1.2rem 0;}
 
 #fComment::-webkit-scrollbar { width: 4px; }
 #fComment::-webkit-scrollbar-track { background: transparent; }
@@ -344,6 +346,7 @@ input[type="date"]{color-scheme:dark;}
 
 <!-- Pronunciation Popup -->
 
+<div id="pronunBackdrop" onclick="closePronun()"></div>
 <div id="pronunPopup">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem">
     <div>
@@ -4172,6 +4175,7 @@ function showPronun(wineId) {
   var origin = [w.producer, w.appellation, w.country].filter(Boolean).join(' · ');
   document.getElementById('pronunOrigin').textContent = origin;
   document.getElementById('pronunContent').innerHTML = '<div class="pronun-loading">Looking up pronunciation…</div>';
+  document.getElementById('pronunBackdrop').classList.add('open');
   popup.classList.add('open');
 
   // Use cache if available
@@ -4223,6 +4227,7 @@ function renderPronun(data) {
 
 function closePronun() {
   document.getElementById('pronunPopup').classList.remove('open');
+  document.getElementById('pronunBackdrop').classList.remove('open');
 }
 
 // Close popup on background tap

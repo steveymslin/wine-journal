@@ -43,7 +43,7 @@ No test suite or linter is configured.
 - The frontend is entirely in one file — CSS at top, HTML in middle, JS at bottom. There are no build steps or bundling.
 - AI model selection: `claude-opus-4-5` for vision/label analysis, `claude-sonnet-4-5` for text tasks.
 - Wine region matching uses fuzzy logic to handle variations in AI-returned region names.
-- Deployed to Heroku (see `Procfile`).
+- Deployed to Render.com (auto-deploys on push to `main`). The `Procfile` is legacy Heroku config but Render uses the same gunicorn command.
 
 ## Environment Variables
 
