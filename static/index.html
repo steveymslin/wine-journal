@@ -3713,8 +3713,6 @@ function openEdit(id) {
   document.getElementById("fComment").value = w.comment || "";
   var wineryEl = document.getElementById("fWinery");
   wineryEl.value = w.winery || "";
-  wineryEl.style.height = "auto";
-  wineryEl.style.height = wineryEl.scrollHeight + "px";
   setDropdowns(w.country || "", w.major_region || "", w.subregion || "", w.appellation || "");
   setScore(currentScore);
   var img = document.getElementById("previewImg");
@@ -3724,6 +3722,11 @@ function openEdit(id) {
   setStatus("", "");
   document.getElementById("overlay").classList.add("open");
   document.body.style.overflow = "hidden";
+  // Auto-size winery textarea AFTER the overlay is visible, otherwise scrollHeight is 0
+  requestAnimationFrame(function() {
+    wineryEl.style.height = "auto";
+    wineryEl.style.height = wineryEl.scrollHeight + "px";
+  });
 }
 
 function closeSheet() {
